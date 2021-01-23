@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net5.0</TargetFrameworks>
+		<TargetFrameworks>netcoreapp3.0;netcoreapp3.1;net5.0</TargetFrameworks>
 		<PackageId>Sirb.CepBrasil</PackageId>
-		<PackageVersion>1.0.0</PackageVersion>
+		<PackageVersion>1.0.1</PackageVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.0.0.0</Version>
+		<Version>1.0.1.0</Version>
 		<Authors>Rodrigo Araujo Barbosa</Authors>
 		<Product>Busca de CEP</Product>
 		<Description>O projeto tem como objetivo viabilizar uma interface para busca de logradouro por CEP.
@@ -13,15 +13,11 @@ Este serviço utiliza o serviço disponibilizado pelos Correios e alternativamen
 Para informações sobre o serviço dos Correios, visite https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/ ou https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/Manual_de_Implementacao_do_Web_Service_SIGEP_WEB.pdf
 
 Para informações sobre ViaCEP, visite https://viacep.com.br/;</Description>
-		<PackageReleaseNotes>O projeto tem como objetivo viabilizar uma interface para busca de logradouro por CEP.
-Este serviço utiliza o serviço disponibilizado pelos Correios e alternativamente busca em ViaCep.
-Para informações sobre o serviço dos Correios, visite https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/ ou https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/Manual_de_Implementacao_do_Web_Service_SIGEP_WEB.pdf
-
-Para informações sobre ViaCEP, visite https://viacep.com.br/;</PackageReleaseNotes>
+		<PackageReleaseNotes>Inclusão de compatibilidade com dotnet core 3 e 3.1</PackageReleaseNotes>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<AssemblyVersion>1.0.0.0</AssemblyVersion>
-		<FileVersion>1.0.0.0</FileVersion>
-		<PackageTags>CEP endereço endereco</PackageTags>
+		<AssemblyVersion>1.0.1.0</AssemblyVersion>
+		<FileVersion>1.0.1.0</FileVersion>
+		<PackageTags>CEP endereço endereco logradouro zipcode brasil</PackageTags>
 		<PackageLicenseUrl></PackageLicenseUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl></PackageProjectUrl>
