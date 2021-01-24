@@ -13,10 +13,11 @@ Este serviço utiliza o serviço disponibilizado pelos Correios e alternativamen
 Para informações sobre o serviço dos Correios, visite https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/ ou https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/Manual_de_Implementacao_do_Web_Service_SIGEP_WEB.pdf
 
 Para informações sobre ViaCEP, visite https://viacep.com.br/;</Description>
-		<PackageReleaseNotes>Inclusão de compatibilidade com dotnet core 3 e 3.1</PackageReleaseNotes>
+		<PackageReleaseNotes>Inclusão de compatibilidade com dotnet core 3 e 3.1. 
+Limpeza do retorno para remoção de caracteres indesejados.</PackageReleaseNotes>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<AssemblyVersion>1.0.1.0</AssemblyVersion>
-		<FileVersion>1.0.1.0</FileVersion>
+		<AssemblyVersion>1.0.1.1</AssemblyVersion>
+		<FileVersion>1.0.1.1</FileVersion>
 		<PackageTags>CEP endereço endereco logradouro zipcode brasil</PackageTags>
 		<PackageLicenseUrl></PackageLicenseUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>

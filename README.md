@@ -11,6 +11,9 @@ Para informações sobre ViaCEP, visite https://viacep.com.br/;
 
 Os demais métodos disponibilizados pelo serviço dos Correios no qual é necessário cadastro de usuário e todo o processo que envolva ou relacione a cadastro de usuário não será disponível nesta interface.
 
+## Versão 1.0.1.1
+
+Limpeza do retorno para remoção de caracteres indesejados.
 ## Versão 1.0.1
 
 Inclusão de compatibilidade com dotnet core 3 e 3.1.
