@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{5C1D0924-E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{53B10056-04B0-448D-B0ED-415FEC3A957F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sirb.CepBrasil.Test", "..\Sirb.CepBrasil.Test\Sirb.CepBrasil.Test.csproj", "{1DFEA7EC-F417-495C-B81E-227581CA1FEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sirb.CepBrasil.Test", "Sirb.CepBrasil.Test\Sirb.CepBrasil.Test.csproj", "{1DFEA7EC-F417-495C-B81E-227581CA1FEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
