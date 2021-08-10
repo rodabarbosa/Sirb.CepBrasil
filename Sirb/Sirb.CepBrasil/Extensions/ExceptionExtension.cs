@@ -13,7 +13,7 @@ namespace Sirb.CepBrasil.Extensions
 		public static string AllMessages(this Exception e)
 		{
 			if (e == null)
-				return string.Empty;
+				return "";
 
 			var sb = new StringBuilder(e.Message);
 			if (e.InnerException != null)

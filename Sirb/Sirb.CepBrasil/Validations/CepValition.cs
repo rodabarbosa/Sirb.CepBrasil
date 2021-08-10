@@ -15,7 +15,8 @@ namespace Sirb.CepBrasil.Validations
 		public static void Validate(string zipCode)
 		{
 			string value = zipCode?.RemoveMask();
-			ServiceException.When((value?.Length ?? 0) != ZipCodeLength, CepMessages.ZipCodeInvalidMessage);
+			int valueLength = value?.Length ?? 0;
+			ServiceException.When(valueLength != ZipCodeLength, CepMessages.ZipCodeInvalidMessage);
 		}
 	}
 }

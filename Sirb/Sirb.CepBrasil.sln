@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{53B10056-0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sirb.CepBrasil.Test", "Sirb.CepBrasil.Test\Sirb.CepBrasil.Test.csproj", "{1DFEA7EC-F417-495C-B81E-227581CA1FEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sirb.CepBrasil.Benchmark", "Sirb.CepBrasil.Benchmark\Sirb.CepBrasil.Benchmark.csproj", "{7B8A00AF-7358-49B0-B095-F35BD112E3D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{1DFEA7EC-F417-495C-B81E-227581CA1FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DFEA7EC-F417-495C-B81E-227581CA1FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DFEA7EC-F417-495C-B81E-227581CA1FEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B8A00AF-7358-49B0-B095-F35BD112E3D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B8A00AF-7358-49B0-B095-F35BD112E3D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B8A00AF-7358-49B0-B095-F35BD112E3D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B8A00AF-7358-49B0-B095-F35BD112E3D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

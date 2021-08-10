@@ -56,8 +56,8 @@ namespace Sirb.CepBrasil.Services
 
 					result.Exceptions.Add(e);
 
-					string value = result.Message ?? string.Empty;
-					result.Message = $"{value}{e.AllMessages()} ";
+					string value = result?.Message ?? "";
+					result.Message = $"{value}{e?.AllMessages()} ";
 				}
 			}
 

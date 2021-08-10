@@ -14,7 +14,7 @@ namespace Sirb.CepBrasil.Extensions
 			if (string.IsNullOrEmpty(value))
 				return value;
 
-			return Regex.Replace(value, @"[^\d]", string.Empty);
+			return Regex.Replace(value, @"[^\d]", "");
 		}
 
 		/// <summary>
