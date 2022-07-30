@@ -1,17 +1,17 @@
-﻿using Sirb.CepBrasil.Extensions;
-using Sirb.CepBrasil.Interfaces;
-using Sirb.CepBrasil.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Sirb.CepBrasil.Extensions;
+using Sirb.CepBrasil.Interfaces;
+using Sirb.CepBrasil.Models;
 
 namespace Sirb.CepBrasil.Services
 {
     public sealed class CepService : ICepService, IDisposable
     {
-        private readonly bool _httpClientSelfCreated;
         private readonly HttpClient _httpClient;
+        private readonly bool _httpClientSelfCreated;
 
         private readonly List<ICepServiceControl> _services = new List<ICepServiceControl>();
 
@@ -31,12 +31,6 @@ namespace Sirb.CepBrasil.Services
         {
         }
 
-        private void StartServices()
-        {
-            _services.Add(new CorreiosService(_httpClient));
-            _services.Add(new ViaCepService(_httpClient));
-        }
-
         public async Task<CepResult> Find(string cep)
         {
             var result = new CepResult();
@@ -53,7 +47,7 @@ namespace Sirb.CepBrasil.Services
                 {
                     result.Exceptions.Add(e);
 
-                    string value = result?.Message ?? "";
+                    string value = result?.Message ?? string.Empty;
                     result.Message = $"{value}{e?.AllMessages()} ";
                 }
             }
@@ -65,6 +59,12 @@ namespace Sirb.CepBrasil.Services
         {
             if (_httpClientSelfCreated)
                 _httpClient?.Dispose();
+        }
+
+        private void StartServices()
+        {
+            _services.Add(new CorreiosService(_httpClient));
+            _services.Add(new ViaCepService(_httpClient));
         }
     }
 }

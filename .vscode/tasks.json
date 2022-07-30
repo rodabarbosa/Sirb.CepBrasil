@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Sirb.CepBrasil.Test/Sirb.CepBrasil.Test.csproj",
+                "${workspaceFolder}/Sirb/Sirb.CepBrasil.Test/Sirb.CepBrasil.Test.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Sirb.CepBrasil.Test/Sirb.CepBrasil.Test.csproj",
+                "${workspaceFolder}/Sirb/Sirb.CepBrasil.Test/Sirb.CepBrasil.Test.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,9 +32,22 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Sirb.CepBrasil.Test/Sirb.CepBrasil.Test.csproj",
+                "${workspaceFolder}/Sirb/Sirb.CepBrasil.Test/Sirb.CepBrasil.Test.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test with coverage",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "/p:CollectCoverage=true",
+                "/p:CoverletOutputFormat=lcov",
+                "/p:CoverletOutput=../lcov.info",
+                "${workspaceFolder}/Sirb/Sirb.CepBrasil.Test/Sirb.CepBrasil.Test.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

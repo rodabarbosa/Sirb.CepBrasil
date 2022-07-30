@@ -1,18 +1,19 @@
-﻿using Sirb.CepBrasil.Exceptions;
-using Sirb.CepBrasil.Extensions;
-using Sirb.CepBrasil.Interfaces;
-using Sirb.CepBrasil.Messages;
-using Sirb.CepBrasil.Models;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Sirb.CepBrasil.Exceptions;
+using Sirb.CepBrasil.Extensions;
+using Sirb.CepBrasil.Interfaces;
+using Sirb.CepBrasil.Messages;
+using Sirb.CepBrasil.Models;
 
 namespace Sirb.CepBrasil.Services
 {
     internal sealed class CorreiosService : ICepServiceControl
     {
+        private const string XmlMediaType = "application/xml";
         private const string CorreiosUrl = "https://apphom.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente";
         private readonly HttpClient _httpClient;
 
@@ -24,23 +25,26 @@ namespace Sirb.CepBrasil.Services
         public async Task<CepContainer> Find(string cep)
         {
             string response = await GetFromService(cep.RemoveMask());
-            ServiceException.When(string.IsNullOrEmpty(response), CepMessages.ExceptionEmptyResponse);
+            ServiceException.ThrowIf(string.IsNullOrEmpty(response), CepMessages.ExceptionEmptyResponse);
             return ConvertResult(response);
         }
 
         private async Task<string> GetFromService(string cep)
         {
-            using var request = new HttpRequestMessage {Method = HttpMethod.Post, RequestUri = new Uri(CorreiosUrl)};
+            using var request = new HttpRequestMessage { Method = HttpMethod.Post, RequestUri = new Uri(CorreiosUrl) };
             request.Content = GetRequestContent(cep);
 
             using HttpResponseMessage response = await _httpClient.SendAsync(request).ConfigureAwait(false);
             string responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            ServiceException.When(!response.IsSuccessStatusCode, GetFaultString(responseString));
+            ServiceException.ThrowIf(!response.IsSuccessStatusCode, GetFaultString(responseString));
 
             return responseString;
         }
 
-        private static HttpContent GetRequestContent(string cep) => new StringContent(BuildSoapBody(cep), Encoding.UTF8, "application/xml");
+        private static HttpContent GetRequestContent(string cep)
+        {
+            return new StringContent(BuildSoapBody(cep), Encoding.UTF8, XmlMediaType);
+        }
 
         private static string BuildSoapBody(string cep)
         {
@@ -62,31 +66,56 @@ namespace Sirb.CepBrasil.Services
             if (result.Count == 0)
                 return tagNotFoundMessage;
 
-            return result[0].Value.Replace($"</{tagName}>", "").Replace($"<{tagName}>", "");
+            return result[0].Value.Replace($"</{tagName}>", string.Empty)
+                .Replace($"<{tagName}>", string.Empty);
         }
 
-        private static string GetFaultString(string response) => GetTagValue(response, "faultstring", CepMessages.ExceptionServiceError);
-
-        private static CepContainer ConvertResult(string result) => new CepContainer
+        private static string GetFaultString(string response)
         {
-            Bairro = GetBairroValue(result),
-            Cep = GetCepValue(result),
-            Cidade = GetCidadeValue(result),
-            Complemento = GetComplementoValue(result),
-            Logradouro = GetEnderecoValue(result),
-            Uf = GetUfValue(result)
-        };
+            return GetTagValue(response, "faultstring", CepMessages.ExceptionServiceError);
+        }
 
-        private static string GetBairroValue(string result) => GetTagValue(result, "bairro");
+        private static CepContainer ConvertResult(string result)
+        {
+            return new CepContainer
+            {
+                Bairro = GetBairroValue(result),
+                Cep = GetCepValue(result),
+                Cidade = GetCidadeValue(result),
+                Complemento = GetComplementoValue(result),
+                Logradouro = GetEnderecoValue(result),
+                Uf = GetUfValue(result)
+            };
+        }
 
-        private static string GetCepValue(string result) => GetTagValue(result, "cep");
+        private static string GetBairroValue(string result)
+        {
+            return GetTagValue(result, "bairro");
+        }
 
-        private static string GetCidadeValue(string result) => GetTagValue(result, "cidade");
+        private static string GetCepValue(string result)
+        {
+            return GetTagValue(result, "cep");
+        }
 
-        private static string GetComplementoValue(string result) => GetTagValue(result, "complemento2");
+        private static string GetCidadeValue(string result)
+        {
+            return GetTagValue(result, "cidade");
+        }
 
-        private static string GetEnderecoValue(string result) => GetTagValue(result, "end");
+        private static string GetComplementoValue(string result)
+        {
+            return GetTagValue(result, "complemento2");
+        }
 
-        private static string GetUfValue(string result) => GetTagValue(result, "uf");
+        private static string GetEnderecoValue(string result)
+        {
+            return GetTagValue(result, "end");
+        }
+
+        private static string GetUfValue(string result)
+        {
+            return GetTagValue(result, "uf");
+        }
     }
 }
