@@ -8,16 +8,17 @@ namespace Sirb.CepBrasil.Benchmark.Benchmarks
 	[Orderer(SummaryOrderPolicy.FastestToSlowest)]
 	public class CepBenchmark
 	{
-		private static string cep = "83040-040";
-		private static string body = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:cli=\"http://cliente.bean.master.sigep.bsb.correios.com.br/\"><soapenv:Header/><soapenv:Body><cli:consultaCEP><cep>[cep]</cep></cli:consultaCEP></soapenv:Body></soapenv:Envelope>";
+		private static readonly string cep = "83040-040";
+		private static readonly string body = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:cli=\"http://cliente.bean.master.sigep.bsb.correios.com.br/\"><soapenv:Header/><soapenv:Body><cli:consultaCEP><cep>[cep]</cep></cli:consultaCEP></soapenv:Body></soapenv:Envelope>";
 
 		[Benchmark]
-		public void ReplaceValue() {
-			string returnee = body.Replace("[cep]", cep);
+		public static void ReplaceValue()
+		{
+			_ = body.Replace("[cep]", cep);
 		}
 
 		[Benchmark]
-		public void WriteBody()
+		public static void WriteBody()
 		{
 			var sb = new StringBuilder("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:cli=\"http://cliente.bean.master.sigep.bsb.correios.com.br/\">")
 				.Append("<soapenv:Header/>")
@@ -28,7 +29,7 @@ namespace Sirb.CepBrasil.Benchmark.Benchmarks
 				.Append("</soapenv:Body>")
 				.Append("</soapenv:Envelope>");
 
-			string returnee = sb.ToString();
+			_ = sb.ToString();
 		}
 	}
 }
