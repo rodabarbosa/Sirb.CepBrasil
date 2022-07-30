@@ -14,7 +14,6 @@
 
             Para informações sobre ViaCEP, visite https://viacep.com.br/;
         </Description>
-        <PackageReleaseNotes>Inclusão de compatibilidade com .NET 5 e 6.
             Limpeza do retorno para remoção de caracteres indesejados.
         </PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
