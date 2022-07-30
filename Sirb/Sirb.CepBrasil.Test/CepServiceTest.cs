@@ -1,9 +1,13 @@
-using Sirb.CepBrasil.Services;
 using System.Net.Http;
 using System.Threading.Tasks;
+<<<<<<< HEAD
+using Sirb.CepBrasil.Models;
+using Sirb.CepBrasil.Services;
+=======
 using Sirb.CepBrasil.Exceptions;
 using Sirb.CepBrasil.Extensions;
 using Sirb.CepBrasil.Validations;
+>>>>>>> a22339ff84e9c636f7f89fe430499bedad3ce9eb
 using Xunit;
 
 namespace Sirb.CepBrasil.Test
@@ -24,7 +28,7 @@ namespace Sirb.CepBrasil.Test
         {
             var cepService = new CepService(_httpClient);
 
-            Models.CepResult result = await cepService.Find(cep).ConfigureAwait(false);
+            CepResult result = await cepService.Find(cep).ConfigureAwait(false);
 
             Assert.True(result.Success);
         }
