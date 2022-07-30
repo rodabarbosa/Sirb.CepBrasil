@@ -23,7 +23,11 @@ namespace Sirb.CepBrasil.Services
         {
             CepValidation.Validate(cep);
 
+<<<<<<< HEAD
             string response = await GetFromService(cep.RemoveMask()).ConfigureAwait(false);
+=======
+            string response = await GetFromService(cep.RemoveMask());
+>>>>>>> a22339ff84e9c636f7f89fe430499bedad3ce9eb
             ServiceException.ThrowIf(string.IsNullOrEmpty(response), CepMessages.ExceptionEmptyResponse);
             return ConverterCepResult(response);
         }

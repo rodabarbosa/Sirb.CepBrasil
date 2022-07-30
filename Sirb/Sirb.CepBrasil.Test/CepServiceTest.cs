@@ -1,7 +1,13 @@
 using System.Net.Http;
 using System.Threading.Tasks;
+<<<<<<< HEAD
 using Sirb.CepBrasil.Models;
 using Sirb.CepBrasil.Services;
+=======
+using Sirb.CepBrasil.Exceptions;
+using Sirb.CepBrasil.Extensions;
+using Sirb.CepBrasil.Validations;
+>>>>>>> a22339ff84e9c636f7f89fe430499bedad3ce9eb
 using Xunit;
 
 namespace Sirb.CepBrasil.Test

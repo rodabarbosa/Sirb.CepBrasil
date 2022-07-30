@@ -30,7 +30,11 @@ namespace Sirb.CepBrasil.Exceptions
             ThrowIf(condition, message, innerException);
         }
 
+<<<<<<< HEAD
         /// <summary>
+=======
+        // <summary>
+>>>>>>> a22339ff84e9c636f7f89fe430499bedad3ce9eb
         /// Throws ServiceException when condition are met.
         /// </summary>
         /// <param name="condition">Condition for exception</param>
