@@ -4,12 +4,22 @@ namespace Sirb.CepBrasil.Extensions
 {
     public static class JsonExtension
     {
+        private static readonly JsonSerializerOptions Settings = new JsonSerializerOptions
+        {
+            IgnoreReadOnlyProperties = true,
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
         /// <summary>
         /// Convert object to JSON formatted.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string ToJson(this object value) => JsonSerializer.Serialize(value, Settings);
+        public static string ToJson(this object value)
+        {
+            return JsonSerializer.Serialize(value, Settings);
+        }
 
         /// <summary>
         /// Convert JSON string to especified class type.
@@ -17,13 +27,9 @@ namespace Sirb.CepBrasil.Extensions
         /// <typeparam name="T">Convert to</typeparam>
         /// <param name="value">JSON string</param>
         /// <returns></returns>
-        public static T FromJson<T>(this string value) where T : class => JsonSerializer.Deserialize<T>(value, Settings);
-
-        private static readonly JsonSerializerOptions Settings = new JsonSerializerOptions
+        public static T FromJson<T>(this string value) where T : class
         {
-            IgnoreReadOnlyProperties = true,
-            PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
+            return JsonSerializer.Deserialize<T>(value, Settings);
+        }
     }
 }

@@ -4,7 +4,7 @@ using Sirb.CepBrasil.Messages;
 
 namespace Sirb.CepBrasil.Validations
 {
-    public static class CepValition
+    public static class CepValidation
     {
         private const int ZipCodeLength = 8;
 
@@ -16,7 +16,7 @@ namespace Sirb.CepBrasil.Validations
         {
             string value = zipCode?.RemoveMask();
             int valueLength = value?.Length ?? 0;
-            ServiceException.When(valueLength != ZipCodeLength, CepMessages.ZipCodeInvalidMessage);
+            ServiceException.ThrowIf(valueLength != ZipCodeLength, CepMessages.ZipCodeInvalidMessage);
         }
     }
 }

@@ -4,6 +4,12 @@ namespace Sirb.CepBrasil.Extensions
 {
     public static class CepExtension
     {
+        private const string RemoveMaskPattern = @"[^\d]";
+        private const string RemoveMaskReplacement = "";
+
+        private const string CepMaskPattern = @"(\d{5})(\d{3})";
+        private const string CepMaskReplacement = "$1-$2";
+
         /// <summary>
         /// Remove Mask, keeping alpha numeric chars.
         /// </summary>
@@ -11,10 +17,10 @@ namespace Sirb.CepBrasil.Extensions
         /// <returns></returns>
         public static string RemoveMask(this string value)
         {
-            if (string.IsNullOrEmpty(value))
-                return value;
+            if (string.IsNullOrEmpty(value?.Trim()))
+                return default;
 
-            return Regex.Replace(value, @"[^\d]", "");
+            return Regex.Replace(value, RemoveMaskPattern, RemoveMaskReplacement);
         }
 
         /// <summary>
@@ -24,10 +30,11 @@ namespace Sirb.CepBrasil.Extensions
         /// <returns></returns>
         public static string CepMask(this string value)
         {
-            if (string.IsNullOrEmpty(value))
-                return value;
+            if (string.IsNullOrEmpty(value?.Trim()))
+                return default;
 
-            return Regex.Replace(RemoveMask(value), @"(\d{5})(\d{3})", "$1-$2");
+            string input = value.RemoveMask();
+            return Regex.Replace(input, CepMaskPattern, CepMaskReplacement);
         }
     }
 }

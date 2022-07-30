@@ -1,5 +1,5 @@
-﻿using Sirb.CepBrasil.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Sirb.CepBrasil.Models;
 
 namespace Sirb.CepBrasil.Interfaces
 {

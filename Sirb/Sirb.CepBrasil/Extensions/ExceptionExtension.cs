@@ -13,7 +13,7 @@ namespace Sirb.CepBrasil.Extensions
         public static string AllMessages(this Exception e)
         {
             if (e == null)
-                return "";
+                return string.Empty;
 
             var messages = new ArrayList
             {

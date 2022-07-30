@@ -24,7 +24,19 @@ namespace Sirb.CepBrasil.Exceptions
         /// <param name="condition">Condition for exception</param>
         /// <param name="message">Exception message</param>
         /// <param name="innerException">Inner exception</param>
+        [Obsolete("Use ThrowIf instead.")]
         public static void When(bool condition, string message, Exception innerException = null)
+        {
+            ThrowIf(condition, message, innerException);
+        }
+
+        /// <summary>
+        /// Throws ServiceException when condition are met.
+        /// </summary>
+        /// <param name="condition">Condition for exception</param>
+        /// <param name="message">Exception message</param>
+        /// <param name="innerException">Inner exception</param>
+        public static void ThrowIf(bool condition, string message, Exception innerException = null)
         {
             if (condition)
                 throw new ServiceException(message, innerException);
