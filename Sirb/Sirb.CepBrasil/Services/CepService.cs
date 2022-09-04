@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Sirb.CepBrasil.Extensions;
+using Sirb.CepBrasil.Interfaces;
+using Sirb.CepBrasil.Models;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Sirb.CepBrasil.Extensions;
-using Sirb.CepBrasil.Interfaces;
-using Sirb.CepBrasil.Models;
 
 namespace Sirb.CepBrasil.Services
 {
@@ -34,8 +34,7 @@ namespace Sirb.CepBrasil.Services
         public async Task<CepResult> Find(string cep)
         {
             var result = new CepResult();
-            foreach (ICepServiceControl service in _services)
-            {
+            foreach (var service in _services)
                 try
                 {
                     result.CepContainer = await service.Find(cep);
@@ -47,10 +46,9 @@ namespace Sirb.CepBrasil.Services
                 {
                     result.Exceptions.Add(e);
 
-                    string value = result?.Message ?? string.Empty;
+                    var value = result?.Message ?? string.Empty;
                     result.Message = $"{value}{e?.AllMessages()} ";
                 }
-            }
 
             return result;
         }
