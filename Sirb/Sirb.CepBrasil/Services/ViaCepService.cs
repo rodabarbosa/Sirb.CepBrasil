@@ -1,12 +1,12 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Sirb.CepBrasil.Exceptions;
+﻿using Sirb.CepBrasil.Exceptions;
 using Sirb.CepBrasil.Extensions;
 using Sirb.CepBrasil.Interfaces;
 using Sirb.CepBrasil.Messages;
 using Sirb.CepBrasil.Models;
 using Sirb.CepBrasil.Validations;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Sirb.CepBrasil.Services
 {
@@ -23,22 +23,19 @@ namespace Sirb.CepBrasil.Services
         {
             CepValidation.Validate(cep);
 
-<<<<<<< HEAD
-            string response = await GetFromService(cep.RemoveMask()).ConfigureAwait(false);
-=======
-            string response = await GetFromService(cep.RemoveMask());
->>>>>>> a22339ff84e9c636f7f89fe430499bedad3ce9eb
+            var response = await GetFromService(cep.RemoveMask()).ConfigureAwait(false);
             ServiceException.ThrowIf(string.IsNullOrEmpty(response), CepMessages.ExceptionEmptyResponse);
+
             return ConverterCepResult(response);
         }
 
         private async Task<string> GetFromService(string cep)
         {
-            string url = BuildRequestUrl(cep);
+            var url = BuildRequestUrl(cep);
             using var request = new HttpRequestMessage { Method = HttpMethod.Get, RequestUri = new Uri(url) };
-            using HttpResponseMessage response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            using var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
 
-            string responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             ServiceException.ThrowIf(!response.IsSuccessStatusCode, CepMessages.ExceptionServiceError);
 
             return responseString;
