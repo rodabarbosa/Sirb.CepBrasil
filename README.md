@@ -6,11 +6,13 @@ Os serviços utilizados pelo projeto ***não*** é de responsabilidade e/ou mant
 
 ## Execução do serviço
 
-Os serviços externos utilizados são disponibilizados pelos Correios e ViaCep. Se a busca em ambos os serviços não tenha resulta o serviço irá definir a busca como ***não sucesso***.A implementação desta interface funciona da seguinte forma:
+Os serviços externos utilizados são disponibilizados pelos Correios e ViaCep. Se a busca em ambos os serviços não tenha
+resulta o serviço irá definir a busca como ***não sucesso***.A implementação desta interface funciona da seguinte forma:
 
 ### Fluxo Principal
 
-1. O usuário instancia ICepService. O componente pode receber um objeto do tipo HttpClient ou o mesmo instancia e gerencia a utilização do mesmo;
+1. O usuário instancia ICepService. O componente pode receber um objeto do tipo HttpClient ou o mesmo instancia e
+   gerencia a utilização do mesmo;
 1. O usuário informa o CEP para busca;
 1. É efetuado uma validação de parâmetro minimo. (CEP deve conter 8 caracteres numericos);
 1. A interface efetua a busca no serviço dos Correios;
@@ -52,13 +54,19 @@ Cep: string
 
 ## Informações Adicionais
 
-Para informações sobre o serviço dos Correios, visite https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/ ou https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/Manual_de_Implementacao_do_Web_Service_SIGEP_WEB.pdf
+Para informações sobre o serviço dos Correios, visite <https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/>
+ou <https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/Manual_de_Implementacao_do_Web_Service_SIGEP_WEB.pdf>
 
-Para informações sobre ViaCEP, visite https://viacep.com.br/;
+Para informações sobre ViaCEP, visite <https://viacep.com.br/>;
 
 ## Nota
 
-Os demais métodos disponibilizados pelo serviço dos Correios no qual é necessário cadastro de usuário e todo o processo que envolva ou relacione a cadastro de usuário não será disponível nesta interface.
+Os demais métodos disponibilizados pelo serviço dos Correios no qual é necessário cadastro de usuário e todo o processo
+que envolva ou relacione a cadastro de usuário não será disponível nesta interface.
+
+## Versão  1.03
+
+Inclusão de compatibilidade com .NET 6 e 7
 
 ## Versão 1.0.2
 

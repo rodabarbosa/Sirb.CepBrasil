@@ -3,11 +3,11 @@ using Sirb.CepBrasil.Benchmark.Benchmarks;
 
 namespace Sirb.CepBrasil.Benchmark
 {
-	class Program
-	{
-		static void Main(string[] args)
-		{
-			BenchmarkRunner.Run<CepBenchmark>();
-		}
-	}
+    internal static class Program
+    {
+        private static void Main()
+        {
+            BenchmarkRunner.Run<CepBenchmark>();
+        }
+    }
 }
