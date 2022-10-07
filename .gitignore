@@ -18,6 +18,7 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+!k8s/[Rr]elease
 x64/
 x86/
 [Aa][Rr][Mm]/
@@ -339,3 +340,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+
+*/.sonarqube

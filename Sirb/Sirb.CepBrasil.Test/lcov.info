@@ -1,0 +1,702 @@
+{
+  "Sirb.CepBrasil.dll": {
+    "c:\\Projetos\\DOTNET\\CepBrasil\\Sirb\\Sirb.CepBrasil\\Validations\\CepValition.cs": {
+      "Sirb.CepBrasil.Validations.CepValition": {
+        "System.Void Sirb.CepBrasil.Validations.CepValition::Validate(System.String)": {
+          "Lines": {
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "20": 0
+          },
+          "Branches": [
+            {
+              "Line": 17,
+              "Offset": 2,
+              "EndOffset": 4,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 17,
+              "Offset": 2,
+              "EndOffset": 7,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 18,
+              "Offset": 15,
+              "EndOffset": 17,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 18,
+              "Offset": 15,
+              "EndOffset": 20,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "c:\\Projetos\\DOTNET\\CepBrasil\\Sirb\\Sirb.CepBrasil\\Services\\CepService.cs": {
+      "Sirb.CepBrasil.Services.CepService": {
+        "System.Void Sirb.CepBrasil.Services.CepService::StartServices()": {
+          "Lines": {
+            "35": 2,
+            "36": 2,
+            "37": 2,
+            "38": 2
+          },
+          "Branches": []
+        },
+        "System.Void Sirb.CepBrasil.Services.CepService::Dispose()": {
+          "Lines": {
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0
+          },
+          "Branches": [
+            {
+              "Line": 69,
+              "Offset": 9,
+              "EndOffset": 11,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 70,
+              "Offset": 18,
+              "EndOffset": 20,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 70,
+              "Offset": 18,
+              "EndOffset": 23,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 69,
+              "Offset": 9,
+              "EndOffset": 29,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void Sirb.CepBrasil.Services.CepService::.ctor(System.Net.Http.HttpClient,System.Boolean)": {
+          "Lines": {
+            "16": 2,
+            "18": 2,
+            "19": 2,
+            "20": 2,
+            "21": 2,
+            "23": 2,
+            "24": 2
+          },
+          "Branches": []
+        },
+        "System.Void Sirb.CepBrasil.Services.CepService::.ctor()": {
+          "Lines": {
+            "26": 0,
+            "27": 0,
+            "28": 0
+          },
+          "Branches": []
+        },
+        "System.Void Sirb.CepBrasil.Services.CepService::.ctor(System.Net.Http.HttpClient)": {
+          "Lines": {
+            "30": 2,
+            "31": 2,
+            "32": 2
+          },
+          "Branches": []
+        }
+      },
+      "Sirb.CepBrasil.Services.CepService/<Find>d__7": {
+        "System.Void Sirb.CepBrasil.Services.CepService/<Find>d__7::MoveNext()": {
+          "Lines": {
+            "41": 2,
+            "42": 2,
+            "43": 8,
+            "44": 2,
+            "46": 2,
+            "47": 2,
+            "48": 2,
+            "50": 2,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "57": 0,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "64": 2,
+            "65": 2
+          },
+          "Branches": [
+            {
+              "Line": 43,
+              "Offset": 442,
+              "EndOffset": 62,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 2
+            },
+            {
+              "Line": 54,
+              "Offset": 292,
+              "EndOffset": 294,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 54,
+              "Offset": 292,
+              "EndOffset": 311,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 59,
+              "Offset": 342,
+              "EndOffset": 344,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 59,
+              "Offset": 342,
+              "EndOffset": 348,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 59,
+              "Offset": 354,
+              "EndOffset": 356,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 59,
+              "Offset": 354,
+              "EndOffset": 362,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 60,
+              "Offset": 386,
+              "EndOffset": 388,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 60,
+              "Offset": 386,
+              "EndOffset": 392,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 43,
+              "Offset": 442,
+              "EndOffset": 447,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 2
+            }
+          ]
+        }
+      }
+    },
+    "c:\\Projetos\\DOTNET\\CepBrasil\\Sirb\\Sirb.CepBrasil\\Services\\CorreiosService.cs": {
+      "Sirb.CepBrasil.Services.CorreiosService": {
+        "System.Net.Http.HttpContent Sirb.CepBrasil.Services.CorreiosService::GetRequestContent(System.String)": {
+          "Lines": {
+            "43": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Services.CorreiosService::BuildSoapBody(System.String)": {
+          "Lines": {
+            "46": 2,
+            "47": 2,
+            "48": 2,
+            "49": 2,
+            "50": 2,
+            "51": 2,
+            "52": 2,
+            "53": 2,
+            "54": 2,
+            "56": 2,
+            "57": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Services.CorreiosService::GetTagValue(System.String,System.String,System.String)": {
+          "Lines": {
+            "60": 14,
+            "61": 14,
+            "62": 14,
+            "63": 2,
+            "65": 12,
+            "66": 14
+          },
+          "Branches": [
+            {
+              "Line": 62,
+              "Offset": 62,
+              "EndOffset": 64,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 62,
+              "Offset": 62,
+              "EndOffset": 68,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 12
+            }
+          ]
+        },
+        "System.String Sirb.CepBrasil.Services.CorreiosService::GetFaultString(System.String)": {
+          "Lines": {
+            "68": 2
+          },
+          "Branches": []
+        },
+        "Sirb.CepBrasil.Models.CepContainer Sirb.CepBrasil.Services.CorreiosService::ConvertResult(System.String)": {
+          "Lines": {
+            "70": 2,
+            "71": 2,
+            "72": 2,
+            "73": 2,
+            "74": 2,
+            "75": 2,
+            "76": 2,
+            "77": 2,
+            "78": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Services.CorreiosService::GetBairroValue(System.String)": {
+          "Lines": {
+            "80": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Services.CorreiosService::GetCepValue(System.String)": {
+          "Lines": {
+            "82": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Services.CorreiosService::GetCidadeValue(System.String)": {
+          "Lines": {
+            "84": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Services.CorreiosService::GetComplementoValue(System.String)": {
+          "Lines": {
+            "86": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Services.CorreiosService::GetEnderecoValue(System.String)": {
+          "Lines": {
+            "88": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Services.CorreiosService::GetUfValue(System.String)": {
+          "Lines": {
+            "90": 2
+          },
+          "Branches": []
+        },
+        "System.Void Sirb.CepBrasil.Services.CorreiosService::.ctor(System.Net.Http.HttpClient)": {
+          "Lines": {
+            "19": 2,
+            "20": 2,
+            "21": 2,
+            "22": 2
+          },
+          "Branches": []
+        }
+      },
+      "Sirb.CepBrasil.Services.CorreiosService/<Find>d__3": {
+        "System.Void Sirb.CepBrasil.Services.CorreiosService/<Find>d__3::MoveNext()": {
+          "Lines": {
+            "25": 2,
+            "26": 2,
+            "27": 2,
+            "28": 2,
+            "29": 2
+          },
+          "Branches": []
+        }
+      },
+      "Sirb.CepBrasil.Services.CorreiosService/<GetFromService>d__4": {
+        "System.Void Sirb.CepBrasil.Services.CorreiosService/<GetFromService>d__4::MoveNext()": {
+          "Lines": {
+            "32": 2,
+            "33": 2,
+            "34": 2,
+            "36": 2,
+            "37": 2,
+            "38": 2,
+            "40": 2,
+            "41": 2
+          },
+          "Branches": []
+        }
+      }
+    },
+    "c:\\Projetos\\DOTNET\\CepBrasil\\Sirb\\Sirb.CepBrasil\\Services\\ViaCepService.cs": {
+      "Sirb.CepBrasil.Services.ViaCepService": {
+        "System.String Sirb.CepBrasil.Services.ViaCepService::BuildRequestUrl(System.String)": {
+          "Lines": {
+            "43": 0
+          },
+          "Branches": []
+        },
+        "Sirb.CepBrasil.Models.CepContainer Sirb.CepBrasil.Services.ViaCepService::ConverterCepResult(System.String)": {
+          "Lines": {
+            "45": 0
+          },
+          "Branches": []
+        },
+        "System.Void Sirb.CepBrasil.Services.ViaCepService::.ctor(System.Net.Http.HttpClient)": {
+          "Lines": {
+            "17": 2,
+            "18": 2,
+            "19": 2,
+            "20": 2
+          },
+          "Branches": []
+        }
+      },
+      "Sirb.CepBrasil.Services.ViaCepService/<Find>d__2": {
+        "System.Void Sirb.CepBrasil.Services.ViaCepService/<Find>d__2::MoveNext()": {
+          "Lines": {
+            "23": 0,
+            "24": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0
+          },
+          "Branches": []
+        }
+      },
+      "Sirb.CepBrasil.Services.ViaCepService/<GetFromService>d__3": {
+        "System.Void Sirb.CepBrasil.Services.ViaCepService/<GetFromService>d__3::MoveNext()": {
+          "Lines": {
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "37": 0,
+            "38": 0,
+            "40": 0,
+            "41": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "c:\\Projetos\\DOTNET\\CepBrasil\\Sirb\\Sirb.CepBrasil\\Models\\CepContainer.cs": {
+      "Sirb.CepBrasil.Models.CepContainer": {
+        "System.String Sirb.CepBrasil.Models.CepContainer::get_Uf()": {
+          "Lines": {
+            "16": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Models.CepContainer::get_Cidade()": {
+          "Lines": {
+            "24": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Models.CepContainer::get_Bairro()": {
+          "Lines": {
+            "32": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Models.CepContainer::get_Complemento()": {
+          "Lines": {
+            "40": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Models.CepContainer::get_Logradouro()": {
+          "Lines": {
+            "48": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Models.CepContainer::get_Cep()": {
+          "Lines": {
+            "56": 2
+          },
+          "Branches": []
+        }
+      }
+    },
+    "c:\\Projetos\\DOTNET\\CepBrasil\\Sirb\\Sirb.CepBrasil\\Models\\CepResult.cs": {
+      "Sirb.CepBrasil.Models.CepResult": {
+        "System.Boolean Sirb.CepBrasil.Models.CepResult::get_Success()": {
+          "Lines": {
+            "14": 4
+          },
+          "Branches": []
+        },
+        "Sirb.CepBrasil.Models.CepContainer Sirb.CepBrasil.Models.CepResult::get_CepContainer()": {
+          "Lines": {
+            "19": 2
+          },
+          "Branches": []
+        },
+        "System.String Sirb.CepBrasil.Models.CepResult::get_Message()": {
+          "Lines": {
+            "24": 0
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.List`1<System.Exception> Sirb.CepBrasil.Models.CepResult::get_Exceptions()": {
+          "Lines": {
+            "29": 2
+          },
+          "Branches": []
+        }
+      }
+    },
+    "c:\\Projetos\\DOTNET\\CepBrasil\\Sirb\\Sirb.CepBrasil\\Messages\\CepMessages.cs": {
+      "Sirb.CepBrasil.Messages.CepMessages": {
+        "System.Void Sirb.CepBrasil.Messages.CepMessages::.cctor()": {
+          "Lines": {
+            "5": 1,
+            "6": 1,
+            "7": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "c:\\Projetos\\DOTNET\\CepBrasil\\Sirb\\Sirb.CepBrasil\\Extensions\\CepExtension.cs": {
+      "Sirb.CepBrasil.Extensions.CepExtension": {
+        "System.String Sirb.CepBrasil.Extensions.CepExtension::RemoveMask(System.String)": {
+          "Lines": {
+            "13": 2,
+            "14": 2,
+            "15": 0,
+            "17": 2,
+            "18": 2
+          },
+          "Branches": [
+            {
+              "Line": 14,
+              "Offset": 9,
+              "EndOffset": 11,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 14,
+              "Offset": 9,
+              "EndOffset": 15,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            }
+          ]
+        },
+        "System.String Sirb.CepBrasil.Extensions.CepExtension::CepMask(System.String)": {
+          "Lines": {
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "30": 0,
+            "31": 0
+          },
+          "Branches": [
+            {
+              "Line": 27,
+              "Offset": 9,
+              "EndOffset": 11,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 27,
+              "Offset": 9,
+              "EndOffset": 15,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "c:\\Projetos\\DOTNET\\CepBrasil\\Sirb\\Sirb.CepBrasil\\Extensions\\ExceptionExtension.cs": {
+      "Sirb.CepBrasil.Extensions.ExceptionExtension": {
+        "System.String Sirb.CepBrasil.Extensions.ExceptionExtension::AllMessages(System.Exception)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "18": 0,
+            "19": 0,
+            "20": 0,
+            "21": 0,
+            "23": 0,
+            "24": 0
+          },
+          "Branches": [
+            {
+              "Line": 15,
+              "Offset": 7,
+              "EndOffset": 9,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 15,
+              "Offset": 7,
+              "EndOffset": 17,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 19,
+              "Offset": 40,
+              "EndOffset": 42,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 19,
+              "Offset": 40,
+              "EndOffset": 67,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "c:\\Projetos\\DOTNET\\CepBrasil\\Sirb\\Sirb.CepBrasil\\Extensions\\JsonExtension.cs": {
+      "Sirb.CepBrasil.Extensions.JsonExtension": {
+        "System.String Sirb.CepBrasil.Extensions.JsonExtension::ToJson(System.Object)": {
+          "Lines": {
+            "12": 0
+          },
+          "Branches": []
+        },
+        "T Sirb.CepBrasil.Extensions.JsonExtension::FromJson(System.String)": {
+          "Lines": {
+            "20": 0
+          },
+          "Branches": []
+        },
+        "System.Void Sirb.CepBrasil.Extensions.JsonExtension::.cctor()": {
+          "Lines": {
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "c:\\Projetos\\DOTNET\\CepBrasil\\Sirb\\Sirb.CepBrasil\\Exceptions\\ServiceException.cs": {
+      "Sirb.CepBrasil.Exceptions.ServiceException": {
+        "System.Void Sirb.CepBrasil.Exceptions.ServiceException::When(System.Boolean,System.String,System.Exception)": {
+          "Lines": {
+            "22": 4,
+            "23": 4,
+            "24": 0,
+            "25": 4
+          },
+          "Branches": [
+            {
+              "Line": 23,
+              "Offset": 4,
+              "EndOffset": 6,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 23,
+              "Offset": 4,
+              "EndOffset": 14,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 4
+            }
+          ]
+        },
+        "System.Void Sirb.CepBrasil.Exceptions.ServiceException::.ctor(System.String)": {
+          "Lines": {
+            "7": 0,
+            "8": 0,
+            "9": 0
+          },
+          "Branches": []
+        },
+        "System.Void Sirb.CepBrasil.Exceptions.ServiceException::.ctor(System.String,System.Exception)": {
+          "Lines": {
+            "11": 0,
+            "12": 0,
+            "13": 0
+          },
+          "Branches": []
+        }
+      }
+    }
+  }
+}
