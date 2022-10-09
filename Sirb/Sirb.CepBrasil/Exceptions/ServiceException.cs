@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Sirb.CepBrasil.Exceptions
 {
@@ -21,6 +22,11 @@ namespace Sirb.CepBrasil.Exceptions
 
         public ServiceException(string message, Exception innerException) : base(DefineMessage(message, DefaultMessage), innerException)
         {
+        }
+
+        private ServiceException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+            // ...
         }
 
         private static string DefineMessage(string message, string fallbackMessage)

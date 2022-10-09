@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Sirb.CepBrasil.Models;
+using System;
 using System.Linq;
-using Sirb.CepBrasil.Models;
 using Xunit;
 
 namespace Sirb.CepBrasil.Test.Models
@@ -50,9 +49,9 @@ namespace Sirb.CepBrasil.Test.Models
             {
                 Success = true,
                 CepContainer = null,
-                Message = "TEST",
-                Exceptions = new List<Exception> { ex }
+                Message = "TEST"
             };
+            result.Exceptions.Add(ex);
 
             Assert.NotNull(result);
             Assert.NotEmpty(result.Exceptions);

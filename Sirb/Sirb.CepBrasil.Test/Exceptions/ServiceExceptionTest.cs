@@ -1,5 +1,7 @@
-﻿using System;
-using Sirb.CepBrasil.Exceptions;
+﻿using Sirb.CepBrasil.Exceptions;
+using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using Xunit;
 
 namespace Sirb.CepBrasil.Test.Exceptions
@@ -69,6 +71,28 @@ namespace Sirb.CepBrasil.Test.Exceptions
 #pragma warning restore CS0618
                 Assert.False(isThrowing);
             }
+        }
+
+        [Fact]
+        public void Serialization_Test()
+        {
+            // Arrange
+            const string expectedMessage = "Serialization test";
+            var e = new ServiceException(expectedMessage);
+
+            // Act
+            using (Stream s = new MemoryStream())
+            {
+                var formatter = new BinaryFormatter();
+#pragma warning disable SYSLIB0011
+                formatter.Serialize(s, e);
+                s.Position = 0; // Reset stream position
+                e = (ServiceException)formatter.Deserialize(s);
+#pragma warning restore SYSLIB0011
+            }
+
+            // Assert
+            Assert.Equal(expectedMessage, e.Message);
         }
     }
 }
