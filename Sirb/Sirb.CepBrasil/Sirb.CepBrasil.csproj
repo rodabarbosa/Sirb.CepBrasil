@@ -3,9 +3,9 @@
     <PropertyGroup>
         <TargetFrameworks>netcoreapp3.0;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
         <PackageId>Sirb.CepBrasil</PackageId>
-        <PackageVersion>1.0.4</PackageVersion>
+        <PackageVersion>1.1.2</PackageVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>1.0.4</Version>
+        <Version>1.1.2</Version>
         <Authors>Rodrigo Araujo Barbosa</Authors>
         <Product>Busca de CEP</Product>
         <Description>O projeto tem como objetivo viabilizar uma interface para busca de logradouro por CEP.
@@ -18,8 +18,8 @@
             Limpeza do retorno para remoção de caracteres indesejados.
         </PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <AssemblyVersion>1.0.4</AssemblyVersion>
-        <FileVersion>1.0.4</FileVersion>
+        <AssemblyVersion>1.1.2</AssemblyVersion>
+        <FileVersion>1.1.2</FileVersion>
         <PackageTags>CEP endereço endereco logradouro zipcode brasil</PackageTags>
         <PackageLicenseUrl></PackageLicenseUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
