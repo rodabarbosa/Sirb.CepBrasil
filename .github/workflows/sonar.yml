@@ -4,7 +4,7 @@ on:
     branches:
       - master
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [ opened, synchronize, reopened ]
 jobs:
   build:
     name: Build
@@ -42,12 +42,13 @@ jobs:
           dotnet tool install dotnet-reportgenerator-globaltool --tool-path .\.sonar\scanner
       - name: Build and analyze
         env:
+          DOTNET_CLI_TELEMETRY_OPTOUT: 1
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"rodabarbosa_Sirb.CepBrasil" /o:"rodabarbosa" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build .\Sirb\Sirb.CepBrasil.sln --configuration Release
-          dotnet test .\Sirb\Sirb.CepBrasil.sln --no-build --collect:"XPlat Code Coverage"
+          dotnet build .\Sirb.CepBrasil.sln --configuration Release
+          dotnet test .\Sirb.CepBrasil.sln --no-build --collect:"XPlat Code Coverage"
           .\.sonar\scanner\reportgenerator "-reports:*\TestResults\*\coverage.cobertura.xml" "-targetdir:sonarqubecoverage" "-reporttypes:SonarQube"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
