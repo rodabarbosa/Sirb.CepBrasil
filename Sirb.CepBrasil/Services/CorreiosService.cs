@@ -85,9 +85,13 @@ namespace Sirb.CepBrasil.Services
             return sb.ToString();
         }
 
-        static private string GetTagValue(string rawValue, string tagName, string tagNotFoundMessage = null)
+        static private string GetTagValue(string rawValue, string tagName, string tagNotFoundMessage = default)
         {
-            var result = Regex.Matches(rawValue, $"<{tagName}>(.*?)</{tagName}>");
+            if (string.IsNullOrEmpty(rawValue?.Trim()))
+                return tagNotFoundMessage;
+
+            var regex = new Regex($"<{tagName}>(.*?)</{tagName}>", RegexOptions.None, TimeSpan.FromSeconds(10));
+            var result = regex.Matches(rawValue);
 
             if (result.Count == 0)
                 return tagNotFoundMessage;
@@ -102,7 +106,7 @@ namespace Sirb.CepBrasil.Services
             return GetTagValue(response, "faultstring", CepMessages.ExceptionServiceError);
         }
 
-        private CepContainer ConvertResult(string result)
+        static private CepContainer ConvertResult(string result)
         {
             return new CepContainer
             {

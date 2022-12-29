@@ -5,13 +5,15 @@ on:
       - '*'
 jobs:
   publish:
-    name: build, pack & publish
+    name: Publish to nuget
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
 
       # Publish
       - name: publish on version change
+        env:
+          DOTNET_CLI_TELEMETRY_OPTOUT: 1
         id: publish_nuget
         uses: rohith/publish-nuget@v2
         with:

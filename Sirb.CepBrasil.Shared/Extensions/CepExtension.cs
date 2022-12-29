@@ -1,33 +1,37 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Sirb.CepBrasil.Shared.Extensions
+namespace Sirb.CepBrasil.Shared.Extensions;
+
+static public class CepExtension
 {
-    static public class CepExtension
+    static private readonly Regex _regexOnlyNumber = new(@"[^\d]", RegexOptions.None, TimeSpan.FromSeconds(15));
+    static private readonly Regex _regexCep = new(@"(\d{5})(\d{3})", RegexOptions.None, TimeSpan.FromSeconds(15));
+
+    /// <summary>
+    ///     Remove Mask, keeping alpha numeric chars.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    static public string RemoveMask(this string value)
     {
-        /// <summary>
-        ///     Remove Mask, keeping alpha numeric chars.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        static public string RemoveMask(this string value)
-        {
-            if (string.IsNullOrEmpty(value))
-                return value;
+        if (string.IsNullOrEmpty(value?.Trim()))
+            return value;
 
-            return Regex.Replace(value, @"[^\d]", string.Empty);
-        }
+        return _regexOnlyNumber.Replace(value, string.Empty);
+    }
 
-        /// <summary>
-        ///     Place Brazilian Zip Code mask.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        static public string CepMask(this string value)
-        {
-            if (string.IsNullOrEmpty(value?.Trim()))
-                return value;
+    /// <summary>
+    ///     Place Brazilian Zip Code mask.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    static public string CepMask(this string value)
+    {
+        if (string.IsNullOrEmpty(value?.Trim()))
+            return value;
 
-            return Regex.Replace(RemoveMask(value), @"(\d{5})(\d{3})", "$1-$2");
-        }
+        var cleanValue = value.RemoveMask();
+
+        return _regexCep.Replace(cleanValue, "$1-$2");
     }
 }
