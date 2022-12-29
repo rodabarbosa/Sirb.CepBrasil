@@ -15,7 +15,7 @@ jobs:
         env:
           DOTNET_CLI_TELEMETRY_OPTOUT: 1
         id: publish_nuget
-        uses: rohith/publish-nuget@v2
+        uses: tedd/publish-nuget-neo@v1
         with:
           # Filepath of the project to be packaged, relative to root of repository
           PROJECT_FILE_PATH: Sirb.CepBrasil/Sirb.CepBrasil.csproj
