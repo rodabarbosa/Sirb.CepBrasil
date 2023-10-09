@@ -7,6 +7,7 @@
         {
             Exception exception = default;
 
+            // ReSharper disable once ExpressionIsAlwaysNull
             var message = exception.AllMessages();
 
             message.Should()

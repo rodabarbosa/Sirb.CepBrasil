@@ -6,6 +6,7 @@ using Sirb.CepBrasil.Shared.Extensions;
 using Sirb.CepBrasil.Validations;
 using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sirb.CepBrasil.Services
@@ -19,27 +20,30 @@ namespace Sirb.CepBrasil.Services
             _httpClient = httpClient;
         }
 
+        /// <inheritdoc cref="ICepServiceControl"/>
+        [Obsolete("This method is obsolete. Use FindAsync instead.")]
         public Task<CepContainer> Find(string cep)
         {
-            return FindAsync(cep);
+            return FindAsync(cep, CancellationToken.None);
         }
 
-        public async Task<CepContainer> FindAsync(string cep)
+        /// <inheritdoc cref="ICepServiceControl"/>
+        public async Task<CepContainer> FindAsync(string cep, CancellationToken cancellationToken)
         {
             CepValidation.Validate(cep);
 
-            var response = await GetFromService(cep.RemoveMask());
+            var response = await GetFromService(cep.RemoveMask(), cancellationToken);
 
             return ConverterCepResult(response);
         }
 
-        async private Task<string> GetFromService(string cep)
+        async private Task<string> GetFromService(string cep, CancellationToken cancellationToken)
         {
             using var request = CreateRequestMessage(cep);
 
-            using var response = await ExecuteRequest(request);
+            using var response = await ExecuteRequest(request, cancellationToken);
 
-            return await GetResponseString(response);
+            return await GetResponseString(response, cancellationToken);
         }
 
         static private HttpRequestMessage CreateRequestMessage(string cep)
@@ -54,18 +58,18 @@ namespace Sirb.CepBrasil.Services
             return $"https://viacep.com.br/ws/{cep}/json";
         }
 
-        async private Task<HttpResponseMessage> ExecuteRequest(HttpRequestMessage request)
+        async private Task<HttpResponseMessage> ExecuteRequest(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var response = await _httpClient.SendAsync(request);
+            var response = await _httpClient.SendAsync(request, cancellationToken);
 
             ServiceException.ThrowIf(!response.IsSuccessStatusCode, CepMessages.ExceptionServiceError);
 
             return response;
         }
 
-        static async private Task<string> GetResponseString(HttpResponseMessage response)
+        static async private Task<string> GetResponseString(HttpResponseMessage response, CancellationToken cancellationToken)
         {
-            var responseString = await response.Content.ReadAsStringAsync();
+            var responseString = await response.Content.ReadAsStringAsync(cancellationToken);
 
             ServiceException.ThrowIf(string.IsNullOrEmpty(responseString), CepMessages.ExceptionEmptyResponse);
 

@@ -17,9 +17,10 @@
 
             var result = container.ToJson();
 
-            Assert.NotNull(result);
-            Assert.NotEmpty(result);
-            _ = Assert.IsType<string>(result);
+            result.Should()
+                .NotBeNull()
+                .And
+                .NotBeEmpty();
         }
 
         [Theory]
@@ -27,7 +28,9 @@
         public void FromJson_Test(string value)
         {
             var result = value.FromJson<CepContainer>();
-            Assert.NotNull(result);
+
+            result.Should()
+                .NotBeNull();
         }
     }
 }

@@ -5,16 +5,25 @@ namespace Sirb.CepBrasil.Shared.Test
     public sealed class ExtensionsTest
     {
         [Theory]
-        [InlineData("83040-040", false)]
-        [InlineData("80035-020", false)]
-        [InlineData("83040-040000", true)]
-        [InlineData("800350", true)]
-        public void ValidationTest(string cep, bool expectException)
+        [InlineData("83040-040")]
+        [InlineData("80035-020")]
+        public void ValidationTest_Should_Not_Throw(string cep)
         {
-            if (expectException)
-                Assert.Throws<ServiceException>(() => CepValidation.Validate(cep));
-            else
-                Assert.False(expectException);
+            var action = () => CepValidation.Validate(cep);
+
+            action.Should()
+                .NotThrow<ServiceException>();
+        }
+
+        [Theory]
+        [InlineData("83040-040000")]
+        [InlineData("800350")]
+        public void ValidationTest_Show_Throw(string cep)
+        {
+            var action = () => CepValidation.Validate(cep);
+
+            action.Should()
+                .Throw<ServiceException>();
         }
 
         [Theory]
@@ -23,7 +32,9 @@ namespace Sirb.CepBrasil.Shared.Test
         public void MaskTest(string value, string exceptedResult)
         {
             var maskedValue = value.CepMask();
-            Assert.Equal(maskedValue, exceptedResult);
+
+            maskedValue.Should()
+                .Be(exceptedResult);
         }
     }
 }

@@ -7,6 +7,20 @@ namespace Sirb.CepBrasil.Models
     /// </summary>
     public sealed class CepContainer
     {
+        public CepContainer()
+        {
+        }
+
+        public CepContainer(string uf, string cidade, string bairro, string complemento, string logradouro, string cep)
+        {
+            Uf = uf;
+            Cidade = cidade;
+            Bairro = bairro;
+            Complemento = complemento;
+            Logradouro = logradouro;
+            Cep = cep;
+        }
+
         /// <summary>
         /// State abbreviation
         ///

@@ -5,6 +5,7 @@ using Sirb.CepBrasil.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sirb.CepBrasil.Services
@@ -14,7 +15,7 @@ namespace Sirb.CepBrasil.Services
         private readonly HttpClient _httpClient;
         private readonly bool _httpClientSelfCreated;
 
-        private readonly List<ICepServiceControl> _services = new List<ICepServiceControl>();
+        private readonly List<ICepServiceControl> _services = new();
 
         private CepService(HttpClient httpClient, bool httpClientSelfCreated)
         {
@@ -34,13 +35,21 @@ namespace Sirb.CepBrasil.Services
         {
         }
 
-        public async Task<CepResult> Find(string cep)
+        /// <inheritdoc cref="ICepService"/>
+        [Obsolete("This method is obsolete. Use FindAsync instead.")]
+        public Task<CepResult> Find(string cep)
+        {
+            return FindAsync(cep, CancellationToken.None);
+        }
+
+        /// <inheritdoc cref="ICepService"/>
+        public async Task<CepResult> FindAsync(string cep, CancellationToken cancellationToken)
         {
             var result = new CepResult();
             foreach (var service in _services)
                 try
                 {
-                    result.CepContainer = await service.Find(cep);
+                    result.CepContainer = await service.FindAsync(cep, cancellationToken);
 
                     NotFoundException.ThrowIf(result.CepContainer is null, $"Nenhum resultado para o {cep}");
 

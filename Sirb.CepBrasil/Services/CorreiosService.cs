@@ -7,6 +7,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sirb.CepBrasil.Services
@@ -14,9 +15,7 @@ namespace Sirb.CepBrasil.Services
     internal sealed class CorreiosService : ICepServiceControl
     {
         private const string MediaType = "application/xml";
-#pragma warning disable S1075 // URIs should not be hardcoded
         private const string CorreiosUrl = "https://apphom.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente";
-#pragma warning restore S1075 // URIs should not be hardcoded
         private readonly HttpClient _httpClient;
 
         public CorreiosService(HttpClient httpClient)
@@ -24,25 +23,27 @@ namespace Sirb.CepBrasil.Services
             _httpClient = httpClient;
         }
 
+        /// <inheritdoc cref="ICepServiceControl"/>
+        [Obsolete("This method is obsolete. Use FindAsync instead.")]
         public Task<CepContainer> Find(string cep)
         {
-            return FindAsync(cep);
+            return FindAsync(cep, CancellationToken.None);
         }
 
-        public async Task<CepContainer> FindAsync(string cep)
+        /// <inheritdoc cref="ICepServiceControl"/>
+        public async Task<CepContainer> FindAsync(string cep, CancellationToken cancellationToken)
         {
-            var response = await GetFromServiceAsync(cep.RemoveMask());
+            var response = await GetFromServiceAsync(cep.RemoveMask(), cancellationToken);
 
             ServiceException.ThrowIf(string.IsNullOrEmpty(response), CepMessages.ExceptionEmptyResponse);
 
             return ConvertResult(response);
         }
 
-        private Task<string> GetFromServiceAsync(string cep)
+        private async Task<string> GetFromServiceAsync(string cep, CancellationToken cancellationToken)
         {
             using var request = CreateRequest(cep);
-
-            return ExecuteRequest(request);
+            return await ExecuteRequestAsync(request, cancellationToken);
         }
 
         static private HttpRequestMessage CreateRequest(string cep)
@@ -55,24 +56,6 @@ namespace Sirb.CepBrasil.Services
             };
 
             return request;
-        }
-
-        async private Task<string> ExecuteRequest(HttpRequestMessage request)
-        {
-            using var response = await _httpClient.SendAsync(request);
-
-            var responseString = await GetResponseString(response);
-
-            return responseString;
-        }
-
-        static async private Task<string> GetResponseString(HttpResponseMessage response)
-        {
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            ServiceException.ThrowIf(!response.IsSuccessStatusCode, GetFaultString(responseString));
-
-            return responseString;
         }
 
         static private HttpContent GetRequestContent(string cep)
@@ -94,11 +77,23 @@ namespace Sirb.CepBrasil.Services
             return sb.ToString();
         }
 
+        async private Task<string> ExecuteRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            using var response = await _httpClient.SendAsync(request, cancellationToken);
+            return await GetResponseString(response, cancellationToken);
+        }
+
+        static async private Task<string> GetResponseString(HttpResponseMessage response, CancellationToken cancellationToken)
+        {
+            var responseString = await response.Content.ReadAsStringAsync(cancellationToken);
+
+            ServiceException.ThrowIf(!response.IsSuccessStatusCode, GetFaultString(responseString));
+
+            return responseString;
+        }
+
         static private string GetTagValue(string rawValue, string tagName, string tagNotFoundMessage = default)
         {
-            if (string.IsNullOrEmpty(rawValue?.Trim()))
-                return tagNotFoundMessage;
-
             var regex = new Regex($"<{tagName}>(.*?)</{tagName}>", RegexOptions.None, TimeSpan.FromSeconds(10));
             var result = regex.Matches(rawValue);
 

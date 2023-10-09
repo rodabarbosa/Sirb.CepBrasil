@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Sirb.CepBrasil.Shared.Extensions
 {
@@ -6,7 +7,7 @@ namespace Sirb.CepBrasil.Shared.Extensions
     {
         static private readonly JsonSerializerOptions _serializerOptions = new()
         {
-            IgnoreNullValues = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = false

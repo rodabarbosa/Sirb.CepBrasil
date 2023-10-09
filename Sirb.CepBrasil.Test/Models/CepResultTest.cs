@@ -9,12 +9,102 @@ namespace Sirb.CepBrasil.Test.Models
         {
             var result = new CepResult();
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Exceptions);
-            Assert.Empty(result.Exceptions);
-            Assert.False(result.Success);
-            Assert.Null(result.Message);
-            Assert.Null(result.CepContainer);
+            result.Should()
+                .NotBeNull();
+
+            result.Exceptions
+                .Should()
+                .NotBeNull()
+                .And
+                .BeEmpty();
+
+            result.Success
+                .Should()
+                .BeFalse();
+
+            result.Message
+                .Should()
+                .BeNull();
+
+            result.CepContainer
+                .Should()
+                .BeNull();
+        }
+
+        [Fact]
+        public void Construct_With_Result()
+        {
+            var container = new CepContainer();
+            var result = new CepResult(container);
+
+            result.Should()
+                .NotBeNull();
+
+            result.CepContainer
+                .Should()
+                .NotBeNull()
+                .And
+                .BeSameAs(container);
+
+            result.Success
+                .Should()
+                .BeTrue();
+        }
+
+        [Theory]
+        [InlineData("TEST")]
+        public void Construct_With_Message(string message)
+        {
+            var result = new CepResult(message);
+
+            result.Should()
+                .NotBeNull();
+
+            result.CepContainer
+                .Should()
+                .BeNull();
+
+            result.Success
+                .Should()
+                .BeFalse();
+
+            result.Message
+                .Should()
+                .Be(message);
+
+            result.Exceptions
+                .Should()
+                .NotBeNull()
+                .And
+                .BeEmpty();
+        }
+
+        [Theory]
+        [InlineData("TEST")]
+        public void Construct_With_Exception(string message)
+        {
+            var result = new CepResult(message, new Exception(message));
+
+            result.Should()
+                .NotBeNull();
+
+            result.CepContainer
+                .Should()
+                .BeNull();
+
+            result.Success
+                .Should()
+                .BeFalse();
+
+            result.Message
+                .Should()
+                .Be(message);
+
+            result.Exceptions
+                .Should()
+                .NotBeNull()
+                .And
+                .NotBeEmpty();
         }
 
         [Fact]

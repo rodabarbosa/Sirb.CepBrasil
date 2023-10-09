@@ -9,6 +9,7 @@ namespace Sirb.CepBrasil.Test.Services
         [Theory]
         [InlineData("83040-040")]
         [InlineData("80035-020")]
+        [InlineData("81670-010")]
         public async Task Cep_Should_Return_Result(string cep)
         {
             var service = new CorreiosService(_httpClient);

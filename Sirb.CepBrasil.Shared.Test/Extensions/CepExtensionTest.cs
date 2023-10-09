@@ -9,7 +9,8 @@
         public void RemoveMask_Test(string value, string expected)
         {
             var result = value.RemoveMask();
-            Assert.Equal(expected, result);
+            result.Should()
+                .Be(expected);
         }
 
         [Theory]
@@ -19,7 +20,9 @@
         public void PlaceMask_Test(string value, string expected)
         {
             var result = value.CepMask();
-            Assert.Equal(expected, result);
+
+            result.Should()
+                .Be(expected);
         }
     }
 }

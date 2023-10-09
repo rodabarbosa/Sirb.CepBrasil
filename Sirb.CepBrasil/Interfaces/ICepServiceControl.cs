@@ -1,5 +1,6 @@
 ﻿using Sirb.CepBrasil.Models;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sirb.CepBrasil.Interfaces
@@ -18,7 +19,8 @@ namespace Sirb.CepBrasil.Interfaces
         /// Find location by zip code. Internal usage intended.
         /// </summary>
         /// <param name="cep"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<CepContainer> FindAsync(string cep);
+        Task<CepContainer> FindAsync(string cep, CancellationToken cancellationToken);
     }
 }

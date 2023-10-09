@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
-using Sirb.CepBrasil.Models;
+﻿using Sirb.CepBrasil.Models;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Sirb.CepBrasil.Interfaces
 {
@@ -12,6 +14,17 @@ namespace Sirb.CepBrasil.Interfaces
         /// </summary>
         /// <param name="cep"></param>
         /// <returns></returns>
+        [Obsolete("This method is obsolete. Use FindAsync instead.")]
         Task<CepResult> Find(string cep);
+
+        /// <summary>
+        /// Find location by zip code. Internal usage intended.
+        ///
+        /// Método para buscar Logradouro por CEP
+        /// </summary>
+        /// <param name="cep"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<CepResult> FindAsync(string cep, CancellationToken cancellationToken);
     }
 }
