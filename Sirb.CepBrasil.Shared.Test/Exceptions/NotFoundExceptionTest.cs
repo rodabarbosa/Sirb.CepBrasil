@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization.Formatters.Binary;
-
-namespace Sirb.CepBrasil.Test.Exceptions
+﻿namespace Sirb.CepBrasil.Shared.Test.Exceptions
 {
     public class NotFoundExceptionTest
     {
@@ -10,10 +8,15 @@ namespace Sirb.CepBrasil.Test.Exceptions
         public void Constructor_Valid()
         {
             var exception = new NotFoundException();
-            Assert.Null(exception.InnerException);
-            Assert.NotNull(exception.Message);
-            Assert.NotEmpty(exception.Message);
-            Assert.Equal(FallbackMessage, exception.Message);
+            exception.InnerException
+                .Should()
+                .BeNull();
+
+            exception.Message
+                .Should()
+                .NotBeNullOrEmpty()
+                .And
+                .Be(FallbackMessage);
         }
 
         [Theory]
@@ -24,22 +27,33 @@ namespace Sirb.CepBrasil.Test.Exceptions
         {
             var exception = new NotFoundException(message);
             if (!string.IsNullOrEmpty(message))
-            {
-                Assert.Equal(message, exception.Message);
-                Assert.NotNull(exception.Message);
-            }
+                exception.Message
+                    .Should()
+                    .NotBeNullOrEmpty()
+                    .And
+                    .Be(message);
 
-            Assert.Null(exception.InnerException);
+            exception.InnerException
+                .Should()
+                .BeNull();
         }
 
-        [Fact]
-        public void Constructor_InnerException()
+        [Theory]
+        [InlineData("Message 1")]
+        public void Constructor_InnerException(string message)
         {
-            var inner = new Exception("Test");
+            var inner = new Exception(message);
             var exception = new NotFoundException(inner);
-            Assert.NotNull(exception.Message);
-            Assert.NotEmpty(exception.Message);
-            Assert.NotNull(exception.InnerException);
+
+            exception.InnerException
+                .Should()
+                .NotBeNull()
+                .And
+                .Be(inner);
+
+            exception.Message
+                .Should()
+                .NotBeNullOrEmpty();
         }
 
         [Fact]
@@ -47,9 +61,16 @@ namespace Sirb.CepBrasil.Test.Exceptions
         {
             var inner = new Exception("Test 2");
             var exception = new NotFoundException("Test 1", inner);
-            Assert.NotNull(exception.Message);
-            Assert.NotEmpty(exception.Message);
-            Assert.NotNull(exception.InnerException);
+
+            exception.InnerException
+                .Should()
+                .NotBeNull()
+                .And
+                .Be(inner);
+
+            exception.Message
+                .Should()
+                .NotBeNullOrEmpty();
         }
 
         [Theory]
@@ -57,37 +78,35 @@ namespace Sirb.CepBrasil.Test.Exceptions
         [InlineData("message", false)]
         public void ThrowIf_Test(string message, bool isThrowing)
         {
+            var action = () => NotFoundException.ThrowIf(isThrowing, message);
             if (isThrowing)
-            {
-                Assert.Throws<NotFoundException>(() => NotFoundException.ThrowIf(isThrowing, message));
-            }
+                action.Should()
+                    .Throw<NotFoundException>();
             else
-            {
-                NotFoundException.ThrowIf(isThrowing, message);
-                Assert.False(isThrowing);
-            }
+                action.Should()
+                    .NotThrow<NotFoundException>();
         }
 
-        [Fact]
-        public void Serialization_Test()
-        {
-            // Arrange
-            const string expectedMessage = "Serialization test";
-            var e = new NotFoundException(expectedMessage);
-
-            // Act
-            using (Stream s = new MemoryStream())
-            {
-                var formatter = new BinaryFormatter();
-#pragma warning disable SYSLIB0011
-                formatter.Serialize(s, e);
-                s.Position = 0; // Reset stream position
-                e = (NotFoundException)formatter.Deserialize(s);
-#pragma warning restore SYSLIB0011
-            }
-
-            // Assert
-            Assert.Equal(expectedMessage, e.Message);
-        }
+//         [Fact]
+//         public void Serialization_Test()
+//         {
+//             // Arrange
+//             const string expectedMessage = "Serialization test";
+//             var e = new NotFoundException(expectedMessage);
+//
+//             // Act
+//             using (Stream s = new MemoryStream())
+//             {
+//                 var formatter = new BinaryFormatter();
+// #pragma warning disable SYSLIB0011
+//                 formatter.Serialize(s, e);
+//                 s.Position = 0; // Reset stream position
+//                 e = (NotFoundException)formatter.Deserialize(s);
+// #pragma warning restore SYSLIB0011
+//             }
+//
+//             // Assert
+//             Assert.Equal(expectedMessage, e.Message);
+//         }
     }
 }

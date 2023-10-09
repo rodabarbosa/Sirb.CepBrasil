@@ -1,7 +1,4 @@
-﻿using Sirb.CepBrasil.Models;
-using System;
-using System.Linq;
-using Xunit;
+﻿using System;
 
 namespace Sirb.CepBrasil.Test.Models
 {
@@ -23,42 +20,59 @@ namespace Sirb.CepBrasil.Test.Models
         [Fact]
         public void Inline_Test()
         {
-            var result = new CepResult
-            {
-                Success = true,
-                CepContainer = null,
-                Message = "TEST"
-            };
-
+            var result = new CepResult(true, default, "TEST");
             result.Exceptions.Add(new Exception("Test"));
 
-            Assert.NotNull(result);
-            Assert.NotEmpty(result.Exceptions);
-            Assert.IsType<Exception>(result.Exceptions.First());
-            Assert.True(result.Success);
-            Assert.Equal("TEST", result.Message);
-            Assert.Null(result.CepContainer);
+            result.Should()
+                .NotBeNull();
+
+            result.Exceptions
+                .Should()
+                .NotBeEmpty()
+                .And
+                .ContainSingle();
+
+            result.Success
+                .Should()
+                .BeTrue();
+
+            result.Message
+                .Should()
+                .Be("TEST");
+
+            result.CepContainer
+                .Should()
+                .BeNull();
         }
 
         [Fact]
         public void InnerException_Test()
         {
             var ex = new Exception("Test");
+            var result = new CepResult(true, default, "TEST", ex);
 
-            var result = new CepResult
-            {
-                Success = true,
-                CepContainer = null,
-                Message = "TEST"
-            };
-            result.Exceptions.Add(ex);
+            result.Should()
+                .NotBeNull();
 
-            Assert.NotNull(result);
-            Assert.NotEmpty(result.Exceptions);
-            Assert.IsType<Exception>(result.Exceptions.First());
-            Assert.True(result.Success);
-            Assert.Equal("TEST", result.Message);
-            Assert.Null(result.CepContainer);
+            result.Exceptions
+                .Should()
+                .NotBeEmpty()
+                .And
+                .ContainSingle()
+                .And
+                .Contain(ex);
+
+            result.Success
+                .Should()
+                .BeTrue();
+
+            result.Message
+                .Should()
+                .Be("TEST");
+
+            result.CepContainer
+                .Should()
+                .BeNull();
         }
     }
 }

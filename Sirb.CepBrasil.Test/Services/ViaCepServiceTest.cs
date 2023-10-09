@@ -1,9 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Sirb.CepBrasil.Services;
-using Xunit;
-
-namespace Sirb.CepBrasil.Test.Services
+﻿namespace Sirb.CepBrasil.Test.Services
 {
     public class ViaCepServiceTest
     {
@@ -15,7 +10,7 @@ namespace Sirb.CepBrasil.Test.Services
             using (var httpClient = new HttpClient())
             {
                 var service = new ViaCepService(httpClient);
-                var result = await service.Find(cep).ConfigureAwait(false);
+                var result = await service.Find(cep);
                 Assert.NotNull(result);
             }
         }

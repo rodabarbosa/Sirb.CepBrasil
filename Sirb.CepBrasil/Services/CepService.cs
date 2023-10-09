@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Sirb.CepBrasil.Interfaces;
+﻿using Sirb.CepBrasil.Interfaces;
 using Sirb.CepBrasil.Models;
 using Sirb.CepBrasil.Shared.Exceptions;
 using Sirb.CepBrasil.Shared.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Sirb.CepBrasil.Services
 {
@@ -24,11 +24,13 @@ namespace Sirb.CepBrasil.Services
             StartServices();
         }
 
-        public CepService() : this(new HttpClient(), true)
+        public CepService()
+            : this(new HttpClient(), true)
         {
         }
 
-        public CepService(HttpClient httpClient) : this(httpClient, false)
+        public CepService(HttpClient httpClient)
+            : this(httpClient, false)
         {
         }
 
@@ -40,7 +42,7 @@ namespace Sirb.CepBrasil.Services
                 {
                     result.CepContainer = await service.Find(cep);
 
-                    NotFoundException.ThrowIf(result.CepContainer == null, $"Nenhum resultado para o {cep}");
+                    NotFoundException.ThrowIf(result.CepContainer is null, $"Nenhum resultado para o {cep}");
 
                     result.Success = true;
                     break;

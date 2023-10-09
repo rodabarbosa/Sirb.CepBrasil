@@ -1,12 +1,13 @@
 ﻿using BenchmarkDotNet.Running;
 using Sirb.CepBrasil.Benchmark.Benchmarks;
 
-namespace Sirb.CepBrasil.Benchmark;
-
-internal static class Program
+namespace Sirb.CepBrasil.Benchmark
 {
-    private static void Main()
+    internal static class Program
     {
-        BenchmarkRunner.Run<CepBenchmark>();
+        private static void Main()
+        {
+            BenchmarkRunner.Run<CepBenchmark>();
+        }
     }
 }

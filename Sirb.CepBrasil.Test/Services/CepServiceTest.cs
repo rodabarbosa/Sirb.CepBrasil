@@ -1,9 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Sirb.CepBrasil.Services;
-using Xunit;
-
-namespace Sirb.CepBrasil.Test.Services
+﻿namespace Sirb.CepBrasil.Test.Services
 {
     public sealed class CepServiceTest
     {
@@ -15,7 +10,7 @@ namespace Sirb.CepBrasil.Test.Services
         {
             using (var service = new CepService())
             {
-                var result = await service.Find(cep).ConfigureAwait(false);
+                var result = await service.Find(cep);
                 Assert.True(result.Success);
             }
         }
@@ -29,7 +24,7 @@ namespace Sirb.CepBrasil.Test.Services
             {
                 using (var service = new CepService(httpClient))
                 {
-                    var result = await service.Find(cep).ConfigureAwait(false);
+                    var result = await service.Find(cep);
                     Assert.True(result.Success);
                 }
             }

@@ -24,16 +24,21 @@ namespace Sirb.CepBrasil.Services
             _httpClient = httpClient;
         }
 
-        async public Task<CepContainer> Find(string cep)
+        public Task<CepContainer> Find(string cep)
         {
-            var response = await GetFromService(cep.RemoveMask());
+            return FindAsync(cep);
+        }
+
+        public async Task<CepContainer> FindAsync(string cep)
+        {
+            var response = await GetFromServiceAsync(cep.RemoveMask());
 
             ServiceException.ThrowIf(string.IsNullOrEmpty(response), CepMessages.ExceptionEmptyResponse);
 
             return ConvertResult(response);
         }
 
-        private Task<string> GetFromService(string cep)
+        private Task<string> GetFromServiceAsync(string cep)
         {
             using var request = CreateRequest(cep);
 
@@ -42,15 +47,19 @@ namespace Sirb.CepBrasil.Services
 
         static private HttpRequestMessage CreateRequest(string cep)
         {
-            var request = new HttpRequestMessage { Method = HttpMethod.Post, RequestUri = new Uri(CorreiosUrl) };
-            request.Content = GetRequestContent(cep);
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(CorreiosUrl),
+                Content = GetRequestContent(cep)
+            };
 
             return request;
         }
 
         async private Task<string> ExecuteRequest(HttpRequestMessage request)
         {
-            using var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            using var response = await _httpClient.SendAsync(request);
 
             var responseString = await GetResponseString(response);
 

@@ -1,24 +1,27 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Sirb.CepBrasil.Services;
-using Xunit;
+﻿using System;
 
 namespace Sirb.CepBrasil.Test.Services
 {
-    public class CorreiosServiceTest
+    public class CorreiosServiceTest : IDisposable
     {
+        private readonly HttpClient _httpClient = new();
+
         [Theory]
         [InlineData("83040-040")]
         [InlineData("80035-020")]
-        public async Task CorreioService_Test(string cep)
+        public async Task Cep_Should_Return_Result(string cep)
         {
-            using (var httpClient = new HttpClient())
-            {
-                var service = new CorreiosService(httpClient);
+            var service = new CorreiosService(_httpClient);
 
-                var result = await service.Find(cep).ConfigureAwait(false);
-                Assert.NotNull(result);
-            }
+            var result = await service.Find(cep);
+
+            result.Should()
+                .NotBeNull();
+        }
+
+        public void Dispose()
+        {
+            _httpClient?.Dispose();
         }
     }
 }

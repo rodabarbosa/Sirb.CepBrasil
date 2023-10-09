@@ -1,11 +1,10 @@
-﻿using System.Runtime.Serialization;
-
-namespace Sirb.CepBrasil.Shared.Exceptions
+﻿namespace Sirb.CepBrasil.Shared.Exceptions
 {
     [Serializable]
     public sealed class ServiceException : Exception
     {
-        [NonSerialized] private const string DefaultMessage = "Ocorreu um erro ao tentar acessar o serviço.";
+        [NonSerialized]
+        private const string DefaultMessage = "Ocorreu um erro ao tentar acessar o serviço.";
 
         public ServiceException() : this(DefaultMessage)
         {
@@ -20,10 +19,6 @@ namespace Sirb.CepBrasil.Shared.Exceptions
         }
 
         public ServiceException(string message, Exception innerException) : base(DefineMessage(message, DefaultMessage), innerException)
-        {
-        }
-
-        private ServiceException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
 

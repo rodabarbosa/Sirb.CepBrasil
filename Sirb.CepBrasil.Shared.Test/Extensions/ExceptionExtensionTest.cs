@@ -1,37 +1,46 @@
-﻿namespace Sirb.CepBrasil.Shared.Test.Extensions;
-
-public class ExceptionExtensionTest
+﻿namespace Sirb.CepBrasil.Shared.Test.Extensions
 {
-    [Fact]
-    public void NullException_Test()
+    public class ExceptionExtensionTest
     {
-        Exception exception = null;
+        [Fact]
+        public void NullException_Test()
+        {
+            Exception exception = default;
 
-        var message = exception.AllMessages();
+            var message = exception.AllMessages();
 
-        Assert.Empty(message);
-    }
+            message.Should()
+                .BeEmpty();
+        }
 
-    [Fact]
-    public void NoInnerException_Test()
-    {
-        var exception = new Exception("TEST");
+        [Theory]
+        [InlineData("Message Test")]
+        public void NoInnerException_Test(string param)
+        {
+            var exception = new Exception(param);
 
-        var message = exception.AllMessages();
+            var message = exception.AllMessages();
 
-        Assert.NotEmpty(message);
-        Assert.Equal("TEST", message);
-    }
+            message.Should()
+                .NotBeNullOrEmpty()
+                .And
+                .Be(param);
+        }
 
-    [Fact]
-    public void WithInnerException_Test()
-    {
-        var innerException = new Exception("TEST");
-        var exception = new Exception("TEST", innerException);
+        [Theory]
+        [InlineData("Message Test")]
+        public void WithInnerException_Test(string param)
+        {
+            var innerException = new Exception(param);
+            var exception = new Exception(param, innerException);
 
-        var message = exception.AllMessages();
+            var message = exception.AllMessages();
+            var expected = $"{param} {param}";
 
-        Assert.NotEmpty(message);
-        Assert.Equal("TEST TEST", message);
+            message.Should()
+                .NotBeNullOrEmpty()
+                .And
+                .Be(expected);
+        }
     }
 }

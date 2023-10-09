@@ -19,7 +19,12 @@ namespace Sirb.CepBrasil.Services
             _httpClient = httpClient;
         }
 
-        async public Task<CepContainer> Find(string cep)
+        public Task<CepContainer> Find(string cep)
+        {
+            return FindAsync(cep);
+        }
+
+        public async Task<CepContainer> FindAsync(string cep)
         {
             CepValidation.Validate(cep);
 

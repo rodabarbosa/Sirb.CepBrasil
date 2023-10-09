@@ -1,11 +1,10 @@
-﻿using System.Runtime.Serialization;
-
-namespace Sirb.CepBrasil.Shared.Exceptions
+﻿namespace Sirb.CepBrasil.Shared.Exceptions
 {
     [Serializable]
     public sealed class NotFoundException : Exception
     {
-        [NonSerialized] private const string DefaultMessage = "Not found";
+        [NonSerialized]
+        private const string DefaultMessage = "Not found";
 
         public NotFoundException() : this(DefaultMessage)
         {
@@ -20,10 +19,6 @@ namespace Sirb.CepBrasil.Shared.Exceptions
         }
 
         public NotFoundException(string message, Exception innerException) : base(DefineMessage(message, DefaultMessage), innerException)
-        {
-        }
-
-        private NotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
 

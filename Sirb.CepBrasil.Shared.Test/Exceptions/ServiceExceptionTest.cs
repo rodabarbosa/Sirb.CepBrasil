@@ -1,93 +1,112 @@
-﻿using System.Runtime.Serialization.Formatters.Binary;
-
-namespace Sirb.CepBrasil.Test.Exceptions;
-
-public class ServiceExceptionTest
+﻿namespace Sirb.CepBrasil.Shared.Test.Exceptions
 {
-    private const string FallbackMessage = "Ocorreu um erro ao tentar acessar o serviço.";
-
-    [Fact]
-    public void Constructor_Valid()
+    public class ServiceExceptionTest
     {
-        var exception = new ServiceException();
-        Assert.Null(exception.InnerException);
-        Assert.NotNull(exception.Message);
-        Assert.NotEmpty(exception.Message);
-        Assert.Equal(FallbackMessage, exception.Message);
-    }
+        private const string FallbackMessage = "Ocorreu um erro ao tentar acessar o serviço.";
 
-    [Theory]
-    [InlineData("Message 1")]
-    [InlineData("")]
-    [InlineData(null)]
-    public void Constructor_Case(string message)
-    {
-        var exception = new ServiceException(message);
-        Assert.NotNull(exception.Message);
-        Assert.NotEmpty(exception.Message);
-        Assert.Null(exception.InnerException);
-
-        var expected = string.IsNullOrEmpty(message?.Trim()) ? FallbackMessage : message;
-        Assert.Equal(expected, exception.Message);
-    }
-
-    [Fact]
-    public void Constructor_InnerException()
-    {
-        var inner = new Exception("Test");
-        var exception = new ServiceException(inner);
-        Assert.NotNull(exception.Message);
-        Assert.NotEmpty(exception.Message);
-        Assert.NotNull(exception.InnerException);
-    }
-
-    [Fact]
-    public void Constructor_MessageInnerException()
-    {
-        var inner = new Exception("Test 2");
-        var exception = new ServiceException("Test 1", inner);
-        Assert.NotNull(exception.Message);
-        Assert.NotEmpty(exception.Message);
-        Assert.NotNull(exception.InnerException);
-    }
-
-    [Theory]
-    [InlineData("message", true)]
-    [InlineData("message", false)]
-    public void ThrowIf_Test(string message, bool isThrowing)
-    {
-        if (isThrowing)
+        [Fact]
+        public void Constructor_Valid()
         {
-            Assert.Throws<ServiceException>(() => ServiceException.ThrowIf(isThrowing, message));
-        }
-        else
-        {
-#pragma warning disable CS0618
-            ServiceException.ThrowIf(isThrowing, message);
-#pragma warning restore CS0618
-            Assert.False(isThrowing);
-        }
-    }
+            var exception = new ServiceException();
+            exception.InnerException
+                .Should()
+                .BeNull();
 
-    [Fact]
-    public void Serialization_Test()
-    {
-        // Arrange
-        const string expectedMessage = "Serialization test";
-        var e = new ServiceException(expectedMessage);
-
-        // Act
-        using (Stream s = new MemoryStream())
-        {
-            var formatter = new BinaryFormatter();
-#pragma warning disable SYSLIB0011
-            formatter.Serialize(s, e);
-            s.Position = 0; // Reset stream position
-            e = (ServiceException)formatter.Deserialize(s);
-#pragma warning restore SYSLIB0011
+            exception.Message
+                .Should()
+                .NotBeNullOrEmpty()
+                .And
+                .Be(FallbackMessage);
         }
 
-        // Assert
-        Assert.Equal(expectedMessage, e.Message);
+        [Theory]
+        [InlineData("Message 1")]
+        [InlineData("")]
+        [InlineData(null)]
+        public void Constructor_Case(string message)
+        {
+            var exception = new ServiceException(message);
+            var expected = string.IsNullOrEmpty(message?.Trim()) ? FallbackMessage : message;
+
+            exception.Message
+                .Should()
+                .NotBeNullOrEmpty()
+                .And
+                .Be(expected);
+
+            exception.InnerException
+                .Should()
+                .BeNull();
+        }
+
+        [Fact]
+        public void Constructor_InnerException()
+        {
+            var inner = new Exception("Test");
+            var exception = new ServiceException(inner);
+
+            exception.InnerException
+                .Should()
+                .NotBeNull()
+                .And
+                .Be(inner);
+
+            exception.Message
+                .Should()
+                .NotBeNullOrEmpty();
+        }
+
+        [Fact]
+        public void Constructor_MessageInnerException()
+        {
+            var inner = new Exception("Test 2");
+            var exception = new ServiceException("Test 1", inner);
+
+            exception.InnerException
+                .Should()
+                .NotBeNull()
+                .And
+                .Be(inner);
+
+            exception.Message
+                .Should()
+                .NotBeNullOrEmpty();
+        }
+
+        [Theory]
+        [InlineData("message", true)]
+        [InlineData("message", false)]
+        public void ThrowIf_Test(string message, bool isThrowing)
+        {
+            var action = () => ServiceException.ThrowIf(isThrowing, message);
+            if (isThrowing)
+                action.Should()
+                    .Throw<ServiceException>();
+            else
+                action.Should()
+                    .NotThrow<ServiceException>();
+        }
+
+//         [Fact]
+//         public void Serialization_Test()
+//         {
+//             // Arrange
+//             const string expectedMessage = "Serialization test";
+//             var e = new ServiceException(expectedMessage);
+//
+//             // Act
+//             using (Stream s = new MemoryStream())
+//             {
+//                 var formatter = new BinaryFormatter();
+// #pragma warning disable SYSLIB0011
+//                 formatter.Serialize(s, e);
+//                 s.Position = 0; // Reset stream position
+//                 e = (ServiceException)formatter.Deserialize(s);
+// #pragma warning restore SYSLIB0011
+//             }
+//
+//             // Assert
+//             Assert.Equal(expectedMessage, e.Message);
+//         }
     }
 }

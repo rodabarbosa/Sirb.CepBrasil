@@ -26,6 +26,35 @@ namespace Sirb.CepBrasil.Models
         /// <summary>
         /// Lista de exceções geradas
         /// </summary>
-        public List<Exception> Exceptions { get; } = new List<Exception>();
+        public List<Exception> Exceptions { get; } = new();
+
+        public CepResult()
+            : this(default, default, default)
+        {
+        }
+
+        public CepResult(CepContainer cepContainer)
+            : this(true, cepContainer, default)
+        {
+        }
+
+        public CepResult(string message, Exception exception = default)
+            : this(false, default, message, exception)
+        {
+        }
+
+        public CepResult(bool success, CepContainer cepContainer, string message)
+        {
+            Success = success;
+            CepContainer = cepContainer;
+            Message = message;
+        }
+
+        public CepResult(bool success, CepContainer cepContainer, string message, Exception exception)
+            : this(success, cepContainer, message)
+        {
+            if (exception != null)
+                Exceptions.Add(exception);
+        }
     }
 }

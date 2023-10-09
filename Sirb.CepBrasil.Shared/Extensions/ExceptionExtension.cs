@@ -11,25 +11,20 @@ namespace Sirb.CepBrasil.Shared.Extensions
         /// <returns></returns>
         static public string AllMessages(this Exception e)
         {
-            if (e == null)
+            if (e is null)
                 return string.Empty;
 
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(e.Message);
+            var inner = e.InnerException;
+            while (inner != null)
+            {
+                sb.Append(' ')
+                    .Append(inner.Message);
 
-            sb.AppendException(e);
+                inner = inner.InnerException;
+            }
 
             return sb.ToString();
-        }
-
-        static private void AppendException(this StringBuilder sb, Exception e)
-        {
-            if (e == null)
-                return;
-
-            sb.Append(' ')
-                .Append(e.Message);
-
-            sb.AppendException(e.InnerException);
         }
     }
 }

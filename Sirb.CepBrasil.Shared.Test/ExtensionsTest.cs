@@ -1,6 +1,6 @@
 ﻿using Sirb.CepBrasil.Validations;
 
-namespace Sirb.CepBrasil.Test
+namespace Sirb.CepBrasil.Shared.Test
 {
     public sealed class ExtensionsTest
     {
