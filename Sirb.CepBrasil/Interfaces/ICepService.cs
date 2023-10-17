@@ -13,6 +13,9 @@ namespace Sirb.CepBrasil.Interfaces
         /// Método para buscar Logradouro por CEP
         /// </summary>
         /// <param name="cep"></param>
+        /// <remarks>
+        /// It will use a 30 seconds token. If requires more than that, use FindAsync instead passing a custom CancellationToken.
+        /// </remarks>
         /// <returns></returns>
         [Obsolete("This method is obsolete. Use FindAsync instead.")]
         Task<CepResult> Find(string cep);
@@ -23,7 +26,7 @@ namespace Sirb.CepBrasil.Interfaces
         /// Método para buscar Logradouro por CEP
         /// </summary>
         /// <param name="cep"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">With default value, will be considered a 30 seconds token.</param>
         /// <returns></returns>
         Task<CepResult> FindAsync(string cep, CancellationToken cancellationToken);
     }

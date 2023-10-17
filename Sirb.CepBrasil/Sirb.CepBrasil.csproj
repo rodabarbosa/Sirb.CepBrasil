@@ -34,10 +34,10 @@
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>Sirb.CepBrasil.Test</_Parameter1> <!-- The name of the project that you want the Internal class to be visible To it -->
+      <_Parameter1>Sirb.CepBrasil.Test</_Parameter1>
     </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>Sirb.CepBrasil.Shared.Test</_Parameter1> <!-- The name of the project that you want the Internal class to be visible To it -->
+      <_Parameter1>Sirb.CepBrasil.Shared.Test</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 

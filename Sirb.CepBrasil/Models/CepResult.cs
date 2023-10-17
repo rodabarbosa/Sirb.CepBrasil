@@ -11,17 +11,17 @@ namespace Sirb.CepBrasil.Models
         /// <summary>
         /// Houve sucesso na pesquisa
         /// </summary>
-        public bool Success { get; set; }
+        public bool Success { get; }
 
         /// <summary>
         /// Cotainer com o resultado da pesquisa
         /// </summary>
-        public CepContainer CepContainer { get; set; }
+        public CepContainer CepContainer { get; }
 
         /// <summary>
         /// Mensagem de erro
         /// </summary>
-        public string Message { get; set; }
+        public string Message { get; }
 
         /// <summary>
         /// Lista de exceções geradas

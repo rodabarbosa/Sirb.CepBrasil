@@ -14,10 +14,9 @@ namespace Sirb.CepBrasil.Shared.Extensions
         /// <returns></returns>
         static public string RemoveMask(this string value)
         {
-            if (string.IsNullOrEmpty(value?.Trim()))
-                return value;
-
-            return _regexOnlyNumber.Replace(value, string.Empty);
+            return string.IsNullOrEmpty(value?.Trim())
+                ? value
+                : _regexOnlyNumber.Replace(value, string.Empty);
         }
 
         /// <summary>

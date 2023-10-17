@@ -7,7 +7,7 @@ namespace Sirb.CepBrasil.Test.Models
         [Fact]
         public void Constructor_Test()
         {
-            var result = new CepResult();
+            CepResult result = new();
 
             result.Should()
                 .NotBeNull();
@@ -34,8 +34,8 @@ namespace Sirb.CepBrasil.Test.Models
         [Fact]
         public void Construct_With_Result()
         {
-            var container = new CepContainer();
-            var result = new CepResult(container);
+            CepContainer container = new(default, default, default, default, default, default);
+            CepResult result = new(container);
 
             result.Should()
                 .NotBeNull();
@@ -55,7 +55,7 @@ namespace Sirb.CepBrasil.Test.Models
         [InlineData("TEST")]
         public void Construct_With_Message(string message)
         {
-            var result = new CepResult(message);
+            CepResult result = new(message);
 
             result.Should()
                 .NotBeNull();
@@ -83,7 +83,7 @@ namespace Sirb.CepBrasil.Test.Models
         [InlineData("TEST")]
         public void Construct_With_Exception(string message)
         {
-            var result = new CepResult(message, new Exception(message));
+            CepResult result = new(message, new Exception(message));
 
             result.Should()
                 .NotBeNull();
@@ -110,8 +110,9 @@ namespace Sirb.CepBrasil.Test.Models
         [Fact]
         public void Inline_Test()
         {
-            var result = new CepResult(true, default, "TEST");
-            result.Exceptions.Add(new Exception("Test"));
+            Exception test = new("Test");
+            CepResult result = new(true, default, "TEST");
+            result.Exceptions.Add(test);
 
             result.Should()
                 .NotBeNull();
@@ -138,8 +139,8 @@ namespace Sirb.CepBrasil.Test.Models
         [Fact]
         public void InnerException_Test()
         {
-            var ex = new Exception("Test");
-            var result = new CepResult(true, default, "TEST", ex);
+            Exception ex = new("Test");
+            CepResult result = new(true, default, "TEST", ex);
 
             result.Should()
                 .NotBeNull();

@@ -10,15 +10,11 @@
         {
         }
 
-        public NotFoundException(string message) : this(message, default)
-        {
-        }
-
         public NotFoundException(Exception innerException) : this(DefaultMessage, innerException)
         {
         }
 
-        public NotFoundException(string message, Exception innerException) : base(DefineMessage(message, DefaultMessage), innerException)
+        public NotFoundException(string message, Exception innerException = default) : base(DefineMessage(message, DefaultMessage), innerException)
         {
         }
 

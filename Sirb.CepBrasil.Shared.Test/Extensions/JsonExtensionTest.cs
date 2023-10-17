@@ -5,15 +5,13 @@
         [Fact]
         public void ToJson_Test()
         {
-            var container = new CepContainer
-            {
-                Uf = "TEST",
-                Cidade = "TEST",
-                Bairro = "TEST",
-                Complemento = "TEST",
-                Logradouro = "TEST",
-                Cep = "TEST"
-            };
+            var container = new CepContainer("TEST",
+                "TEST",
+                "TEST",
+                "TEST",
+                "TEST",
+                "TEST"
+            );
 
             var result = container.ToJson();
 

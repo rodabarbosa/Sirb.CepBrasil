@@ -7,10 +7,6 @@ namespace Sirb.CepBrasil.Models
     /// </summary>
     public sealed class CepContainer
     {
-        public CepContainer()
-        {
-        }
-
         public CepContainer(string uf, string cidade, string bairro, string complemento, string logradouro, string cep)
         {
             Uf = uf;
@@ -27,7 +23,7 @@ namespace Sirb.CepBrasil.Models
         /// Sigla do estado
         /// </summary>
         [JsonPropertyName("uf")]
-        public string Uf { get; set; }
+        public string Uf { get; }
 
         /// <summary>
         /// City name
@@ -35,7 +31,7 @@ namespace Sirb.CepBrasil.Models
         /// Nome da cidade
         /// </summary>
         [JsonPropertyName("localidade")]
-        public string Cidade { get; set; }
+        public string Cidade { get; }
 
         /// <summary>
         /// Neighborhood name
@@ -43,7 +39,7 @@ namespace Sirb.CepBrasil.Models
         /// Nome do bairro
         /// </summary>
         [JsonPropertyName("bairro")]
-        public string Bairro { get; set; }
+        public string Bairro { get; }
 
         /// <summary>
         /// Extra information
@@ -51,7 +47,7 @@ namespace Sirb.CepBrasil.Models
         /// Complemento
         /// </summary>
         [JsonPropertyName("complemento")]
-        public string Complemento { get; set; }
+        public string Complemento { get; }
 
         /// <summary>
         /// Street name
@@ -59,7 +55,7 @@ namespace Sirb.CepBrasil.Models
         /// Logradouro
         /// </summary>
         [JsonPropertyName("logradouro")]
-        public string Logradouro { get; set; }
+        public string Logradouro { get; }
 
         /// <summary>
         /// Zip code
@@ -67,6 +63,6 @@ namespace Sirb.CepBrasil.Models
         /// CEP
         /// </summary>
         [JsonPropertyName("cep")]
-        public string Cep { get; set; }
+        public string Cep { get; }
     }
 }

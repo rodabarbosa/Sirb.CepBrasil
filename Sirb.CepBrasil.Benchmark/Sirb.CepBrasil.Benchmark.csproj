@@ -11,10 +11,4 @@
     <PackageReference Include="BenchmarkDotNet" Version="0.13.9"/>
   </ItemGroup>
 
-  <ItemGroup>
-    <SonarQubeSetting Include="sonar.coverage.exclusions">
-      <Value>**</Value>
-    </SonarQubeSetting>
-  </ItemGroup>
-
 </Project>

@@ -48,14 +48,13 @@ namespace Sirb.CepBrasil.Services
 
         static private HttpRequestMessage CreateRequest(string cep)
         {
-            var request = new HttpRequestMessage
+            var uri = new Uri(CorreiosUrl);
+            return new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri(CorreiosUrl),
+                RequestUri = uri,
                 Content = GetRequestContent(cep)
             };
-
-            return request;
         }
 
         static private HttpContent GetRequestContent(string cep)
@@ -69,7 +68,7 @@ namespace Sirb.CepBrasil.Services
                 .Append("<soapenv:Header/>")
                 .Append("<soapenv:Body>")
                 .Append("<cli:consultaCEP>")
-                .AppendFormat("<cep>{0}</cep>", cep)
+                .Append($"<cep>{cep}</cep>")
                 .Append("</cli:consultaCEP>")
                 .Append("</soapenv:Body>")
                 .Append("</soapenv:Envelope>");
@@ -112,15 +111,12 @@ namespace Sirb.CepBrasil.Services
 
         static private CepContainer ConvertResult(string result)
         {
-            return new CepContainer
-            {
-                Bairro = GetBairroValue(result),
-                Cep = GetCepValue(result),
-                Cidade = GetCidadeValue(result),
-                Complemento = GetComplementoValue(result),
-                Logradouro = GetEnderecoValue(result),
-                Uf = GetUfValue(result)
-            };
+            return new CepContainer(GetUfValue(result),
+                GetCidadeValue(result),
+                GetBairroValue(result),
+                GetEnderecoValue(result),
+                GetComplementoValue(result),
+                GetCepValue(result));
         }
 
         static private string GetBairroValue(string result)

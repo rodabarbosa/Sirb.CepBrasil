@@ -5,7 +5,7 @@
         [Fact]
         public void Constructor_Test()
         {
-            var result = new CepContainer();
+            CepContainer result = new(default, default, default, default, default, default);
 
             result.Bairro
                 .Should()
@@ -36,15 +36,7 @@
         [InlineData("TEST", "00000-000")]
         public void Inline_Test(string text, string cep)
         {
-            var result = new CepContainer
-            {
-                Uf = text,
-                Cidade = text,
-                Bairro = text,
-                Complemento = text,
-                Logradouro = text,
-                Cep = cep
-            };
+            CepContainer result = new(text, text, text, text, text, cep);
 
             result.Bairro
                 .Should()

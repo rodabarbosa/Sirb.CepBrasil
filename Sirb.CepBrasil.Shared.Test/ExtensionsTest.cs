@@ -7,6 +7,7 @@ namespace Sirb.CepBrasil.Shared.Test
         [Theory]
         [InlineData("83040-040")]
         [InlineData("80035-020")]
+        // ReSharper disable once HeapView.ClosureAllocation
         public void ValidationTest_Should_Not_Throw(string cep)
         {
             var action = () => CepValidation.Validate(cep);
@@ -18,6 +19,7 @@ namespace Sirb.CepBrasil.Shared.Test
         [Theory]
         [InlineData("83040-040000")]
         [InlineData("800350")]
+        // ReSharper disable once HeapView.ClosureAllocation
         public void ValidationTest_Show_Throw(string cep)
         {
             var action = () => CepValidation.Validate(cep);

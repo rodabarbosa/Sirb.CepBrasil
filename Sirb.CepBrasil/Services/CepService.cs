@@ -39,38 +39,45 @@ namespace Sirb.CepBrasil.Services
         [Obsolete("This method is obsolete. Use FindAsync instead.")]
         public Task<CepResult> Find(string cep)
         {
-            return FindAsync(cep, CancellationToken.None);
+            return FindAsync(cep, default);
         }
 
         /// <inheritdoc cref="ICepService"/>
         public async Task<CepResult> FindAsync(string cep, CancellationToken cancellationToken)
         {
-            var result = new CepResult();
+            if (cancellationToken == default)
+                cancellationToken = GetDefaultCancellationToken();
+
+            var message = string.Empty;
             foreach (var service in _services)
                 try
                 {
-                    result.CepContainer = await service.FindAsync(cep, cancellationToken);
+                    var response = await service.FindAsync(cep, cancellationToken);
 
-                    NotFoundException.ThrowIf(result.CepContainer is null, $"Nenhum resultado para o {cep}");
+                    NotFoundException.ThrowIf(response is null, $"Nenhum resultado para o {cep}");
 
-                    result.Success = true;
-                    break;
+                    return new CepResult(true, response, default);
                 }
                 catch (Exception e)
                 {
-                    result.Exceptions.Add(e);
-
-                    var value = result.Message ?? string.Empty;
-                    result.Message = $"{value}{e.AllMessages() ?? string.Empty} ";
+                    message += $"{e.AllMessages() ?? string.Empty} ";
                 }
 
-            return result;
+            return new CepResult(false, default, message);
+        }
+
+        private static CancellationToken GetDefaultCancellationToken()
+        {
+            var cancelationToken = new CancellationTokenSource(30000);
+            return cancelationToken.Token;
         }
 
         public void Dispose()
         {
             if (_httpClientSelfCreated)
                 _httpClient?.Dispose();
+
+            _services.Clear();
         }
 
         private void StartServices()

@@ -24,7 +24,7 @@ namespace Sirb.CepBrasil.Services
         [Obsolete("This method is obsolete. Use FindAsync instead.")]
         public Task<CepContainer> Find(string cep)
         {
-            return FindAsync(cep, CancellationToken.None);
+            return FindAsync(cep, default);
         }
 
         /// <inheritdoc cref="ICepServiceControl"/>
@@ -32,9 +32,18 @@ namespace Sirb.CepBrasil.Services
         {
             CepValidation.Validate(cep);
 
+            if (cancellationToken == default)
+                cancellationToken = getDefaultCancellationToken();
+
             var response = await GetFromService(cep.RemoveMask(), cancellationToken);
 
             return ConverterCepResult(response);
+        }
+
+        private static CancellationToken getDefaultCancellationToken()
+        {
+            var cancelationToken = new CancellationTokenSource(30000);
+            return cancelationToken.Token;
         }
 
         async private Task<string> GetFromService(string cep, CancellationToken cancellationToken)
@@ -49,8 +58,11 @@ namespace Sirb.CepBrasil.Services
         static private HttpRequestMessage CreateRequestMessage(string cep)
         {
             var url = BuildRequestUrl(cep);
+            Uri uri = new(url);
 
-            return new HttpRequestMessage { Method = HttpMethod.Get, RequestUri = new Uri(url) };
+            HttpRequestMessage message = new(HttpMethod.Get, uri);
+
+            return message;
         }
 
         static private string BuildRequestUrl(string cep)
