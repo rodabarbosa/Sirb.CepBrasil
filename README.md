@@ -64,9 +64,24 @@ Para informações sobre ViaCEP, visite <https://viacep.com.br/>;
 Os demais métodos disponibilizados pelo serviço dos Correios no qual é necessário cadastro de usuário e todo o processo
 que envolva ou relacione a cadastro de usuário não será disponível nesta interface.
 
-## Versão  1.03
+## Versões 1.3
 
-Inclusão de compatibilidade com .NET 6 e 7
+- Inclusão de compatibilidade com .NET 8.
+- Remoção do serviço dos correios. Em estudo para entrega de dados requeridos para o serviço de correios, enquanto não houver 100% para a solução o serviço ficará indisponível através este projeto.
+- Inclusão de chamada asincrona com utilização do token de cancelamento.
+- Ajuste para performance
+
+## Versões 1.2
+
+Bug fix e melhora da performance
+
+## Versões 1.1
+
+Bug fix
+
+## Versão  1.0.3
+
+Inclusão de compatibilidade com .NET 6 e 7.
 
 ## Versão 1.0.2
 

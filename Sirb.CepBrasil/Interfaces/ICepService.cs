@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Sirb.CepBrasil.Interfaces
 {
+    /// <summary>
+    /// Interface for brazilian Zipcode service
+    /// </summary>
     public interface ICepService
     {
         /// <summary>

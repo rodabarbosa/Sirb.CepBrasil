@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Sirb.CepBrasil.Services
 {
+    /// <summary>
+    /// Brazilian CEP service implementation
+    /// </summary>
     public sealed class CepService : ICepService, IDisposable
     {
         private readonly HttpClient _httpClient;
@@ -25,11 +28,13 @@ namespace Sirb.CepBrasil.Services
             StartServices();
         }
 
+        /// <inheritdoc />
         public CepService()
             : this(new HttpClient(), true)
         {
         }
 
+        /// <inheritdoc />
         public CepService(HttpClient httpClient)
             : this(httpClient, false)
         {
@@ -72,6 +77,7 @@ namespace Sirb.CepBrasil.Services
             return cancelationToken.Token;
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             if (_httpClientSelfCreated)
@@ -82,7 +88,7 @@ namespace Sirb.CepBrasil.Services
 
         private void StartServices()
         {
-            _services.Add(new CorreiosService(_httpClient));
+            //_services.Add(new CorreiosService(_httpClient));
             _services.Add(new ViaCepService(_httpClient));
         }
     }

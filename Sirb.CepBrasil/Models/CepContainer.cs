@@ -7,6 +7,15 @@ namespace Sirb.CepBrasil.Models
     /// </summary>
     public sealed class CepContainer
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="uf"></param>
+        /// <param name="cidade"></param>
+        /// <param name="bairro"></param>
+        /// <param name="complemento"></param>
+        /// <param name="logradouro"></param>
+        /// <param name="cep"></param>
         public CepContainer(string uf, string cidade, string bairro, string complemento, string logradouro, string cep)
         {
             Uf = uf;
