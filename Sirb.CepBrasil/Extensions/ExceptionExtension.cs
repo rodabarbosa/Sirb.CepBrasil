@@ -1,7 +1,11 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
-namespace Sirb.CepBrasil.Shared.Extensions
+namespace Sirb.CepBrasil.Extensions
 {
+    /// <summary>
+    /// Exception Extension
+    /// </summary>
     static public class ExceptionExtension
     {
         /// <summary>

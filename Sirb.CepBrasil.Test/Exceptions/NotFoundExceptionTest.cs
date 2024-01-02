@@ -1,4 +1,4 @@
-﻿namespace Sirb.CepBrasil.Shared.Test.Exceptions
+﻿namespace Sirb.CepBrasil.Test.Exceptions
 {
     public class NotFoundExceptionTest
     {
@@ -27,11 +27,13 @@
         {
             var exception = new NotFoundException(message);
             if (!string.IsNullOrEmpty(message))
+            {
                 exception.Message
                     .Should()
                     .NotBeNullOrEmpty()
                     .And
                     .Be(message);
+            }
 
             exception.InnerException
                 .Should()
@@ -80,12 +82,15 @@
         {
             var action = () => NotFoundException.ThrowIf(isThrowing, message);
             if (isThrowing)
+            {
                 action.Should()
                     .Throw<NotFoundException>();
+            }
             else
+            {
                 action.Should()
                     .NotThrow<NotFoundException>();
+            }
         }
-
     }
 }

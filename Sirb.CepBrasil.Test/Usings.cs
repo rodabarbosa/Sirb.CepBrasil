@@ -1,6 +1,10 @@
-global using Xunit;
 global using FluentAssertions;
+global using Sirb.CepBrasil.Exceptions;
+global using Sirb.CepBrasil.Extensions;
 global using Sirb.CepBrasil.Models;
 global using Sirb.CepBrasil.Services;
+global using Sirb.CepBrasil.Validations;
+global using System;
 global using System.Net.Http;
 global using System.Threading.Tasks;
+global using Xunit;

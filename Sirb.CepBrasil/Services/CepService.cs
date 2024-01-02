@@ -1,7 +1,7 @@
-﻿using Sirb.CepBrasil.Interfaces;
+﻿using Sirb.CepBrasil.Exceptions;
+using Sirb.CepBrasil.Extensions;
+using Sirb.CepBrasil.Interfaces;
 using Sirb.CepBrasil.Models;
-using Sirb.CepBrasil.Shared.Exceptions;
-using Sirb.CepBrasil.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -55,6 +55,7 @@ namespace Sirb.CepBrasil.Services
 
             var message = string.Empty;
             foreach (var service in _services)
+            {
                 try
                 {
                     var response = await service.FindAsync(cep, cancellationToken);
@@ -67,14 +68,9 @@ namespace Sirb.CepBrasil.Services
                 {
                     message += $"{e.AllMessages() ?? string.Empty} ";
                 }
+            }
 
             return new CepResult(false, default, message);
-        }
-
-        private static CancellationToken GetDefaultCancellationToken()
-        {
-            var cancelationToken = new CancellationTokenSource(30000);
-            return cancelationToken.Token;
         }
 
         /// <inheritdoc />
@@ -84,6 +80,12 @@ namespace Sirb.CepBrasil.Services
                 _httpClient?.Dispose();
 
             _services.Clear();
+        }
+
+        private static CancellationToken GetDefaultCancellationToken()
+        {
+            var cancelationToken = new CancellationTokenSource(30000);
+            return cancelationToken.Token;
         }
 
         private void StartServices()

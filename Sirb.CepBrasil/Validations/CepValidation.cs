@@ -1,6 +1,6 @@
-﻿using Sirb.CepBrasil.Messages;
-using Sirb.CepBrasil.Shared.Exceptions;
-using Sirb.CepBrasil.Shared.Extensions;
+﻿using Sirb.CepBrasil.Exceptions;
+using Sirb.CepBrasil.Extensions;
+using Sirb.CepBrasil.Messages;
 
 namespace Sirb.CepBrasil.Validations
 {

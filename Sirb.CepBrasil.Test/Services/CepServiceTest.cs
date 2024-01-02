@@ -1,10 +1,13 @@
-﻿using System;
-
-namespace Sirb.CepBrasil.Test.Services
+﻿namespace Sirb.CepBrasil.Test.Services
 {
     public sealed class CepServiceTest : IDisposable
     {
         private readonly HttpClient httpClient = new();
+
+        public void Dispose()
+        {
+            httpClient?.Dispose();
+        }
 
         [Theory]
         [InlineData("83040-040")]
@@ -32,11 +35,6 @@ namespace Sirb.CepBrasil.Test.Services
             result.Success
                 .Should()
                 .BeTrue();
-        }
-
-        public void Dispose()
-        {
-            httpClient?.Dispose();
         }
     }
 }

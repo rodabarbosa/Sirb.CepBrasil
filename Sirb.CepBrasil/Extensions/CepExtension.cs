@@ -1,7 +1,11 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
-namespace Sirb.CepBrasil.Shared.Extensions
+namespace Sirb.CepBrasil.Extensions
 {
+    /// <summary>
+    /// Cep Extension
+    /// </summary>
     static public class CepExtension
     {
         static private readonly Regex _regexOnlyNumber = new(@"[^\d]", RegexOptions.None, TimeSpan.FromSeconds(15));

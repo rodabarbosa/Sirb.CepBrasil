@@ -1,19 +1,26 @@
-﻿namespace Sirb.CepBrasil.Shared.Exceptions
+﻿using System;
+
+namespace Sirb.CepBrasil.Exceptions
 {
+    /// <summary>
+    /// Service Exception
+    /// </summary>
     [Serializable]
     public sealed class ServiceException : Exception
     {
-        [NonSerialized]
-        private const string DefaultMessage = "Ocorreu um erro ao tentar acessar o serviço.";
+        [NonSerialized] private const string DefaultMessage = "Ocorreu um erro ao tentar acessar o serviço.";
 
+        /// <inheritdoc />
         public ServiceException() : this(DefaultMessage)
         {
         }
 
+        /// <inheritdoc />
         public ServiceException(Exception innerException) : this(DefaultMessage, innerException)
         {
         }
 
+        /// <inheritdoc />
         public ServiceException(string message, Exception innerException = default) : base(DefineMessage(message, DefaultMessage), innerException)
         {
         }

@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <PackageId>Sirb.CepBrasil</PackageId>
-    <PackageVersion>1.3.0</PackageVersion>
+    <PackageVersion>1.3.1</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.3.0</Version>
+    <Version>1.3.1</Version>
     <Authors>Rodrigo Araujo Barbosa</Authors>
     <Product>Busca de CEP</Product>
     <Description>O projeto tem como objetivo viabilizar uma interface para busca de logradouro por CEP.
@@ -15,12 +15,13 @@
       Para informações sobre ViaCEP, visite https://viacep.com.br/;
     </Description>
     <PackageReleaseNotes>
+      - Ajuste da dependencia faltando.
       - Inclusão de compatibilidade com .NET8.
       - Removendo a compatibilidade com .NET Core 3.0 e 3.1.
     </PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>1.3.0</AssemblyVersion>
-    <FileVersion>1.3.0</FileVersion>
+    <AssemblyVersion>1.3.1</AssemblyVersion>
+    <FileVersion>1.3.1</FileVersion>
     <PackageTags>CEP endereço endereco logradouro zipcode brasil</PackageTags>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -37,17 +38,10 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>Sirb.CepBrasil.Test</_Parameter1>
     </AssemblyAttribute>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>Sirb.CepBrasil.Shared.Test</_Parameter1>
-    </AssemblyAttribute>
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Sirb.CepBrasil.Shared\Sirb.CepBrasil.Shared.csproj"/>
   </ItemGroup>
 
 </Project>

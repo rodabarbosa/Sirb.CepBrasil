@@ -1,4 +1,4 @@
-﻿namespace Sirb.CepBrasil.Shared.Test.Extensions
+﻿namespace Sirb.CepBrasil.Test.Extensions
 {
     public class ExceptionExtensionTest
     {

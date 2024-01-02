@@ -1,8 +1,8 @@
-﻿using Sirb.CepBrasil.Interfaces;
+﻿using Sirb.CepBrasil.Exceptions;
+using Sirb.CepBrasil.Extensions;
+using Sirb.CepBrasil.Interfaces;
 using Sirb.CepBrasil.Messages;
 using Sirb.CepBrasil.Models;
-using Sirb.CepBrasil.Shared.Exceptions;
-using Sirb.CepBrasil.Shared.Extensions;
 using Sirb.CepBrasil.Validations;
 using System;
 using System.Net.Http;

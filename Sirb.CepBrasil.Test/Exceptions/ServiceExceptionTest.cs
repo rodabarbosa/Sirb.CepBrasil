@@ -1,4 +1,4 @@
-﻿namespace Sirb.CepBrasil.Shared.Test.Exceptions
+﻿namespace Sirb.CepBrasil.Test.Exceptions
 {
     public class ServiceExceptionTest
     {
@@ -80,11 +80,15 @@
         {
             var action = () => ServiceException.ThrowIf(isThrowing, message);
             if (isThrowing)
+            {
                 action.Should()
                     .Throw<ServiceException>();
+            }
             else
+            {
                 action.Should()
                     .NotThrow<ServiceException>();
+            }
         }
 
 //         [Fact]
