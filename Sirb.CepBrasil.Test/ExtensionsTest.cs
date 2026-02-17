@@ -2,7 +2,7 @@
 {
     public sealed class ExtensionsTest
     {
-        [Theory]
+        [Theory(DisplayName = "Validação de CEP - Sucesso")]
         [InlineData("83040-040")]
         [InlineData("80035-020")]
         // ReSharper disable once HeapView.ClosureAllocation
