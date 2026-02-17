@@ -1,7 +1,4 @@
-﻿﻿using System;
-using Xunit;
-
-namespace Sirb.CepBrasil.Test.Exceptions
+﻿namespace Sirb.CepBrasil.Test.Exceptions
 {
     public class NotFoundExceptionTest
     {

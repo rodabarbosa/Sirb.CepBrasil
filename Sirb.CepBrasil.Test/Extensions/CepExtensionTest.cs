@@ -1,6 +1,4 @@
-﻿﻿using Xunit;
-
-namespace Sirb.CepBrasil.Test.Extensions
+﻿﻿namespace Sirb.CepBrasil.Test.Extensions
 {
     public class CepExtensionTest
     {

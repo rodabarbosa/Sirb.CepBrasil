@@ -1,6 +1,4 @@
-﻿﻿using Xunit;
-
-namespace Sirb.CepBrasil.Test.Models
+﻿﻿namespace Sirb.CepBrasil.Test.Models
 {
     public class CepContainerTest
     {

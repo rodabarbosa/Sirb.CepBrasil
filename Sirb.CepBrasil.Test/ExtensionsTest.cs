@@ -1,6 +1,4 @@
-﻿﻿using Xunit;
-
-namespace Sirb.CepBrasil.Test
+﻿﻿namespace Sirb.CepBrasil.Test
 {
     public sealed class ExtensionsTest
     {

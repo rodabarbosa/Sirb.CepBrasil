@@ -1,7 +1,4 @@
-﻿﻿using System;
-using Xunit;
-
-namespace Sirb.CepBrasil.Test.Extensions
+﻿namespace Sirb.CepBrasil.Test.Extensions
 {
     public class ExceptionExtensionTest
     {
