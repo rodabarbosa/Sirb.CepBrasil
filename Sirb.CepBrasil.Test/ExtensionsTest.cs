@@ -1,4 +1,6 @@
-﻿namespace Sirb.CepBrasil.Test
+﻿﻿using Xunit;
+
+namespace Sirb.CepBrasil.Test
 {
     public sealed class ExtensionsTest
     {
@@ -8,10 +10,8 @@
         // ReSharper disable once HeapView.ClosureAllocation
         public void ValidationTest_Should_Not_Throw(string cep)
         {
-            var action = () => CepValidation.Validate(cep);
-
-            action.Should()
-                .NotThrow<ServiceException>();
+            var exception = Record.Exception(() => CepValidation.Validate(cep));
+            Assert.Null(exception);
         }
 
         [Theory]
@@ -20,10 +20,7 @@
         // ReSharper disable once HeapView.ClosureAllocation
         public void ValidationTest_Show_Throw(string cep)
         {
-            var action = () => CepValidation.Validate(cep);
-
-            action.Should()
-                .Throw<ServiceException>();
+            Assert.Throws<ServiceException>(() => CepValidation.Validate(cep));
         }
 
         [Theory]
@@ -32,9 +29,7 @@
         public void MaskTest(string value, string exceptedResult)
         {
             var maskedValue = value.CepMask();
-
-            maskedValue.Should()
-                .Be(exceptedResult);
+            Assert.Equal(exceptedResult, maskedValue);
         }
     }
 }

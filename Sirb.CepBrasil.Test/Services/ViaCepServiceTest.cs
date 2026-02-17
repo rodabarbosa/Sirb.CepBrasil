@@ -1,4 +1,9 @@
-﻿namespace Sirb.CepBrasil.Test.Services
+﻿﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Xunit;
+
+namespace Sirb.CepBrasil.Test.Services
 {
     public class ViaCepServiceTest : IDisposable
     {
@@ -18,8 +23,7 @@
             var service = new ViaCepService(_httpClient);
             var result = await service.Find(cep);
 
-            result.Should()
-                .NotBeNull();
+            Assert.NotNull(result);
         }
     }
 }

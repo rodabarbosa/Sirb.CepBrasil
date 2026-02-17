@@ -1,4 +1,7 @@
-﻿namespace Sirb.CepBrasil.Test.Extensions
+﻿﻿using System;
+using Xunit;
+
+namespace Sirb.CepBrasil.Test.Extensions
 {
     public class ExceptionExtensionTest
     {
@@ -10,8 +13,7 @@
             // ReSharper disable once ExpressionIsAlwaysNull
             var message = exception.AllMessages();
 
-            message.Should()
-                .BeEmpty();
+            Assert.Empty(message);
         }
 
         [Theory]
@@ -22,10 +24,9 @@
 
             var message = exception.AllMessages();
 
-            message.Should()
-                .NotBeNullOrEmpty()
-                .And
-                .Be(param);
+            Assert.NotNull(message);
+            Assert.NotEmpty(message);
+            Assert.Equal(param, message);
         }
 
         [Theory]
@@ -38,10 +39,9 @@
             var message = exception.AllMessages();
             var expected = $"{param} {param}";
 
-            message.Should()
-                .NotBeNullOrEmpty()
-                .And
-                .Be(expected);
+            Assert.NotNull(message);
+            Assert.NotEmpty(message);
+            Assert.Equal(expected, message);
         }
     }
 }

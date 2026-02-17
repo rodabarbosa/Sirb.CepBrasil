@@ -246,7 +246,7 @@ Para desenvolvimento de novas funcionalidades, siga este workflow:
 - **100% de cobertura de código**
 - Todos os métodos públicos devem ter testes
 - Todos os edge cases devem ser testados
-- Testes devem usar xUnit + FluentAssertions
+- Testes devem usar xUnit com Assert nativo
 - **Nomenclatura clara e descritiva** para métodos de teste
 - **Atributo `[Fact(DisplayName = "...")]` ou `[Theory(DisplayName = "...")]` obrigatório** para descrever o teste em português
 

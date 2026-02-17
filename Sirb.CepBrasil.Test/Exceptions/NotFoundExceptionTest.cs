@@ -1,4 +1,7 @@
-﻿namespace Sirb.CepBrasil.Test.Exceptions
+﻿﻿using System;
+using Xunit;
+
+namespace Sirb.CepBrasil.Test.Exceptions
 {
     public class NotFoundExceptionTest
     {
@@ -8,15 +11,10 @@
         public void Constructor_Valid()
         {
             var exception = new NotFoundException();
-            exception.InnerException
-                .Should()
-                .BeNull();
-
-            exception.Message
-                .Should()
-                .NotBeNullOrEmpty()
-                .And
-                .Be(FallbackMessage);
+            Assert.Null(exception.InnerException);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
+            Assert.Equal(FallbackMessage, exception.Message);
         }
 
         [Theory]
@@ -28,16 +26,12 @@
             var exception = new NotFoundException(message);
             if (!string.IsNullOrEmpty(message))
             {
-                exception.Message
-                    .Should()
-                    .NotBeNullOrEmpty()
-                    .And
-                    .Be(message);
+                Assert.NotNull(exception.Message);
+                Assert.NotEmpty(exception.Message);
+                Assert.Equal(message, exception.Message);
             }
 
-            exception.InnerException
-                .Should()
-                .BeNull();
+            Assert.Null(exception.InnerException);
         }
 
         [Theory]
@@ -47,15 +41,10 @@
             var inner = new Exception(message);
             var exception = new NotFoundException(inner);
 
-            exception.InnerException
-                .Should()
-                .NotBeNull()
-                .And
-                .Be(inner);
-
-            exception.Message
-                .Should()
-                .NotBeNullOrEmpty();
+            Assert.NotNull(exception.InnerException);
+            Assert.Same(inner, exception.InnerException);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
         }
 
         [Fact]
@@ -64,15 +53,10 @@
             var inner = new Exception("Test 2");
             var exception = new NotFoundException("Test 1", inner);
 
-            exception.InnerException
-                .Should()
-                .NotBeNull()
-                .And
-                .Be(inner);
-
-            exception.Message
-                .Should()
-                .NotBeNullOrEmpty();
+            Assert.NotNull(exception.InnerException);
+            Assert.Same(inner, exception.InnerException);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
         }
 
         [Theory]
@@ -80,16 +64,14 @@
         [InlineData("message", false)]
         public void ThrowIf_Test(string message, bool isThrowing)
         {
-            var action = () => NotFoundException.ThrowIf(isThrowing, message);
             if (isThrowing)
             {
-                action.Should()
-                    .Throw<NotFoundException>();
+                Assert.Throws<NotFoundException>(() => NotFoundException.ThrowIf(isThrowing, message));
             }
             else
             {
-                action.Should()
-                    .NotThrow<NotFoundException>();
+                var exception = Record.Exception(() => NotFoundException.ThrowIf(isThrowing, message));
+                Assert.Null(exception);
             }
         }
     }

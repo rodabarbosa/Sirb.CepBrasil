@@ -6,7 +6,7 @@ namespace Sirb.CepBrasil.Benchmark.Benchmarks
 {
     [MemoryDiagnoser]
     [Orderer(SummaryOrderPolicy.FastestToSlowest)]
-    public sealed class CepBenchmark
+    public class CepBenchmark
     {
         private const string Cep = "83040-040";
 

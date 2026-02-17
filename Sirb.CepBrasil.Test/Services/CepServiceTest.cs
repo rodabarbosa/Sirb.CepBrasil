@@ -1,4 +1,9 @@
-﻿namespace Sirb.CepBrasil.Test.Services
+﻿﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Xunit;
+
+namespace Sirb.CepBrasil.Test.Services
 {
     public sealed class CepServiceTest : IDisposable
     {
@@ -18,9 +23,7 @@
             using var service = new CepService();
             var result = await service.Find(cep);
 
-            result.Success
-                .Should()
-                .BeTrue();
+            Assert.True(result.Success);
         }
 
         [Theory]
@@ -32,9 +35,7 @@
             using var service = new CepService(httpClient);
             var result = await service.Find(cep);
 
-            result.Success
-                .Should()
-                .BeTrue();
+            Assert.True(result.Success);
         }
     }
 }

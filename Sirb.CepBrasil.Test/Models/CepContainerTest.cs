@@ -1,4 +1,6 @@
-﻿namespace Sirb.CepBrasil.Test.Models
+﻿﻿using Xunit;
+
+namespace Sirb.CepBrasil.Test.Models
 {
     public class CepContainerTest
     {
@@ -7,29 +9,12 @@
         {
             CepContainer result = new(default, default, default, default, default, default);
 
-            result.Bairro
-                .Should()
-                .BeNull();
-
-            result.Cep
-                .Should()
-                .BeNull();
-
-            result.Cidade
-                .Should()
-                .BeNull();
-
-            result.Complemento
-                .Should()
-                .BeNull();
-
-            result.Logradouro
-                .Should()
-                .BeNull();
-
-            result.Uf
-                .Should()
-                .BeNull();
+            Assert.Null(result.Bairro);
+            Assert.Null(result.Cep);
+            Assert.Null(result.Cidade);
+            Assert.Null(result.Complemento);
+            Assert.Null(result.Logradouro);
+            Assert.Null(result.Uf);
         }
 
         [Theory]
@@ -38,29 +23,12 @@
         {
             CepContainer result = new(text, text, text, text, text, cep);
 
-            result.Bairro
-                .Should()
-                .Be(text);
-
-            result.Cep
-                .Should()
-                .Be(cep);
-
-            result.Cidade
-                .Should()
-                .Be(text);
-
-            result.Complemento
-                .Should()
-                .Be(text);
-
-            result.Logradouro
-                .Should()
-                .Be(text);
-
-            result.Uf
-                .Should()
-                .Be(text);
+            Assert.Equal(text, result.Bairro);
+            Assert.Equal(cep, result.Cep);
+            Assert.Equal(text, result.Cidade);
+            Assert.Equal(text, result.Complemento);
+            Assert.Equal(text, result.Logradouro);
+            Assert.Equal(text, result.Uf);
         }
     }
 }

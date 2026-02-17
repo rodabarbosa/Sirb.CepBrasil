@@ -1,4 +1,6 @@
-﻿namespace Sirb.CepBrasil.Test.Extensions
+﻿﻿using Xunit;
+
+namespace Sirb.CepBrasil.Test.Extensions
 {
     public class CepExtensionTest
     {
@@ -9,8 +11,7 @@
         public void RemoveMask_Test(string value, string expected)
         {
             var result = value.RemoveMask();
-            result.Should()
-                .Be(expected);
+            Assert.Equal(expected, result);
         }
 
         [Theory]
@@ -20,9 +21,7 @@
         public void PlaceMask_Test(string value, string expected)
         {
             var result = value.CepMask();
-
-            result.Should()
-                .Be(expected);
+            Assert.Equal(expected, result);
         }
     }
 }

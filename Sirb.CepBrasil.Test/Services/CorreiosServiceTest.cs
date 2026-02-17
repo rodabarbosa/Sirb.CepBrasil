@@ -1,4 +1,9 @@
-﻿namespace Sirb.CepBrasil.Test.Services
+﻿﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Xunit;
+
+namespace Sirb.CepBrasil.Test.Services
 {
     public class CorreiosServiceTest : IDisposable
     {
@@ -19,8 +24,7 @@
 
             var result = await service.Find(cep);
 
-            result.Should()
-                .NotBeNull();
+            Assert.NotNull(result);
         }
     }
 }

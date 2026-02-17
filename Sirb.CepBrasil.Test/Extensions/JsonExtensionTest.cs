@@ -1,4 +1,6 @@
-﻿namespace Sirb.CepBrasil.Test.Extensions
+﻿﻿using Xunit;
+
+namespace Sirb.CepBrasil.Test.Extensions
 {
     public class JsonExtensionTest
     {
@@ -15,10 +17,8 @@
 
             var result = container.ToJson();
 
-            result.Should()
-                .NotBeNull()
-                .And
-                .NotBeEmpty();
+            Assert.NotNull(result);
+            Assert.NotEmpty(result);
         }
 
         [Theory]
@@ -27,8 +27,7 @@
         {
             var result = value.FromJson<CepContainer>();
 
-            result.Should()
-                .NotBeNull();
+            Assert.NotNull(result);
         }
     }
 }

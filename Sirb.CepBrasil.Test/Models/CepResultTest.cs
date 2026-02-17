@@ -1,4 +1,5 @@
-﻿using System;
+﻿﻿using System;
+using Xunit;
 
 namespace Sirb.CepBrasil.Test.Models
 {
@@ -9,26 +10,12 @@ namespace Sirb.CepBrasil.Test.Models
         {
             CepResult result = new();
 
-            result.Should()
-                .NotBeNull();
-
-            result.Exceptions
-                .Should()
-                .NotBeNull()
-                .And
-                .BeEmpty();
-
-            result.Success
-                .Should()
-                .BeFalse();
-
-            result.Message
-                .Should()
-                .BeNull();
-
-            result.CepContainer
-                .Should()
-                .BeNull();
+            Assert.NotNull(result);
+            Assert.NotNull(result.Exceptions);
+            Assert.Empty(result.Exceptions);
+            Assert.False(result.Success);
+            Assert.Null(result.Message);
+            Assert.Null(result.CepContainer);
         }
 
         [Fact]
@@ -37,18 +24,10 @@ namespace Sirb.CepBrasil.Test.Models
             CepContainer container = new(default, default, default, default, default, default);
             CepResult result = new(container);
 
-            result.Should()
-                .NotBeNull();
-
-            result.CepContainer
-                .Should()
-                .NotBeNull()
-                .And
-                .BeSameAs(container);
-
-            result.Success
-                .Should()
-                .BeTrue();
+            Assert.NotNull(result);
+            Assert.NotNull(result.CepContainer);
+            Assert.Same(container, result.CepContainer);
+            Assert.True(result.Success);
         }
 
         [Theory]
@@ -57,26 +36,12 @@ namespace Sirb.CepBrasil.Test.Models
         {
             CepResult result = new(message);
 
-            result.Should()
-                .NotBeNull();
-
-            result.CepContainer
-                .Should()
-                .BeNull();
-
-            result.Success
-                .Should()
-                .BeFalse();
-
-            result.Message
-                .Should()
-                .Be(message);
-
-            result.Exceptions
-                .Should()
-                .NotBeNull()
-                .And
-                .BeEmpty();
+            Assert.NotNull(result);
+            Assert.Null(result.CepContainer);
+            Assert.False(result.Success);
+            Assert.Equal(message, result.Message);
+            Assert.NotNull(result.Exceptions);
+            Assert.Empty(result.Exceptions);
         }
 
         [Theory]
@@ -85,26 +50,12 @@ namespace Sirb.CepBrasil.Test.Models
         {
             CepResult result = new(message, new Exception(message));
 
-            result.Should()
-                .NotBeNull();
-
-            result.CepContainer
-                .Should()
-                .BeNull();
-
-            result.Success
-                .Should()
-                .BeFalse();
-
-            result.Message
-                .Should()
-                .Be(message);
-
-            result.Exceptions
-                .Should()
-                .NotBeNull()
-                .And
-                .NotBeEmpty();
+            Assert.NotNull(result);
+            Assert.Null(result.CepContainer);
+            Assert.False(result.Success);
+            Assert.Equal(message, result.Message);
+            Assert.NotNull(result.Exceptions);
+            Assert.NotEmpty(result.Exceptions);
         }
 
         [Fact]
@@ -114,26 +65,12 @@ namespace Sirb.CepBrasil.Test.Models
             CepResult result = new(true, default, "TEST");
             result.Exceptions.Add(test);
 
-            result.Should()
-                .NotBeNull();
-
-            result.Exceptions
-                .Should()
-                .NotBeEmpty()
-                .And
-                .ContainSingle();
-
-            result.Success
-                .Should()
-                .BeTrue();
-
-            result.Message
-                .Should()
-                .Be("TEST");
-
-            result.CepContainer
-                .Should()
-                .BeNull();
+            Assert.NotNull(result);
+            Assert.NotEmpty(result.Exceptions);
+            Assert.Single(result.Exceptions);
+            Assert.True(result.Success);
+            Assert.Equal("TEST", result.Message);
+            Assert.Null(result.CepContainer);
         }
 
         [Fact]
@@ -142,28 +79,13 @@ namespace Sirb.CepBrasil.Test.Models
             Exception ex = new("Test");
             CepResult result = new(true, default, "TEST", ex);
 
-            result.Should()
-                .NotBeNull();
-
-            result.Exceptions
-                .Should()
-                .NotBeEmpty()
-                .And
-                .ContainSingle()
-                .And
-                .Contain(ex);
-
-            result.Success
-                .Should()
-                .BeTrue();
-
-            result.Message
-                .Should()
-                .Be("TEST");
-
-            result.CepContainer
-                .Should()
-                .BeNull();
+            Assert.NotNull(result);
+            Assert.NotEmpty(result.Exceptions);
+            Assert.Single(result.Exceptions);
+            Assert.Contains(ex, result.Exceptions);
+            Assert.True(result.Success);
+            Assert.Equal("TEST", result.Message);
+            Assert.Null(result.CepContainer);
         }
     }
 }
