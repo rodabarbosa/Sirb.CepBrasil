@@ -7,21 +7,20 @@ Biblioteca .NET para consulta de endereços brasileiros através do CEP (Código
 
 ## 📋 Sobre
 
-O **Sirb.CepBrasil** é uma biblioteca simples e eficiente para buscar informações de logradouro através do CEP, utilizando serviços públicos disponíveis como **ViaCEP** e **Correios** (quando disponível).
+O **Sirb.CepBrasil** é uma biblioteca simples e eficiente para buscar informações de logradouro através do CEP, utilizando o serviço público **ViaCEP**.
 
 ### ⚠️ Aviso Importante
 
-Os serviços externos utilizados por esta biblioteca **não são** de responsabilidade ou mantidos por este projeto. A disponibilidade depende dos provedores de serviço.
+O serviço externo **ViaCEP** utilizado por esta biblioteca **não é** de responsabilidade ou mantido por este projeto. A disponibilidade depende do provedor de serviço.
 
 ## ✨ Características
 
-- ✅ Busca de endereço por CEP
-- ✅ Fallback automático entre serviços (ViaCEP)
+- ✅ Busca de endereço por CEP via ViaCEP
 - ✅ Suporte a `async/await` com `CancellationToken`
 - ✅ Validação automática de formato do CEP
 - ✅ Gerenciamento flexível de `HttpClient`
 - ✅ Tratamento robusto de erros
-- ✅ Multi-target: .NET 5, 6, 7 e 8
+- ✅ Multi-target: .NET 8, 9 e 10
 
 ## 📦 Instalação
 
@@ -108,23 +107,23 @@ public class MeuService
 
 ### CepResult
 
-| Propriedade | Tipo | Descrição |
-|------------|------|-----------|
-| `Success` | `bool` | Indica se a busca foi bem-sucedida |
-| `CepContainer` | `CepContainer` | Objeto com os dados do endereço |
-| `Message` | `string` | Mensagem de erro (se houver) |
-| `Exceptions` | `List<Exception>` | Lista de exceções capturadas |
+| Propriedade    | Tipo              | Descrição                          |
+|----------------|-------------------|------------------------------------|
+| `Success`      | `bool`            | Indica se a busca foi bem-sucedida |
+| `CepContainer` | `CepContainer`    | Objeto com os dados do endereço    |
+| `Message`      | `string`          | Mensagem de erro (se houver)       |
+| `Exceptions`   | `List<Exception>` | Lista de exceções capturadas       |
 
 ### CepContainer
 
-| Propriedade | Tipo | Descrição |
-|------------|------|-----------|
-| `Cep` | `string` | CEP formatado |
-| `Logradouro` | `string` | Nome da rua/avenida |
-| `Complemento` | `string` | Informações complementares |
-| `Bairro` | `string` | Nome do bairro |
-| `Cidade` | `string` | Nome da cidade |
-| `Uf` | `string` | Sigla do estado (ex: SP, RJ) |
+| Propriedade   | Tipo     | Descrição                    |
+|---------------|----------|------------------------------|
+| `Cep`         | `string` | CEP formatado                |
+| `Logradouro`  | `string` | Nome da rua/avenida          |
+| `Complemento` | `string` | Informações complementares   |
+| `Bairro`      | `string` | Nome do bairro               |
+| `Cidade`      | `string` | Nome da cidade               |
+| `Uf`          | `string` | Sigla do estado (ex: SP, RJ) |
 
 ## 🔄 Fluxo de Funcionamento
 
@@ -134,13 +133,13 @@ graph TD
     B -->|Inválido| C[Retorna erro]
     B -->|Válido| D[Busca no ViaCEP]
     D -->|Sucesso| E[Retorna resultado]
-    D -->|Falha| F[Registra erro]
-    F --> E
+    D -->|Falha| F[Retorna erro]
 ```
 
 ### Validação
 
 O CEP deve conter **8 caracteres numéricos**. A biblioteca aceita CEPs com ou sem formatação:
+
 - ✅ `01310100`
 - ✅ `01310-100`
 
@@ -152,10 +151,9 @@ O CEP deve conter **8 caracteres numéricos**. A biblioteca aceita CEPs com ou s
 
 ## 🔧 Compatibilidade
 
-- .NET 5.0
-- .NET 6.0
-- .NET 7.0
 - .NET 8.0
+- .NET 9.0
+- .NET 10.0
 
 ## 📝 Licença
 
@@ -164,39 +162,53 @@ Este projeto está licenciado sob a [Licença MIT](https://opensource.org/licens
 ## 🔗 Links Úteis
 
 - [ViaCEP - Documentação](https://viacep.com.br/)
-- [Correios - Serviços Web](https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/)
 - [Repositório GitHub](https://github.com/rodabarbosa/CepBrasil)
 
 ## 📋 Changelog
 
-### Versão 1.3.1 (Atual)
+### Versão 1.4.0 (Atual)
+
+- 🚀 Atualização para .NET 8, 9 e 10
+- ⚠️ Remoção de suporte para .NET 5, 6 e 7
+- 🔧 Remoção do serviço dos Correios (utiliza apenas ViaCEP)
+- ✨ Modernização da biblioteca
+
+### Versão 1.3.1
+
 - 🐛 Ajuste de dependência faltante
 - ✨ Compatibilidade com .NET 8
 - ⚠️ Remoção de suporte para .NET Core 3.0 e 3.1
 
 ### Versão 1.3.0
+
 - ✨ Inclusão de compatibilidade com .NET 8
 - 🚨 Remoção temporária do serviço dos Correios (em estudo)
 - ✨ Adição de chamadas assíncronas com `CancellationToken`
 - ⚡ Melhorias de performance
 
 ### Versão 1.2.0
+
 - 🐛 Correções de bugs
 - ⚡ Melhorias de performance
 
 ### Versão 1.1.0
+
 - 🐛 Correções de bugs
 
 ### Versão 1.0.3
+
 - ✨ Inclusão de compatibilidade com .NET 6 e 7
 
 ### Versão 1.0.2
+
 - 🧹 Limpeza de caracteres indesejados no retorno
 
 ### Versão 1.0.1
+
 - ✨ Compatibilidade com .NET Core 3 e 3.1
 
 ### Versão 1.0.0
+
 - 🎉 Lançamento inicial para .NET 5
 
 ## 🤝 Contribuindo
@@ -209,4 +221,4 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull r
 
 ---
 
-**Nota:** Esta biblioteca utiliza serviços externos de terceiros. A disponibilidade e precisão dos dados dependem desses provedores.
+**Nota:** Esta biblioteca utiliza o serviço externo ViaCEP. A disponibilidade e precisão dos dados dependem deste provedor.

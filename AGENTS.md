@@ -385,7 +385,7 @@ Antes de aprovar qualquer mudança, verificar:
 - [ ] Performance considerada
 - [ ] Sem código morto ou comentado
 - [ ] Nomes claros e descritivos
-- [ ] Compatibilidade multi-target mantida (.NET 5, 6, 7, 8)
+- [ ] Compatibilidade multi-target mantida (.NET 8, 9, 10)
 
 ---
 

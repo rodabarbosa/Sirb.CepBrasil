@@ -2,15 +2,16 @@
 
 ## 🎯 Contexto do Projeto
 
-**Sirb.CepBrasil** é uma biblioteca .NET para consulta de endereços brasileiros através do CEP (Código de Endereçamento Postal), utilizando serviços públicos como ViaCEP e Correios.
+**Sirb.CepBrasil** é uma biblioteca .NET para consulta de endereços brasileiros através do CEP (Código de Endereçamento Postal), utilizando o serviço público ViaCEP.
 
 ### Informações Técnicas
 - **Linguagem:** C# (latest)
-- **Frameworks:** .NET 5.0, 6.0, 7.0, 8.0 (multi-target)
+- **Frameworks:** .NET 8.0, 9.0, 10.0 (multi-target)
 - **Tipo:** Class Library / NuGet Package
 - **Licença:** MIT
 - **Repositório:** https://github.com/rodabarbosa/CepBrasil
 - **Idioma:** Português Brasileiro (pt-BR)
+- **Versão Atual:** 1.4.0
 
 ---
 
@@ -607,7 +608,7 @@ Antes de criar PR, verificar:
 - [ ] `dotnet build` executa sem warnings
 - [ ] `dotnet test` passa 100%
 - [ ] `dotnet pack` cria pacote NuGet sem erros
-- [ ] Compatível com .NET 5, 6, 7 e 8
+- [ ] Compatível com .NET 8, 9 e 10
 
 ### Qualidade
 - [ ] Sem vulnerabilidades de segurança
@@ -742,4 +743,4 @@ Para questões ou dúvidas:
 
 **Última atualização:** 2026-02-17
 
-**Versão:** 1.3.1
+**Versão:** 1.4.0

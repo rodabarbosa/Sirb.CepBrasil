@@ -1,28 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <PackageId>Sirb.CepBrasil</PackageId>
-    <PackageVersion>1.3.1</PackageVersion>
+    <PackageVersion>1.4.0</PackageVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.3.1</Version>
+    <Version>1.4.0</Version>
     <Authors>Rodrigo Araujo Barbosa</Authors>
     <Product>Busca de CEP</Product>
-    <Description>O projeto tem como objetivo viabilizar uma interface para busca de logradouro por CEP.
-      Este serviço utiliza o serviço disponibilizado pelos Correios e alternativamente busca em ViaCep.
-      Para informações sobre o serviço dos Correios, visite https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/ ou https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/Manual_de_Implementacao_do_Web_Service_SIGEP_WEB.pdf
+    <Description>Biblioteca .NET para consulta de endereços brasileiros através do CEP (Código de Endereçamento Postal), utilizando o serviço público ViaCEP.
 
-      Para informações sobre ViaCEP, visite https://viacep.com.br/;
+      Para informações sobre ViaCEP, visite https://viacep.com.br/
     </Description>
     <PackageReleaseNotes>
-      - Ajuste da dependencia faltando.
-      - Inclusão de compatibilidade com .NET8.
-      - Removendo a compatibilidade com .NET Core 3.0 e 3.1.
+      Versão 1.4.0:
+      - Atualização para .NET 8, 9 e 10
+      - Remoção de suporte para .NET 5, 6 e 7
+      - Remoção do serviço dos Correios (utiliza apenas ViaCEP)
+      - Modernização da biblioteca
     </PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>1.3.1</AssemblyVersion>
-    <FileVersion>1.3.1</FileVersion>
-    <PackageTags>CEP endereço endereco logradouro zipcode brasil</PackageTags>
+    <AssemblyVersion>1.4.0</AssemblyVersion>
+    <FileVersion>1.4.0</FileVersion>
+    <PackageTags>CEP endereço endereco logradouro zipcode brasil viacep</PackageTags>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl></PackageProjectUrl>
