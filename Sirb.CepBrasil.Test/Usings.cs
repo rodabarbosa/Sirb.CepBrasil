@@ -1,4 +1,3 @@
-global using FluentAssertions;
 global using Sirb.CepBrasil.Exceptions;
 global using Sirb.CepBrasil.Extensions;
 global using Sirb.CepBrasil.Models;

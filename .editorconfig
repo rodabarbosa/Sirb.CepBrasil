@@ -41,7 +41,7 @@ indent_size = 2
 indent_style = space
 
 [*.cs]
-csharp_style_namespace_declarations = block_scoped:error
+csharp_style_namespace_declarations = file_scoped:error
 
 # Organize usings
 dotnet_sort_system_directives_first = false

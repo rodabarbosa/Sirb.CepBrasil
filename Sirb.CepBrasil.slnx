@@ -1,0 +1,37 @@
+<Solution>
+  <Folder Name="/Core/">
+    <Project Path="Sirb.CepBrasil/Sirb.CepBrasil.csproj" />
+  </Folder>
+  <Folder Name="/docs/">
+    <File Path="docs/CHECKLIST-IMPLEMENTACAO.md" />
+    <File Path="docs/CHECKLIST-RELEASE.md" />
+    <File Path="docs/DASHBOARD-STATUS.md" />
+    <File Path="docs/DIAGRAMAS-FALLBACK.md" />
+    <File Path="docs/DOCUMENTACAO-CRIADA.md" />
+    <File Path="docs/DOCUMENTACAO_CHECKLIST.md" />
+    <File Path="docs/DOCUMENTACAO_NOVO_FLUXO.md" />
+    <File Path="docs/FALLBACK_DIAGRAMS.md" />
+    <File Path="docs/FALLBACK_IMPLEMENTATION.md" />
+    <File Path="docs/FLUXO-FALLBACK.md" />
+    <File Path="docs/IMPLEMENTACAO-FALLBACK.md" />
+    <File Path="docs/INDEX.md" />
+    <File Path="docs/INDICE-DOCUMENTACAO-FINAL.md" />
+    <File Path="docs/INDICE-DOCUMENTACAO.md" />
+    <File Path="docs/MELHORIAS-CEPSERVICE.md" />
+    <File Path="docs/MELHORIAS-EXCEPTIONEXTENSION.md" />
+    <File Path="docs/PROXIMOS-PASSOS.md" />
+    <File Path="docs/QUICK_START.md" />
+    <File Path="docs/RESUMO-CORRECAO-CI-CD.md" />
+    <File Path="docs/RESUMO-TESTES-CEPEXTENSION.md" />
+    <File Path="docs/RESUMO_DOCUMENTACAO.md" />
+    <File Path="docs/SUMARIO-EXECUTIVO-FINAL.md" />
+    <File Path="docs/SUMARIO-EXECUTIVO.md" />
+    <File Path="docs/SUMARIO-FINAL-EXCEPTIONEXTENSION.md" />
+    <File Path="docs/TESTES-CEPE XTENSION.md" />
+    <File Path="docs/WORKFLOW-NUGET-PUBLISH.md" />
+  </Folder>
+  <Folder Name="/Test/">
+    <Project Path="Sirb.CepBrasil.Benchmark/Sirb.CepBrasil.Benchmark.csproj" />
+    <Project Path="Sirb.CepBrasil.Test/Sirb.CepBrasil.Test.csproj" />
+  </Folder>
+</Solution>

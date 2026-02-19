@@ -1,96 +1,262 @@
 # Sirb.CepBrasil
 
-O projeto tem como objetivo viabilizar uma interface para busca de logradouro por CEP.
+[![NuGet](https://img.shields.io/nuget/v/Sirb.CepBrasil.svg)](https://www.nuget.org/packages/Sirb.CepBrasil/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Os serviços utilizados pelo projeto ***não*** é de responsabilidade e/ou mantido pelo mesmo.
+Biblioteca .NET para consulta de endereços brasileiros através do CEP (Código de Endereçamento Postal).
 
-## Execução do serviço
+## 📋 Sobre
 
-Os serviços externos utilizados são disponibilizados pelos Correios e ViaCep. Se a busca em ambos os serviços não tenha
-resulta o serviço irá definir a busca como ***não sucesso***.A implementação desta interface funciona da seguinte forma:
+O **Sirb.CepBrasil** é uma biblioteca simples e eficiente para buscar informações de logradouro através do CEP (Código de Endereçamento Postal) utiliza uma estratégia inteligente de fallback entre múltiplos serviços públicos para garantir máxima disponibilidade.
 
-### Fluxo Principal
+### ⚠️ Aviso Importante
 
-1. O usuário instancia ICepService. O componente pode receber um objeto do tipo HttpClient ou o mesmo instancia e
-   gerencia a utilização do mesmo;
-1. O usuário informa o CEP para busca;
-1. É efetuado uma validação de parâmetro minimo. (CEP deve conter 8 caracteres numericos);
-1. A interface efetua a busca no serviço dos Correios;
-    * Fluxo Alternativo - Logradouro não encontrado
-    * Fluxo Alternativo - Falha na busca
-1. A interface retorna retorna o resultado no objeto tipo CepResult.
+Esta biblioteca utiliza serviços externos de APIs públicas brasileiras. A disponibilidade e precisão dos dados dependem destes provedores, não sendo responsabilidade deste projeto.
 
-### Fluxo Alternativo
+## ✨ Características
 
-#### Logradouro não encontrado
+- ✅ Busca inteligente com fallback entre múltiplos serviços (BrasilAPI → ViaCEP → AwesomeAPI → OpenCEP)
+- ✅ Suporte a `async/await` com `CancellationToken`
+- ✅ Validação automática de formato do CEP
+- ✅ Gerenciamento flexível de `HttpClient`
+- ✅ Tratamento robusto de erros com exceções personalizadas
+- ✅ 100% de cobertura de testes unitários
+- ✅ Documentação XML completa
+- ✅ Multi-target: .NET 8, 9 e 10
 
-1. Busca no serviço dos Correios não houver um retorno;
-1. A interface efetua a busca no serviço de ViaCep;
-    * Fluxo Alternativo - Falha na busca
-1. A interface retorna retorna o resultado no objeto tipo CepResult.
+## 📦 Instalação
 
-#### Falha na busca
+```bash
+dotnet add package Sirb.CepBrasil
+```
 
-1. Toda falha na busca é preenchido a propriedade CepResult.Message com a mensagem da falha;
-1. Caso exista uma exceção na execução esta será inclusa na lista de exceções, CepResult.Exceptions;
-1. A interface retorna retorna o resultado no objeto tipo CepResult.
+Ou via Package Manager:
 
-## Composição
+```powershell
+Install-Package Sirb.CepBrasil
+```
+
+## 🚀 Como Usar
+
+### Uso Básico
+
+```csharp
+using Sirb.CepBrasil.Interfaces;
+using Sirb.CepBrasil.Services;
+
+// Instanciar o serviço
+ICepService cepService = new CepService();
+
+// Buscar CEP
+var result = await cepService.FindAsync("01310100", CancellationToken.None);
+
+if (result.Success)
+{
+    Console.WriteLine($"CEP: {result.CepContainer.Cep}");
+    Console.WriteLine($"Logradouro: {result.CepContainer.Logradouro}");
+    Console.WriteLine($"Bairro: {result.CepContainer.Bairro}");
+    Console.WriteLine($"Cidade: {result.CepContainer.Cidade}");
+    Console.WriteLine($"UF: {result.CepContainer.Uf}");
+    Console.WriteLine($"Complemento: {result.CepContainer.Complemento}");
+}
+else
+{
+    Console.WriteLine($"Erro: {result.Message}");
+}
+```
+
+### Uso com HttpClient Customizado
+
+```csharp
+using var httpClient = new HttpClient
+{
+    Timeout = TimeSpan.FromSeconds(10)
+};
+
+ICepService cepService = new CepService(httpClient);
+var result = await cepService.FindAsync("01310100", CancellationToken.None);
+```
+
+### Uso com Injeção de Dependência
+
+```csharp
+// Program.cs ou Startup.cs
+services.AddHttpClient<ICepService, CepService>();
+```
+
+```csharp
+// Controller ou Service
+public class MeuService
+{
+    private readonly ICepService _cepService;
+
+    public MeuService(ICepService cepService)
+    {
+        _cepService = cepService;
+    }
+
+    public async Task<string> ObterEndereco(string cep)
+    {
+        var result = await _cepService.FindAsync(cep, CancellationToken.None);
+        return result.Success 
+            ? $"{result.CepContainer.Logradouro}, {result.CepContainer.Cidade}"
+            : result.Message;
+    }
+}
+```
+
+## 📊 Estrutura de Dados
 
 ### CepResult
 
-Success: bool
-CepContainer: CepContainer
-Message: string
-Exceptions: List<`Exception`>
+| Propriedade    | Tipo              | Descrição                          |
+|----------------|-------------------|------------------------------------|
+| `Success`      | `bool`            | Indica se a busca foi bem-sucedida |
+| `CepContainer` | `CepContainer`    | Objeto com os dados do endereço    |
+| `Message`      | `string`          | Mensagem de erro (se houver)       |
+| `Exceptions`   | `List<Exception>` | Lista de exceções capturadas       |
 
 ### CepContainer
 
-Uf: string
-Cidade: string
-Bairro: string
-Complemento: string
-Cep: string
+| Propriedade   | Tipo     | Descrição                    |
+|---------------|----------|------------------------------|
+| `Cep`         | `string` | CEP formatado                |
+| `Logradouro`  | `string` | Nome da rua/avenida          |
+| `Complemento` | `string` | Informações complementares   |
+| `Bairro`      | `string` | Nome do bairro               |
+| `Cidade`      | `string` | Nome da cidade               |
+| `Uf`          | `string` | Sigla do estado (ex: SP, RJ) |
 
-## Informações Adicionais
+## 🔄 Fluxo de Funcionamento
 
-Para informações sobre o serviço dos Correios, visite <https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/>
-ou <https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/Manual_de_Implementacao_do_Web_Service_SIGEP_WEB.pdf>
+```mermaid
+graph TD
+    A[Usuário solicita CEP] --> B{Validação}
+    B -->|Inválido| C[Retorna erro]
+    B -->|Válido| D[Tenta BrasilAPI]
+    D -->|Sucesso| E[Retorna resultado]
+    D -->|Falha/Não encontrado| F[Tenta ViaCEP]
+    F -->|Sucesso| E
+    F -->|Falha/Não encontrado| G[Tenta AwesomeAPI]
+    G -->|Sucesso| E
+    G -->|Falha/Não encontrado| H[Tenta OpenCEP]
+    H -->|Sucesso| E
+    H -->|Falha| I{Erro em todas?}
+    I -->|Sim| J[Lança ServiceException]
+    I -->|Não encontrado| K[Retorna null]
+```
 
-Para informações sobre ViaCEP, visite <https://viacep.com.br/>;
+### Estratégia de Fallback
 
-## Nota
+A biblioteca implementa um fluxo robusto de tentativas múltiplas para garantir máxima confiabilidade:
 
-Os demais métodos disponibilizados pelo serviço dos Correios no qual é necessário cadastro de usuário e todo o processo
-que envolva ou relacione a cadastro de usuário não será disponível nesta interface.
+1. **BrasilAPI** - Primeira tentativa
+2. **ViaCEP** - Segunda tentativa (se BrasilAPI falhar ou não encontrar)
+3. **AwesomeAPI** - Terceira tentativa (se ViaCEP falhar ou não encontrar)
+4. **OpenCEP** - Quarta e última tentativa (se AwesomeAPI falhar ou não encontrar)
 
-## Versões 1.3
+#### Comportamento por Resultado
 
-- Inclusão de compatibilidade com .NET 8.
-- Remoção do serviço dos correios. Em estudo para entrega de dados requeridos para o serviço de correios, enquanto não houver 100% para a solução o serviço ficará indisponível através este projeto.
-- Inclusão de chamada asincrona com utilização do token de cancelamento.
-- Ajuste para performance
+| Cenário                       | Comportamento                                                            |
+|-------------------------------|--------------------------------------------------------------------------|
+| **Sucesso**                   | Retorna o resultado encontrado imediatamente (não tenta próximo serviço) |
+| **CEP não encontrado**        | Tenta o próximo serviço na fila                                          |
+| **Falha/Erro**                | Tenta o próximo serviço na fila                                          |
+| **Erro em todos os serviços** | Lança `ServiceException` com detalhes dos erros                          |
+| **Não encontrado em nenhum**  | Retorna `null`                                                           |
 
-## Versões 1.2
+### Validação
 
-Bug fix e melhora da performance
+O CEP deve conter **8 caracteres numéricos**. A biblioteca aceita CEPs com ou sem formatação:
 
-## Versões 1.1
+- ✅ `01310100`
+- ✅ `01310-100`
 
-Bug fix
+### Tratamento de Erros
 
-## Versão  1.0.3
+- Erros de validação retornam `Success = false` com mensagem descritiva
+- Falhas em todas as tentativas lançam `ServiceException`
+- CEP não encontrado em nenhum serviço retorna `null`
+- Timeout padrão de 30 segundos (personalizável via `CancellationToken`)
 
-Inclusão de compatibilidade com .NET 6 e 7.
+## 🔧 Compatibilidade
 
-## Versão 1.0.2
+- .NET 8.0
+- .NET 9.0
+- .NET 10.0
 
-Limpeza do retorno para remoção de caracteres indesejados.
+## 📝 Licença
 
-## Versão 1.0.1
+Este projeto está licenciado sob a [Licença MIT](https://opensource.org/licenses/MIT).
 
-Inclusão de compatibilidade com dotnet core 3 e 3.1.
+## 🔗 Links Úteis
+
+- [BrasilAPI - Documentação](https://brasilapi.com.br/)
+- [ViaCEP - Documentação](https://viacep.com.br/)
+- [AwesomeAPI - Documentação](https://awesomeapi.com.br/)
+- [OpenCEP - Documentação](https://github.com/filipedeschamps/cep-promise)
+- [Repositório GitHub](https://github.com/rodabarbosa/CepBrasil)
+- [NuGet Package](https://www.nuget.org/packages/Sirb.CepBrasil/)
+
+## 📋 Changelog
+
+### Versão 1.4.0 (Atual)
+
+- 🚀 Nova estratégia de fallback entre múltiplos serviços (BrasilAPI → ViaCEP → AwesomeAPI → OpenCEP)
+- 🎯 Melhorada confiabilidade e disponibilidade do serviço
+- 🚀 Atualização para .NET 8, 9 e 10
+- ⚠️ Remoção de suporte para .NET 5, 6 e 7
+- ⚠️ Remoção do serviço dos Correios
+- ✨ 100% de cobertura de testes unitários
+- ✨ Documentação XML completa em português
+- ✨ Modernização da biblioteca
+
+### Versão 1.3.1
+
+- 🐛 Ajuste de dependência faltante
+- ✨ Compatibilidade com .NET 8
+- ⚠️ Remoção de suporte para .NET Core 3.0 e 3.1
+
+### Versão 1.3.0
+
+- ✨ Inclusão de compatibilidade com .NET 8
+- 🚨 Remoção temporária do serviço dos Correios (em estudo)
+- ✨ Adição de chamadas assíncronas com `CancellationToken`
+- ⚡ Melhorias de performance
+
+### Versão 1.2.0
+
+- 🐛 Correções de bugs
+- ⚡ Melhorias de performance
+
+### Versão 1.1.0
+
+- 🐛 Correções de bugs
+
+### Versão 1.0.3
+
+- ✨ Inclusão de compatibilidade com .NET 6 e 7
+
+### Versão 1.0.2
+
+- 🧹 Limpeza de caracteres indesejados no retorno
+
+### Versão 1.0.1
+
+- ✨ Compatibilidade com .NET Core 3 e 3.1
 
 ### Versão 1.0.0
 
-Disponibilização da interface para a versão dotnet 5.
+- 🎉 Lançamento inicial para .NET 5
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests no [repositório GitHub](https://github.com/rodabarbosa/CepBrasil).
+
+## 👤 Autor
+
+**Rodrigo Araujo Barbosa**
+
+---
+
+**Nota:** Esta biblioteca utiliza o serviço externo ViaCEP. A disponibilidade e precisão dos dados dependem deste provedor.

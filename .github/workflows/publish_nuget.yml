@@ -1,48 +1,118 @@
-name: publish to nuget
+name: Publish to NuGet
+
 on:
-  push:
-    tags:
-      - '*'
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 1.4.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+
 jobs:
-  publish:
-    name: Publish to nuget
-    runs-on: windows-latest
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      # Publish
-      - name: publish on version change
-        env:
-          DOTNET_CLI_TELEMETRY_OPTOUT: 1
-        id: publish_nuget
-        uses: tedd/publish-nuget-neo@v1
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          # Filepath of the project to be packaged, relative to root of repository
-          PROJECT_FILE_PATH: Sirb.CepBrasil/Sirb.CepBrasil.csproj
+          fetch-depth: 0
 
-          # NuGet package id, used for version detection & defaults to project name
-          # PACKAGE_NAME: Core
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
 
-          # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
-          # VERSION_FILE_PATH: Directory.Build.props
+      - name: Restore dependencies
+        run: dotnet restore
 
-          # Regex pattern to extract version info in a capturing group
-          # VERSION_REGEX: ^\s*<Version>(.*)<\/Version>\s*$
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
 
-          # Useful with external providers like Nerdbank.GitVersioning, ignores VERSION_FILE_PATH & VERSION_REGEX
-          # VERSION_STATIC: 1.0.0
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build --verbosity normal --logger "console;verbosity=detailed"
 
-          # Flag to toggle git tagging, enabled by default
-          # TAG_COMMIT: true
+      - name: Check test coverage
+        run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" --results-directory ./coverage
 
-          # Format of the git tag, [*] gets replaced with actual version
-          # TAG_FORMAT: v*
+  publish:
+    name: Publish to NuGet
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-          # API key to authenticate with NuGet server
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
-          # NuGet server uri hosting the packages, defaults to https://api.nuget.org
-          # NUGET_SOURCE: https://api.nuget.org
+      - name: Restore dependencies
+        run: dotnet restore
 
-          # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
-          # INCLUDE_SYMBOLS: false
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "release" ]; then
+            VERSION="${{ github.event.release.tag_name }}"
+            VERSION="${VERSION#v}"
+          else
+            VERSION="${{ github.event.inputs.version }}"
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Publishing version: $VERSION"
+
+      - name: Build Release
+        run: dotnet build Sirb.CepBrasil/Sirb.CepBrasil.csproj --configuration Release -p:Version=${{ steps.version.outputs.VERSION }}
+
+      - name: Pack NuGet package
+        run: |
+          dotnet pack Sirb.CepBrasil/Sirb.CepBrasil.csproj \
+            --configuration Release \
+            --no-build \
+            --output ./nupkg \
+            -p:PackageVersion=${{ steps.version.outputs.VERSION }} \
+            -p:IncludeSymbols=true \
+            -p:SymbolPackageFormat=snupkg
+
+      - name: List generated packages
+        run: ls -la ./nupkg
+
+      - name: Publish to NuGet
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+      - name: Publish symbols to NuGet
+        run: |
+          dotnet nuget push ./nupkg/*.snupkg \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+        continue-on-error: true
+
+      - name: Upload NuGet package as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-package
+          path: ./nupkg/*.nupkg
+          retention-days: 30
