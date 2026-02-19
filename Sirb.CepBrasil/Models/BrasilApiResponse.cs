@@ -1,5 +1,6 @@
-using Sirb.CepBrasil.Models;
 using System.Text.Json.Serialization;
+
+namespace Sirb.CepBrasil.Models;
 
 /// <summary>
 /// Representa a resposta da API BrasilAPI para consulta de CEP.

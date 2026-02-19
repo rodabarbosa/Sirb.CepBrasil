@@ -1,0 +1,564 @@
+SF:C:\Projetos\outros\Sirb.CepBrasil\Sirb.CepBrasil\Validations\CepValidation.cs
+FN:44,System.Void Sirb.CepBrasil.Validations.CepValidation::Validate(System.String)
+FNDA:0,System.Void Sirb.CepBrasil.Validations.CepValidation::Validate(System.String)
+DA:45,0
+DA:46,0
+DA:47,0
+DA:48,0
+DA:49,0
+DA:51,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+BRDA:46,9,0,0
+BRDA:46,9,1,0
+LF:10
+LH:0
+BRF:2
+BRH:0
+FNF:1
+FNH:0
+end_of_record
+SF:C:\Projetos\outros\Sirb.CepBrasil\Sirb.CepBrasil\Services\CepService.cs
+FN:70,System.Void Sirb.CepBrasil.Services.CepService::Dispose()
+FNDA:0,System.Void Sirb.CepBrasil.Services.CepService::Dispose()
+DA:71,0
+DA:72,0
+DA:73,0
+DA:75,0
+DA:76,0
+BRDA:72,9,0,0
+BRDA:73,18,0,0
+BRDA:73,18,1,0
+BRDA:72,9,1,0
+FN:78,System.Threading.CancellationToken Sirb.CepBrasil.Services.CepService::GetDefaultCancellationToken()
+FNDA:0,System.Threading.CancellationToken Sirb.CepBrasil.Services.CepService::GetDefaultCancellationToken()
+DA:79,0
+DA:80,0
+DA:81,0
+DA:82,0
+FN:84,System.Void Sirb.CepBrasil.Services.CepService::StartServices()
+FNDA:0,System.Void Sirb.CepBrasil.Services.CepService::StartServices()
+DA:85,0
+DA:87,0
+DA:90,0
+FN:20,System.Void Sirb.CepBrasil.Services.CepService::.ctor(System.Net.Http.HttpClient,System.Boolean)
+FNDA:0,System.Void Sirb.CepBrasil.Services.CepService::.ctor(System.Net.Http.HttpClient,System.Boolean)
+DA:21,0
+DA:23,0
+DA:24,0
+DA:25,0
+DA:26,0
+DA:28,0
+DA:29,0
+FN:32,System.Void Sirb.CepBrasil.Services.CepService::.ctor()
+FNDA:0,System.Void Sirb.CepBrasil.Services.CepService::.ctor()
+DA:33,0
+DA:34,0
+DA:35,0
+FN:38,System.Void Sirb.CepBrasil.Services.CepService::.ctor(System.Net.Http.HttpClient)
+FNDA:0,System.Void Sirb.CepBrasil.Services.CepService::.ctor(System.Net.Http.HttpClient)
+DA:39,0
+DA:40,0
+DA:41,0
+FN:44,System.Void Sirb.CepBrasil.Services.CepService/<FindAsync>d__6::MoveNext()
+FNDA:0,System.Void Sirb.CepBrasil.Services.CepService/<FindAsync>d__6::MoveNext()
+DA:45,0
+DA:46,0
+DA:47,0
+DA:49,0
+DA:50,0
+DA:51,0
+DA:53,0
+DA:54,0
+DA:56,0
+DA:58,0
+DA:60,0
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:66,0
+DA:67,0
+BRDA:46,33,0,0
+BRDA:46,33,1,0
+BRDA:50,384,1,0
+BRDA:62,339,0,0
+BRDA:62,339,1,0
+BRDA:50,384,0,0
+LF:42
+LH:0
+BRF:10
+BRH:0
+FNF:7
+FNH:0
+end_of_record
+SF:C:\Projetos\outros\Sirb.CepBrasil\Sirb.CepBrasil\Services\ViaCepService.cs
+FN:76,System.Threading.CancellationToken Sirb.CepBrasil.Services.ViaCepService::GetDefaultCancellationToken()
+FNDA:0,System.Threading.CancellationToken Sirb.CepBrasil.Services.ViaCepService::GetDefaultCancellationToken()
+DA:77,0
+DA:78,0
+DA:79,0
+DA:80,0
+FN:103,System.Net.Http.HttpRequestMessage Sirb.CepBrasil.Services.ViaCepService::CreateRequestMessage(System.String)
+FNDA:0,System.Net.Http.HttpRequestMessage Sirb.CepBrasil.Services.ViaCepService::CreateRequestMessage(System.String)
+DA:104,0
+DA:105,0
+DA:106,0
+DA:108,0
+DA:109,0
+FN:119,System.String Sirb.CepBrasil.Services.ViaCepService::BuildRequestUrl(System.String)
+FNDA:0,System.String Sirb.CepBrasil.Services.ViaCepService::BuildRequestUrl(System.String)
+DA:120,0
+DA:121,0
+DA:122,0
+FN:162,Sirb.CepBrasil.Models.CepContainer Sirb.CepBrasil.Services.ViaCepService::ConvertCepResult(System.String)
+FNDA:0,Sirb.CepBrasil.Models.CepContainer Sirb.CepBrasil.Services.ViaCepService::ConvertCepResult(System.String)
+DA:163,0
+DA:164,0
+DA:165,0
+FN:26,System.Void Sirb.CepBrasil.Services.ViaCepService::.ctor(System.Net.Http.HttpClient)
+FNDA:0,System.Void Sirb.CepBrasil.Services.ViaCepService::.ctor(System.Net.Http.HttpClient)
+DA:27,0
+DA:32,0
+BRDA:32,3,0,0
+BRDA:32,3,1,0
+FN:131,System.Void Sirb.CepBrasil.Services.ViaCepService/<ExecuteRequestAsync>d__9::MoveNext()
+FNDA:0,System.Void Sirb.CepBrasil.Services.ViaCepService/<ExecuteRequestAsync>d__9::MoveNext()
+DA:132,0
+DA:133,0
+DA:135,0
+DA:137,0
+DA:138,0
+FN:60,System.Void Sirb.CepBrasil.Services.ViaCepService/<FindAsync>d__4::MoveNext()
+FNDA:0,System.Void Sirb.CepBrasil.Services.ViaCepService/<FindAsync>d__4::MoveNext()
+DA:61,0
+DA:62,0
+DA:64,0
+DA:65,0
+DA:67,0
+DA:69,0
+DA:70,0
+BRDA:64,45,0,0
+BRDA:64,45,1,0
+FN:89,System.Void Sirb.CepBrasil.Services.ViaCepService/<GetFromServiceAsync>d__6::MoveNext()
+FNDA:0,System.Void Sirb.CepBrasil.Services.ViaCepService/<GetFromServiceAsync>d__6::MoveNext()
+DA:90,0
+DA:91,0
+DA:93,0
+DA:95,0
+DA:96,0
+FN:147,System.Void Sirb.CepBrasil.Services.ViaCepService/<GetResponseStringAsync>d__10::MoveNext()
+FNDA:0,System.Void Sirb.CepBrasil.Services.ViaCepService/<GetResponseStringAsync>d__10::MoveNext()
+DA:148,0
+DA:149,0
+DA:151,0
+DA:153,0
+DA:154,0
+LF:39
+LH:0
+BRF:4
+BRH:0
+FNF:9
+FNH:0
+end_of_record
+SF:C:\Projetos\outros\Sirb.CepBrasil\Sirb.CepBrasil\Models\AwesomeApiResponse.cs
+FN:20,System.String Sirb.CepBrasil.Models.AwesomeApiResponse::get_Cep()
+FNDA:0,System.String Sirb.CepBrasil.Models.AwesomeApiResponse::get_Cep()
+DA:21,0
+FN:27,System.String Sirb.CepBrasil.Models.AwesomeApiResponse::get_Uf()
+FNDA:0,System.String Sirb.CepBrasil.Models.AwesomeApiResponse::get_Uf()
+DA:28,0
+FN:34,System.String Sirb.CepBrasil.Models.AwesomeApiResponse::get_Cidade()
+FNDA:0,System.String Sirb.CepBrasil.Models.AwesomeApiResponse::get_Cidade()
+DA:35,0
+FN:41,System.String Sirb.CepBrasil.Models.AwesomeApiResponse::get_Bairro()
+FNDA:0,System.String Sirb.CepBrasil.Models.AwesomeApiResponse::get_Bairro()
+DA:42,0
+FN:48,System.String Sirb.CepBrasil.Models.AwesomeApiResponse::get_Logradouro()
+FNDA:0,System.String Sirb.CepBrasil.Models.AwesomeApiResponse::get_Logradouro()
+DA:49,0
+FN:58,System.String Sirb.CepBrasil.Models.AwesomeApiResponse::get_Service()
+FNDA:0,System.String Sirb.CepBrasil.Models.AwesomeApiResponse::get_Service()
+DA:59,0
+LF:6
+LH:0
+BRF:0
+BRH:0
+FNF:6
+FNH:0
+end_of_record
+SF:C:\Projetos\outros\Sirb.CepBrasil\Sirb.CepBrasil\Models\BrasilApiResponse.cs
+FN:20,System.String Sirb.CepBrasil.Models.BrasilApiResponse::get_Cep()
+FNDA:43,System.String Sirb.CepBrasil.Models.BrasilApiResponse::get_Cep()
+DA:21,43
+FN:27,System.String Sirb.CepBrasil.Models.BrasilApiResponse::get_Uf()
+FNDA:42,System.String Sirb.CepBrasil.Models.BrasilApiResponse::get_Uf()
+DA:28,42
+FN:34,System.String Sirb.CepBrasil.Models.BrasilApiResponse::get_Cidade()
+FNDA:39,System.String Sirb.CepBrasil.Models.BrasilApiResponse::get_Cidade()
+DA:35,39
+FN:41,System.String Sirb.CepBrasil.Models.BrasilApiResponse::get_Bairro()
+FNDA:38,System.String Sirb.CepBrasil.Models.BrasilApiResponse::get_Bairro()
+DA:42,38
+FN:48,System.String Sirb.CepBrasil.Models.BrasilApiResponse::get_Logradouro()
+FNDA:38,System.String Sirb.CepBrasil.Models.BrasilApiResponse::get_Logradouro()
+DA:49,38
+FN:59,System.String Sirb.CepBrasil.Models.BrasilApiResponse::get_Service()
+FNDA:36,System.String Sirb.CepBrasil.Models.BrasilApiResponse::get_Service()
+DA:60,36
+LF:6
+LH:6
+BRF:0
+BRH:0
+FNF:6
+FNH:6
+end_of_record
+SF:C:\Projetos\outros\Sirb.CepBrasil\Sirb.CepBrasil\Models\CepContainer.cs
+FN:46,System.String Sirb.CepBrasil.Models.CepContainer::get_Uf()
+FNDA:0,System.String Sirb.CepBrasil.Models.CepContainer::get_Uf()
+DA:47,0
+FN:58,System.String Sirb.CepBrasil.Models.CepContainer::get_Cidade()
+FNDA:0,System.String Sirb.CepBrasil.Models.CepContainer::get_Cidade()
+DA:59,0
+FN:73,System.String Sirb.CepBrasil.Models.CepContainer::get_Bairro()
+FNDA:0,System.String Sirb.CepBrasil.Models.CepContainer::get_Bairro()
+DA:74,0
+FN:86,System.String Sirb.CepBrasil.Models.CepContainer::get_Complemento()
+FNDA:0,System.String Sirb.CepBrasil.Models.CepContainer::get_Complemento()
+DA:87,0
+FN:101,System.String Sirb.CepBrasil.Models.CepContainer::get_Logradouro()
+FNDA:0,System.String Sirb.CepBrasil.Models.CepContainer::get_Logradouro()
+DA:102,0
+FN:113,System.String Sirb.CepBrasil.Models.CepContainer::get_Cep()
+FNDA:0,System.String Sirb.CepBrasil.Models.CepContainer::get_Cep()
+DA:114,0
+FN:129,System.String Sirb.CepBrasil.Models.CepContainer::get_Ibge()
+FNDA:0,System.String Sirb.CepBrasil.Models.CepContainer::get_Ibge()
+DA:130,0
+FN:34,System.Void Sirb.CepBrasil.Models.CepContainer::.ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String)
+FNDA:0,System.Void Sirb.CepBrasil.Models.CepContainer::.ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String)
+DA:35,0
+LF:8
+LH:0
+BRF:0
+BRH:0
+FNF:8
+FNH:0
+end_of_record
+SF:C:\Projetos\outros\Sirb.CepBrasil\Sirb.CepBrasil\Models\CepResult.cs
+FN:60,System.Boolean Sirb.CepBrasil.Models.CepResult::get_Success()
+FNDA:0,System.Boolean Sirb.CepBrasil.Models.CepResult::get_Success()
+DA:61,0
+FN:65,Sirb.CepBrasil.Models.CepContainer Sirb.CepBrasil.Models.CepResult::get_CepContainer()
+FNDA:0,Sirb.CepBrasil.Models.CepContainer Sirb.CepBrasil.Models.CepResult::get_CepContainer()
+DA:66,0
+FN:70,System.String Sirb.CepBrasil.Models.CepResult::get_Message()
+FNDA:0,System.String Sirb.CepBrasil.Models.CepResult::get_Message()
+DA:71,0
+FN:75,System.Collections.Generic.List`1<System.Exception> Sirb.CepBrasil.Models.CepResult::get_Exceptions()
+FNDA:0,System.Collections.Generic.List`1<System.Exception> Sirb.CepBrasil.Models.CepResult::get_Exceptions()
+DA:76,0
+FN:14,System.Void Sirb.CepBrasil.Models.CepResult::.ctor(System.Boolean,Sirb.CepBrasil.Models.CepContainer,System.String)
+FNDA:0,System.Void Sirb.CepBrasil.Models.CepResult::.ctor(System.Boolean,Sirb.CepBrasil.Models.CepContainer,System.String)
+DA:15,0
+FN:20,System.Void Sirb.CepBrasil.Models.CepResult::.ctor()
+FNDA:0,System.Void Sirb.CepBrasil.Models.CepResult::.ctor()
+DA:21,0
+DA:22,0
+DA:23,0
+FN:29,System.Void Sirb.CepBrasil.Models.CepResult::.ctor(Sirb.CepBrasil.Models.CepContainer)
+FNDA:0,System.Void Sirb.CepBrasil.Models.CepResult::.ctor(Sirb.CepBrasil.Models.CepContainer)
+DA:30,0
+DA:31,0
+DA:32,0
+FN:39,System.Void Sirb.CepBrasil.Models.CepResult::.ctor(System.String,System.Exception)
+FNDA:0,System.Void Sirb.CepBrasil.Models.CepResult::.ctor(System.String,System.Exception)
+DA:40,0
+DA:41,0
+DA:42,0
+FN:51,System.Void Sirb.CepBrasil.Models.CepResult::.ctor(System.Boolean,Sirb.CepBrasil.Models.CepContainer,System.String,System.Exception)
+FNDA:0,System.Void Sirb.CepBrasil.Models.CepResult::.ctor(System.Boolean,Sirb.CepBrasil.Models.CepContainer,System.String,System.Exception)
+DA:52,0
+DA:53,0
+DA:54,0
+DA:55,0
+DA:56,0
+BRDA:54,18,0,0
+BRDA:54,18,1,0
+LF:19
+LH:0
+BRF:2
+BRH:0
+FNF:9
+FNH:0
+end_of_record
+SF:C:\Projetos\outros\Sirb.CepBrasil\Sirb.CepBrasil\Extensions\CepExtension.cs
+FN:33,System.String Sirb.CepBrasil.Extensions.CepExtension::RemoveMask(System.String)
+FNDA:0,System.String Sirb.CepBrasil.Extensions.CepExtension::RemoveMask(System.String)
+DA:34,0
+DA:35,0
+DA:36,0
+DA:38,0
+DA:39,0
+BRDA:35,9,0,0
+BRDA:35,9,1,0
+FN:58,System.String Sirb.CepBrasil.Extensions.CepExtension::CepMask(System.String)
+FNDA:0,System.String Sirb.CepBrasil.Extensions.CepExtension::CepMask(System.String)
+DA:59,0
+DA:60,0
+DA:61,0
+DA:63,0
+DA:65,0
+DA:66,0
+DA:68,0
+DA:69,0
+BRDA:60,9,0,0
+BRDA:60,9,1,0
+BRDA:65,36,0,0
+BRDA:65,36,1,0
+FN:88,System.Boolean Sirb.CepBrasil.Extensions.CepExtension::IsValidCep(System.String)
+FNDA:0,System.Boolean Sirb.CepBrasil.Extensions.CepExtension::IsValidCep(System.String)
+DA:89,0
+DA:90,0
+DA:91,0
+DA:93,0
+DA:96,0
+DA:97,0
+DA:99,0
+DA:100,0
+BRDA:90,9,0,0
+BRDA:90,9,1,0
+BRDA:96,29,0,0
+BRDA:96,29,1,0
+BRDA:96,49,0,0
+BRDA:96,49,1,0
+FN:115,System.String Sirb.CepBrasil.Extensions.CepExtension::GetDigitsOnly(System.String)
+FNDA:0,System.String Sirb.CepBrasil.Extensions.CepExtension::GetDigitsOnly(System.String)
+DA:116,0
+DA:117,0
+DA:118,0
+FN:140,System.String Sirb.CepBrasil.Extensions.CepExtension::Format(System.String)
+FNDA:0,System.String Sirb.CepBrasil.Extensions.CepExtension::Format(System.String)
+DA:141,0
+DA:142,0
+DA:143,0
+DA:145,0
+DA:146,0
+DA:147,0
+BRDA:142,12,0,0
+BRDA:142,12,1,0
+FN:165,System.String Sirb.CepBrasil.Extensions.CepExtension::Normalize(System.String)
+FNDA:0,System.String Sirb.CepBrasil.Extensions.CepExtension::Normalize(System.String)
+DA:166,0
+DA:167,0
+DA:168,0
+DA:170,0
+DA:171,0
+BRDA:167,12,0,0
+BRDA:167,12,1,0
+FN:12,System.Void Sirb.CepBrasil.Extensions.CepExtension::.cctor()
+FNDA:0,System.Void Sirb.CepBrasil.Extensions.CepExtension::.cctor()
+DA:13,0
+DA:14,0
+DA:15,0
+LF:38
+LH:0
+BRF:16
+BRH:0
+FNF:7
+FNH:0
+end_of_record
+SF:C:\Projetos\outros\Sirb.CepBrasil\Sirb.CepBrasil\Extensions\ExceptionExtension.cs
+FN:32,System.String Sirb.CepBrasil.Extensions.ExceptionExtension::AllMessages(System.Exception)
+FNDA:0,System.String Sirb.CepBrasil.Extensions.ExceptionExtension::AllMessages(System.Exception)
+DA:33,0
+DA:34,0
+DA:36,0
+DA:37,0
+DA:38,0
+DA:39,0
+DA:41,0
+DA:42,0
+DA:43,0
+DA:44,0
+BRDA:41,103,0,0
+BRDA:41,103,1,0
+FN:83,System.String Sirb.CepBrasil.Extensions.ExceptionExtension::GetDetailedMessage(System.Exception,System.Boolean)
+FNDA:0,System.String Sirb.CepBrasil.Extensions.ExceptionExtension::GetDetailedMessage(System.Exception,System.Boolean)
+DA:84,0
+DA:85,0
+DA:87,0
+DA:88,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:95,0
+DA:96,0
+DA:98,0
+DA:101,0
+DA:102,0
+DA:103,0
+DA:105,0
+DA:106,0
+BRDA:90,248,1,0
+BRDA:95,55,0,0
+BRDA:95,55,1,0
+BRDA:101,148,0,0
+BRDA:101,148,1,0
+BRDA:101,171,0,0
+BRDA:101,171,1,0
+BRDA:90,248,0,0
+FN:60,System.Boolean Sirb.CepBrasil.Extensions.ExceptionExtension/<GetExceptionChain>d__1::MoveNext()
+FNDA:0,System.Boolean Sirb.CepBrasil.Extensions.ExceptionExtension/<GetExceptionChain>d__1::MoveNext()
+DA:61,0
+DA:62,0
+DA:63,0
+DA:64,0
+DA:65,0
+DA:67,0
+DA:68,0
+DA:69,0
+BRDA:63,104,1,0
+BRDA:63,104,0,0
+LF:33
+LH:0
+BRF:12
+BRH:0
+FNF:3
+FNH:0
+end_of_record
+SF:C:\Projetos\outros\Sirb.CepBrasil\Sirb.CepBrasil\Extensions\JsonExtension.cs
+FN:42,System.String Sirb.CepBrasil.Extensions.JsonExtension::ToJson(System.Object)
+FNDA:0,System.String Sirb.CepBrasil.Extensions.JsonExtension::ToJson(System.Object)
+DA:43,0
+DA:44,0
+DA:47,0
+DA:48,0
+DA:50,0
+DA:51,0
+DA:52,0
+DA:53,0
+DA:54,0
+DA:56,0
+FN:76,T Sirb.CepBrasil.Extensions.JsonExtension::FromJson(System.String)
+FNDA:0,T Sirb.CepBrasil.Extensions.JsonExtension::FromJson(System.String)
+DA:77,0
+DA:78,0
+DA:80,0
+DA:81,0
+DA:82,0
+DA:83,0
+DA:86,0
+DA:87,0
+DA:89,0
+DA:90,0
+DA:91,0
+DA:92,0
+DA:93,0
+DA:95,0
+BRDA:80,21,0,0
+BRDA:80,21,1,0
+FN:16,System.Void Sirb.CepBrasil.Extensions.JsonExtension::.cctor()
+FNDA:0,System.Void Sirb.CepBrasil.Extensions.JsonExtension::.cctor()
+DA:17,0
+DA:18,0
+DA:19,0
+DA:20,0
+DA:21,0
+DA:22,0
+DA:23,0
+LF:31
+LH:0
+BRF:2
+BRH:0
+FNF:3
+FNH:0
+end_of_record
+SF:C:\Projetos\outros\Sirb.CepBrasil\Sirb.CepBrasil\Exceptions\NotFoundException.cs
+FN:30,System.String Sirb.CepBrasil.Exceptions.NotFoundException::DefineMessage(System.String,System.String)
+FNDA:0,System.String Sirb.CepBrasil.Exceptions.NotFoundException::DefineMessage(System.String,System.String)
+DA:31,0
+DA:32,0
+DA:33,0
+BRDA:32,2,0,0
+BRDA:32,2,1,0
+BRDA:32,18,0,0
+BRDA:32,18,1,0
+FN:42,System.Void Sirb.CepBrasil.Exceptions.NotFoundException::ThrowIf(System.Boolean,System.String,System.Exception)
+FNDA:0,System.Void Sirb.CepBrasil.Exceptions.NotFoundException::ThrowIf(System.Boolean,System.String,System.Exception)
+DA:43,0
+DA:44,0
+DA:45,0
+DA:46,0
+BRDA:44,4,0,0
+BRDA:44,4,1,0
+FN:9,System.Void Sirb.CepBrasil.Exceptions.NotFoundException::.ctor(System.String,System.Exception)
+FNDA:0,System.Void Sirb.CepBrasil.Exceptions.NotFoundException::.ctor(System.String,System.Exception)
+DA:10,0
+FN:15,System.Void Sirb.CepBrasil.Exceptions.NotFoundException::.ctor()
+FNDA:0,System.Void Sirb.CepBrasil.Exceptions.NotFoundException::.ctor()
+DA:16,0
+DA:17,0
+DA:18,0
+FN:20,System.Void Sirb.CepBrasil.Exceptions.NotFoundException::.ctor(System.String)
+FNDA:0,System.Void Sirb.CepBrasil.Exceptions.NotFoundException::.ctor(System.String)
+DA:21,0
+DA:22,0
+DA:23,0
+FN:25,System.Void Sirb.CepBrasil.Exceptions.NotFoundException::.ctor(System.Exception)
+FNDA:0,System.Void Sirb.CepBrasil.Exceptions.NotFoundException::.ctor(System.Exception)
+DA:26,0
+DA:27,0
+DA:28,0
+LF:17
+LH:0
+BRF:6
+BRH:0
+FNF:6
+FNH:0
+end_of_record
+SF:C:\Projetos\outros\Sirb.CepBrasil\Sirb.CepBrasil\Exceptions\ServiceException.cs
+FN:30,System.String Sirb.CepBrasil.Exceptions.ServiceException::DefineMessage(System.String,System.String)
+FNDA:0,System.String Sirb.CepBrasil.Exceptions.ServiceException::DefineMessage(System.String,System.String)
+DA:31,0
+DA:32,0
+DA:33,0
+BRDA:32,2,0,0
+BRDA:32,2,1,0
+BRDA:32,18,0,0
+BRDA:32,18,1,0
+FN:41,System.Void Sirb.CepBrasil.Exceptions.ServiceException::ThrowIf(System.Boolean,System.String,System.Exception)
+FNDA:0,System.Void Sirb.CepBrasil.Exceptions.ServiceException::ThrowIf(System.Boolean,System.String,System.Exception)
+DA:42,0
+DA:43,0
+DA:44,0
+DA:45,0
+BRDA:43,4,0,0
+BRDA:43,4,1,0
+FN:9,System.Void Sirb.CepBrasil.Exceptions.ServiceException::.ctor(System.String,System.Exception)
+FNDA:0,System.Void Sirb.CepBrasil.Exceptions.ServiceException::.ctor(System.String,System.Exception)
+DA:10,0
+FN:15,System.Void Sirb.CepBrasil.Exceptions.ServiceException::.ctor()
+FNDA:0,System.Void Sirb.CepBrasil.Exceptions.ServiceException::.ctor()
+DA:16,0
+DA:17,0
+DA:18,0
+FN:20,System.Void Sirb.CepBrasil.Exceptions.ServiceException::.ctor(System.Exception)
+FNDA:0,System.Void Sirb.CepBrasil.Exceptions.ServiceException::.ctor(System.Exception)
+DA:21,0
+DA:22,0
+DA:23,0
+FN:25,System.Void Sirb.CepBrasil.Exceptions.ServiceException::.ctor(System.String)
+FNDA:0,System.Void Sirb.CepBrasil.Exceptions.ServiceException::.ctor(System.String)
+DA:26,0
+DA:27,0
+DA:28,0
+LF:17
+LH:0
+BRF:6
+BRH:0
+FNF:6
+FNH:0
+end_of_record

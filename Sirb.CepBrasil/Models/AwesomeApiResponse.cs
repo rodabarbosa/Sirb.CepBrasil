@@ -1,5 +1,6 @@
-using Sirb.CepBrasil.Models;
 using System.Text.Json.Serialization;
+
+namespace Sirb.CepBrasil.Models;
 
 /// <summary>
 /// Representa a resposta da API AwesomeAPI para consulta de CEP.
