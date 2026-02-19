@@ -12,7 +12,7 @@ public sealed class CepResult
     /// Construtor
     /// </summary>
     public CepResult()
-        : this(default, default, default)
+        : this(false, null, null)
     {
     }
 
@@ -21,7 +21,7 @@ public sealed class CepResult
     /// </summary>
     /// <param name="cepContainer"></param>
     public CepResult(CepContainer cepContainer)
-        : this(true, cepContainer, default)
+        : this(true, cepContainer, null)
     {
     }
 
@@ -30,8 +30,8 @@ public sealed class CepResult
     /// </summary>
     /// <param name="message"></param>
     /// <param name="exception"></param>
-    public CepResult(string message, Exception exception = default)
-        : this(false, default, message, exception)
+    public CepResult(string message, Exception exception = null)
+        : this(false, null, message, exception)
     {
     }
 

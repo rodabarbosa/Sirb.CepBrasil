@@ -6,7 +6,8 @@ namespace Sirb.CepBrasil.Exceptions;
 /// Service Exception
 /// </summary>
 [Serializable]
-public sealed class ServiceException(string message, Exception exception) : Exception(DefineMessage(message, DefaultMessage), exception)
+public sealed class ServiceException(string message, Exception exception)
+    : Exception(DefineMessage(message, DefaultMessage), exception)
 {
     [NonSerialized]
     private const string DefaultMessage = "Ocorreu um erro ao tentar acessar o serviço.";

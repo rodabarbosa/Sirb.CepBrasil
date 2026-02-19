@@ -23,7 +23,7 @@ public sealed class ViaCepServiceTest : IDisposable
     [InlineData("81670-010")]
     [InlineData("01310-100")]
     [InlineData("20040020")]
-    public async Task FindAsync_QuandoCepValido_DeveRetornarCepContainer(string cep)
+    async public Task FindAsync_QuandoCepValido_DeveRetornarCepContainer(string cep)
     {
         // Arrange
         var service = new ViaCepService(_httpClient);
@@ -37,32 +37,12 @@ public sealed class ViaCepServiceTest : IDisposable
     }
 
     /// <summary>
-    /// Testa se Find (método obsoleto) retorna sucesso quando CEP é válido
-    /// </summary>
-    [Fact(DisplayName = "Deve retornar CepContainer quando usar método obsoleto Find com CEP válido")]
-    public async Task Find_QuandoCepValido_DeveRetornarCepContainer()
-    {
-        // Arrange
-        var service = new ViaCepService(_httpClient);
-        const string cep = "83040-040";
-
-        // Act
-#pragma warning disable CS0618 // Tipo ou membro obsoleto
-        var result = await service.Find(cep);
-#pragma warning restore CS0618 // Tipo ou membro obsoleto
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.False(string.IsNullOrEmpty(result.Cep));
-    }
-
-    /// <summary>
     /// Testa se FindAsync lança ArgumentNullException quando CEP é nulo ou vazio
     /// </summary>
     [Theory(DisplayName = "Deve lançar ArgumentNullException quando CEP é nulo ou vazio")]
     [InlineData("")]
     [InlineData(null)]
-    public async Task FindAsync_QuandoCepNuloOuVazio_DeveLancarArgumentNullException(string cepInvalido)
+    async public Task FindAsync_QuandoCepNuloOuVazio_DeveLancarArgumentNullException(string cepInvalido)
     {
         // Arrange
         var service = new ViaCepService(_httpClient);
@@ -78,7 +58,7 @@ public sealed class ViaCepServiceTest : IDisposable
     [InlineData("123")]
     [InlineData("abcdefgh")]
     [InlineData("123456789")]
-    public async Task FindAsync_QuandoCepTamanhoInvalido_DeveLancarServiceException(string cepInvalido)
+    async public Task FindAsync_QuandoCepTamanhoInvalido_DeveLancarServiceException(string cepInvalido)
     {
         // Arrange
         var service = new ViaCepService(_httpClient);
@@ -93,7 +73,7 @@ public sealed class ViaCepServiceTest : IDisposable
     [Theory(DisplayName = "Deve retornar CepContainer com propriedades nulas quando CEP não é encontrado no ViaCEP")]
     [InlineData("00000-000")]
     [InlineData("99999-999")]
-    public async Task FindAsync_QuandoCepNaoEncontrado_DeveRetornarCepContainerComPropriedadesNulas(string cepNaoEncontrado)
+    async public Task FindAsync_QuandoCepNaoEncontrado_DeveRetornarCepContainerComPropriedadesNulas(string cepNaoEncontrado)
     {
         // Arrange
         var service = new ViaCepService(_httpClient);
@@ -121,7 +101,7 @@ public sealed class ViaCepServiceTest : IDisposable
     /// Testa se FindAsync respeita CancellationToken fornecido
     /// </summary>
     [Fact(DisplayName = "Deve respeitar CancellationToken quando fornecido")]
-    public async Task FindAsync_QuandoCancellationTokenCancelado_DeveLancarTaskCanceledException()
+    async public Task FindAsync_QuandoCancellationTokenCancelado_DeveLancarTaskCanceledException()
     {
         // Arrange
         var service = new ViaCepService(_httpClient);
@@ -136,7 +116,7 @@ public sealed class ViaCepServiceTest : IDisposable
     /// Testa se FindAsync usa timeout padrão quando CancellationToken não é fornecido
     /// </summary>
     [Fact(DisplayName = "Deve usar timeout padrão de 30 segundos quando CancellationToken não é fornecido")]
-    public async Task FindAsync_QuandoCancellationTokenDefault_DeveUsarTimeoutPadrao()
+    async public Task FindAsync_QuandoCancellationTokenDefault_DeveUsarTimeoutPadrao()
     {
         // Arrange
         var service = new ViaCepService(_httpClient);
@@ -155,7 +135,7 @@ public sealed class ViaCepServiceTest : IDisposable
     [Theory(DisplayName = "Deve aceitar CEP com ou sem formatação")]
     [InlineData("83040040", "83040-040")]
     [InlineData("83040-040", "83040-040")]
-    public async Task FindAsync_QuandoCepComOuSemFormatacao_DeveRetornarMesmoCep(string cepEntrada, string cepEsperado)
+    async public Task FindAsync_QuandoCepComOuSemFormatacao_DeveRetornarMesmoCep(string cepEntrada, string cepEsperado)
     {
         // Arrange
         var service = new ViaCepService(_httpClient);

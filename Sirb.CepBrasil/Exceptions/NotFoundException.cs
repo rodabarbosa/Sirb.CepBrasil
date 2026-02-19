@@ -6,7 +6,8 @@ namespace Sirb.CepBrasil.Exceptions;
 /// Not found exception
 /// </summary>
 [Serializable]
-public sealed class NotFoundException(string message, Exception exception) : Exception(DefineMessage(message, DefaultMessage), exception)
+public sealed class NotFoundException(string message, Exception exception)
+    : Exception(DefineMessage(message, DefaultMessage), exception)
 {
     [NonSerialized]
     private const string DefaultMessage = "Not found";
