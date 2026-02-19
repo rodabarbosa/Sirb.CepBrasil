@@ -13,6 +13,7 @@
 - **Repositório:** https://github.com/rodabarbosa/CepBrasil
 - **Idioma:** Português Brasileiro (pt-BR)
 - **Versão Atual:** 1.4.0
+- **⚠️ CRITICAL: XML Documentation Language:** **English only** - All XML documentation must be written in English for international compatibility
 
 ### 🔄 Novo Fluxo de Fallback (v1.4.0)
 
@@ -336,7 +337,7 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutp
 
 #### Requisitos:
 
-- ✅ Documentação em **português brasileiro**
+- ✅ Documentação em **inglês (English)** - OBRIGATÓRIO para compatibilidade internacional
 - ✅ Descrição clara e concisa
 - ✅ Documentar **todos** os parâmetros
 - ✅ Documentar **todos** os retornos
@@ -348,32 +349,32 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutp
 
 ```csharp
 /// <summary>
-/// Busca informações de endereço através do CEP fornecido.
+/// Searches for address information using the provided postal code (CEP).
 /// </summary>
-/// <param name="cep">CEP a ser consultado (formato: 00000000 ou 00000-000)</param>
-/// <param name="cancellationToken">Token para cancelamento da operação. Padrão: 30 segundos</param>
+/// <param name="cep">Postal code to query (format: 00000000 or 00000-000)</param>
+/// <param name="cancellationToken">Cancellation token for the operation. Default: 30 seconds</param>
 /// <returns>
-/// Retorna um objeto <see cref="CepResult"/> contendo:
-/// - Success: true se encontrou o endereço
-/// - CepContainer: dados do endereço encontrado
-/// - Message: mensagem de erro (se houver)
+/// Returns a <see cref="CepResult"/> object containing:
+/// - Success: true if address was found
+/// - CepContainer: found address data
+/// - Message: error message (if any)
 /// </returns>
-/// <exception cref="ArgumentNullException">Quando o CEP é nulo ou vazio</exception>
-/// <exception cref="ArgumentException">Quando o CEP está em formato inválido</exception>
+/// <exception cref="ArgumentNullException">When the postal code is null or empty</exception>
+/// <exception cref="ArgumentException">When the postal code format is invalid</exception>
 /// <example>
-/// Exemplo de uso:
+/// Usage example:
 /// <code>
 /// var service = new CepService();
 /// var result = await service.FindAsync("01310100", CancellationToken.None);
 /// if (result.Success)
 /// {
-///     Console.WriteLine($"Endereço: {result.CepContainer.Logradouro}");
+///     Console.WriteLine($"Address: {result.CepContainer.Logradouro}");
 /// }
 /// </code>
 /// </example>
 public async Task<CepResult> FindAsync(string cep, CancellationToken cancellationToken)
 {
-    // Implementação
+    // Implementation
 }
 ```
 
@@ -858,6 +859,7 @@ Antes de criar PR, verificar:
 ### Documentação
 
 - [ ] Toda classe/método público tem XML documentation
+- [ ] **Documentação XML está em INGLÊS (English only)**
 - [ ] Documentação está completa (`<summary>`, `<param>`, `<returns>`, `<exception>`)
 - [ ] README.md atualizado (se necessário)
 - [ ] Exemplos de uso incluídos quando apropriado
@@ -894,16 +896,17 @@ Antes de criar PR, verificar:
 
 1. Criar código sem testes
 2. Criar métodos/classes públicos sem XML documentation
-3. **Criar testes sem o atributo `[Fact(DisplayName = "...")]` ou `[Theory(DisplayName = "...")]`**
-4. **Usar nomenclatura genérica em testes** (Test1, TestaCep, etc.)
-5. Suprimir exceções silenciosamente
-6. Usar `Thread.Sleep()` em código assíncrono
-7. Criar `HttpClient` em métodos (usar DI ou singleton)
-8. Ignorar `CancellationToken`
-9. Usar `.Result` ou `.Wait()` em código async
-10. Deixar código comentado no commit
-11. Ter warnings de compilação
-12. Ter testes que passam "por sorte"
+3. **Escrever documentação XML em português (deve ser INGLÊS)**
+4. **Criar testes sem o atributo `[Fact(DisplayName = "...")]` ou `[Theory(DisplayName = "...")]`**
+5. **Usar nomenclatura genérica em testes** (Test1, TestaCep, etc.)
+6. Suprimir exceções silenciosamente
+7. Usar `Thread.Sleep()` em código assíncrono
+8. Criar `HttpClient` em métodos (usar DI ou singleton)
+9. Ignorar `CancellationToken`
+10. Usar `.Result` ou `.Wait()` em código async
+11. Deixar código comentado no commit
+12. Ter warnings de compilação
+13. Ter testes que passam "por sorte"
 
 ### ⚠️ EVITAR:
 

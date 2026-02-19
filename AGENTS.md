@@ -422,6 +422,35 @@ public async Task Metodo_QuandoEntradaValida_DeveRetornarSucesso()
 - Usar `Span<T>` quando apropriado
 - Considerar pool de objetos para objetos grandes
 
+### 6. **XML Documentation Standards**
+
+**⚠️ CRITICAL REQUIREMENT:**
+
+- **ALL XML documentation MUST be written in English (not Portuguese)**
+- This ensures international compatibility and broader library adoption
+- Use clear, concise English for all `<summary>`, `<param>`, `<returns>`, `<exception>`, and `<example>` tags
+- Follow standard C# XML documentation conventions
+
+**Example:**
+
+```csharp
+/// <summary>
+/// Searches for address information using the provided postal code (CEP).
+/// </summary>
+/// <param name="cep">Postal code to query (format: 00000000 or 00000-000)</param>
+/// <param name="cancellationToken">Cancellation token for the operation.</param>
+/// <returns>
+/// Returns a <see cref="CepResult"/> object containing the address information.
+/// </returns>
+/// <exception cref="ArgumentNullException">When the postal code is null or empty</exception>
+public async Task<CepResult> FindAsync(string cep, CancellationToken cancellationToken)
+{
+    // Implementation
+}
+```
+
+**Note:** While DisplayName attributes in tests can remain in Portuguese for developer convenience, ALL public API XML documentation must be in English.
+
 ---
 
 ## 🔍 Code Review Checklist
@@ -432,7 +461,7 @@ Antes de aprovar qualquer mudança, verificar:
 - [ ] Cobertura de 100% mantida
 - [ ] **Nomenclatura de testes clara e descritiva** (Metodo_Quando_Deve)
 - [ ] **Todos os testes têm atributo `[Fact(DisplayName = "...")]` ou `[Theory(DisplayName = "...")]`**
-- [ ] Documentação XML completa e atualizada
+- [ ] **Documentação XML completa, atualizada e EM INGLÊS (English)**
 - [ ] README.md atualizado (se necessário)
 - [ ] Código segue SOLID principles
 - [ ] Tratamento de erros adequado

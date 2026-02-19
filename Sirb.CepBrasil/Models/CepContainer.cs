@@ -1,6 +1,46 @@
+using System;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Sirb.CepBrasil.Models;
+
+/// <summary>
+/// Custom JSON converter for handling ViaCEP's "erro" field which can be boolean or string.
+/// </summary>
+internal sealed class BooleanOrStringConverter : JsonConverter<bool?>
+{
+    /// <summary>
+    /// Reads and converts the JSON to type bool?.
+    /// </summary>
+    public override bool? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType == JsonTokenType.True)
+            return true;
+
+        if (reader.TokenType == JsonTokenType.False)
+            return false;
+
+        if (reader.TokenType == JsonTokenType.String)
+        {
+            var stringValue = reader.GetString();
+            if (bool.TryParse(stringValue, out var boolValue))
+                return boolValue;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Writes a specified value as JSON.
+    /// </summary>
+    public override void Write(Utf8JsonWriter writer, bool? value, JsonSerializerOptions options)
+    {
+        if (value.HasValue)
+            writer.WriteBooleanValue(value.Value);
+        else
+            writer.WriteNullValue();
+    }
+}
 
 /// <summary>
 /// Container for address lookup results by CEP.
@@ -127,4 +167,18 @@ public sealed class CepContainer(string uf, string cidade, string bairro, string
     /// </example>
     [JsonPropertyName("ibge")]
     public string Ibge { get; } = ibge;
+
+    /// <summary>
+    /// Gets a value indicating whether the CEP was not found (ViaCEP specific).
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the CEP was not found in the database; otherwise, <c>false</c> or <c>null</c>.
+    /// </value>
+    /// <remarks>
+    /// This property is specific to the ViaCEP API, which returns {"erro": true} when a CEP is not found.
+    /// Other providers handle not found differently.
+    /// </remarks>
+    [JsonPropertyName("erro")]
+    [JsonConverter(typeof(BooleanOrStringConverter))]
+    public bool? Erro { get; init; }
 }

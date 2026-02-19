@@ -98,7 +98,7 @@ public sealed class CepService : ICepService, IDisposable
     /// }
     /// </code>
     /// </example>
-    async public Task<CepResult> FindAsync(string cep, CancellationToken cancellationToken)
+    public async Task<CepResult> FindAsync(string cep, CancellationToken cancellationToken)
     {
         using var cts = GetCancellationTokenSource(cancellationToken);
         var effectiveToken = cts?.Token ?? cancellationToken;
@@ -147,7 +147,7 @@ public sealed class CepService : ICepService, IDisposable
     /// A <see cref="CancellationTokenSource"/> with a default 30-second timeout when <paramref name="cancellationToken"/>
     /// equals <see cref="CancellationToken.None"/>; otherwise, returns <c>null</c> to indicate the caller's token should be used.
     /// </returns>
-    static private CancellationTokenSource GetCancellationTokenSource(CancellationToken cancellationToken)
+    private static CancellationTokenSource GetCancellationTokenSource(CancellationToken cancellationToken)
     {
         return cancellationToken == CancellationToken.None
             ? new CancellationTokenSource(DefaultTimeoutMilliseconds)
