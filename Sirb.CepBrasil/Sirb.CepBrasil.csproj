@@ -16,7 +16,7 @@
       Versão 1.4.0:
       - Atualização para .NET 8, 9 e 10
       - Remoção de suporte para .NET 5, 6 e 7
-      - Remoção do serviço dos Correios (utiliza apenas ViaCEP)
+      - Remoção do serviço dos Correios
       - Modernização da biblioteca
     </PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
