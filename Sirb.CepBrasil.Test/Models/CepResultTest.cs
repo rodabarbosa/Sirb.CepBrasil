@@ -1,4 +1,4 @@
-﻿namespace Sirb.CepBrasil.Test.Models;
+namespace Sirb.CepBrasil.Test.Models;
 
 /// <summary>
 /// Testes unitários para a classe CepResult

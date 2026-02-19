@@ -1,4 +1,4 @@
-﻿using Sirb.CepBrasil.Models;
+using Sirb.CepBrasil.Models;
 using System.Threading;
 using System.Threading.Tasks;
 

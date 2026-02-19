@@ -1,4 +1,4 @@
-﻿namespace Sirb.CepBrasil.Test.Extensions;
+namespace Sirb.CepBrasil.Test.Extensions;
 
 /// <summary>
 /// Testes unitários para a classe ExceptionExtension.

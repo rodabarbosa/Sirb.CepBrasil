@@ -1,4 +1,4 @@
-﻿namespace Sirb.CepBrasil.Test.Exceptions;
+namespace Sirb.CepBrasil.Test.Exceptions;
 
 public class ServiceExceptionTest
 {
@@ -67,25 +67,25 @@ public class ServiceExceptionTest
         }
     }
 
-//         [Fact]
-//         public void Serialization_Test()
-//         {
-//             // Arrange
-//             const string expectedMessage = "Serialization test";
-//             var e = new ServiceException(expectedMessage);
-//
-//             // Act
-//             using (Stream s = new MemoryStream())
-//             {
-//                 var formatter = new BinaryFormatter();
-// #pragma warning disable SYSLIB0011
-//                 formatter.Serialize(s, e);
-//                 s.Position = 0; // Reset stream position
-//                 e = (ServiceException)formatter.Deserialize(s);
-// #pragma warning restore SYSLIB0011
-//             }
-//
-//             // Assert
-//             Assert.Equal(expectedMessage, e.Message);
-//         }
+    //         [Fact]
+    //         public void Serialization_Test()
+    //         {
+    //             // Arrange
+    //             const string expectedMessage = "Serialization test";
+    //             var e = new ServiceException(expectedMessage);
+    //
+    //             // Act
+    //             using (Stream s = new MemoryStream())
+    //             {
+    //                 var formatter = new BinaryFormatter();
+    // #pragma warning disable SYSLIB0011
+    //                 formatter.Serialize(s, e);
+    //                 s.Position = 0; // Reset stream position
+    //                 e = (ServiceException)formatter.Deserialize(s);
+    // #pragma warning restore SYSLIB0011
+    //             }
+    //
+    //             // Assert
+    //             Assert.Equal(expectedMessage, e.Message);
+    //         }
 }

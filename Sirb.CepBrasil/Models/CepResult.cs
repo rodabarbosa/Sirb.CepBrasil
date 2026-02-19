@@ -1,21 +1,21 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Sirb.CepBrasil.Models;
 
 /// <summary>
-/// Container com resultado da busca de logradouro por CEP
+/// Result container for address lookup by CEP.
 /// </summary>
 /// <remarks>
-/// Construtor
+/// Constructors provide several convenient ways to create a result object for success/failure scenarios.
 /// </remarks>
-/// <param name="success"></param>
-/// <param name="cepContainer"></param>
-/// <param name="message"></param>
+/// <param name="success">Indicates whether the lookup was successful.</param>
+/// <param name="cepContainer">The <see cref="CepContainer"/> with address details when successful.</param>
+/// <param name="message">Optional message describing errors or status.</param>
 public sealed class CepResult(bool success, CepContainer cepContainer, string message)
 {
     /// <summary>
-    /// Construtor
+    /// Default constructor creating an empty unsuccessful result.
     /// </summary>
     public CepResult()
         : this(false, null, null)
@@ -23,31 +23,31 @@ public sealed class CepResult(bool success, CepContainer cepContainer, string me
     }
 
     /// <summary>
-    /// Construtor
+    /// Creates a successful result from a <see cref="CepContainer"/>.
     /// </summary>
-    /// <param name="cepContainer"></param>
+    /// <param name="cepContainer">The address container with lookup results.</param>
     public CepResult(CepContainer cepContainer)
         : this(true, cepContainer, null)
     {
     }
 
     /// <summary>
-    /// Construtor
+    /// Creates an unsuccessful result with a message and an optional exception.
     /// </summary>
-    /// <param name="message"></param>
-    /// <param name="exception"></param>
+    /// <param name="message">Error or status message.</param>
+    /// <param name="exception">Optional exception related to the failure.</param>
     public CepResult(string message, Exception exception = null)
         : this(false, null, message, exception)
     {
     }
 
     /// <summary>
-    /// Constructor
+    /// Primary constructor that accepts all result details.
     /// </summary>
-    /// <param name="success"></param>
-    /// <param name="cepContainer"></param>
-    /// <param name="message"></param>
-    /// <param name="exception"></param>
+    /// <param name="success">True when lookup succeeded.</param>
+    /// <param name="cepContainer">Address information when successful.</param>
+    /// <param name="message">Optional message describing the result.</param>
+    /// <param name="exception">Optional exception captured during processing.</param>
     public CepResult(bool success, CepContainer cepContainer, string message, Exception exception)
         : this(success, cepContainer, message)
     {
@@ -56,22 +56,22 @@ public sealed class CepResult(bool success, CepContainer cepContainer, string me
     }
 
     /// <summary>
-    /// Houve sucesso na pesquisa
+    /// Indicates whether the lookup succeeded.
     /// </summary>
     public bool Success { get; } = success;
 
     /// <summary>
-    /// Cotainer com o resultado da pesquisa
+    /// Container with the lookup result.
     /// </summary>
     public CepContainer CepContainer { get; } = cepContainer;
 
     /// <summary>
-    /// Mensagem de erro
+    /// Message describing error or status of the lookup.
     /// </summary>
     public string Message { get; } = message;
 
     /// <summary>
-    /// Lista de exceções geradas
+    /// List of exceptions captured during processing.
     /// </summary>
     public List<Exception> Exceptions { get; } = new();
 }

@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 
 namespace Sirb.CepBrasil.Extensions;
 
 /// <summary>
-/// Extensões para manipulação e validação de CEP (Código de Endereçamento Postal brasileiro).
+/// Extensions for manipulating and validating Brazilian postal codes (CEP).
 /// </summary>
 static public class CepExtension
 {
@@ -15,19 +15,19 @@ static public class CepExtension
     static private readonly Regex _cepValidationRegex = new(@"^\d{5}-?\d{3}$", RegexOptions.Compiled, TimeSpan.FromSeconds(15));
 
     /// <summary>
-    /// Remove a máscara do CEP, mantendo apenas os dígitos numéricos.
+    /// Removes the CEP mask, keeping only numeric digits.
     /// </summary>
-    /// <param name="value">CEP com ou sem máscara (ex: "01310-100" ou "01310100").</param>
-    /// <returns>CEP contendo apenas dígitos (ex: "01310100"), ou o valor original se for nulo/vazio.</returns>
+    /// <param name="value">CEP with or without mask (e.g. "01310-100" or "01310100").</param>
+    /// <returns>CEP containing only digits (e.g. "01310100"), or the original value if null/whitespace.</returns>
     /// <example>
     /// <code>
-    /// var cepFormatado = "01310-100";
-    /// var cepLimpo = cepFormatado.RemoveMask();
-    /// // Resultado: "01310100"
+    /// var formatted = "01310-100";
+    /// var cleaned = formatted.RemoveMask();
+    /// // Result: "01310100"
     ///
-    /// var cepJaLimpo = "01310100";
-    /// var resultado = cepJaLimpo.RemoveMask();
-    /// // Resultado: "01310100"
+    /// var alreadyClean = "01310100";
+    /// var result = alreadyClean.RemoveMask();
+    /// // Result: "01310100"
     /// </code>
     /// </example>
     static public string RemoveMask(this string value)
@@ -39,20 +39,20 @@ static public class CepExtension
     }
 
     /// <summary>
-    /// Aplica a máscara padrão brasileira no CEP (formato: 00000-000).
+    /// Applies the standard Brazilian CEP mask (format: 00000-000).
     /// </summary>
-    /// <param name="value">CEP com ou sem máscara (ex: "01310100" ou "01310-100").</param>
-    /// <returns>CEP formatado com máscara (ex: "01310-100"), ou o valor original se inválido.</returns>
-    /// <exception cref="ArgumentException">Quando o CEP tem formato inválido (não tem 8 dígitos).</exception>
+    /// <param name="value">CEP with or without mask (e.g. "01310100" or "01310-100").</param>
+    /// <returns>CEP formatted with mask (e.g. "01310-100"), or the original value if invalid.</returns>
+    /// <exception cref="ArgumentException">When the CEP has an invalid format (does not have 8 digits).</exception>
     /// <example>
     /// <code>
-    /// var cepSemMascara = "01310100";
-    /// var cepFormatado = cepSemMascara.CepMask();
-    /// // Resultado: "01310-100"
+    /// var noMask = "01310100";
+    /// var formatted = noMask.CepMask();
+    /// // Result: "01310-100"
     ///
-    /// var cepJaFormatado = "01310-100";
-    /// var resultado = cepJaFormatado.CepMask();
-    /// // Resultado: "01310-100"
+    /// var alreadyFormatted = "01310-100";
+    /// var result = alreadyFormatted.CepMask();
+    /// // Result: "01310-100"
     /// </code>
     /// </example>
     static public string CepMask(this string value)
@@ -69,20 +69,20 @@ static public class CepExtension
     }
 
     /// <summary>
-    /// Valida se o CEP está em formato válido brasileiro (8 dígitos com ou sem máscara).
+    /// Validates whether the CEP has a valid Brazilian format (8 digits with or without mask).
     /// </summary>
-    /// <param name="value">CEP a ser validado (ex: "01310-100" ou "01310100").</param>
-    /// <returns>True se o CEP é válido, False caso contrário.</returns>
+    /// <param name="value">CEP to validate (e.g. "01310-100" or "01310100").</param>
+    /// <returns>True if the CEP is valid, False otherwise.</returns>
     /// <remarks>
-    /// Este método apenas valida o formato, não verifica se o CEP existe nos Correios.
-    /// CEPs válidos podem ter formato "00000-000" ou "00000000".
+    /// This method only validates the format; it does not check if the CEP exists in postal services.
+    /// Valid CEPs may have the format "00000-000" or "00000000".
     /// </remarks>
     /// <example>
     /// <code>
-    /// var cepValido = "01310-100".IsValidCep();    // True
-    /// var cepValido2 = "01310100".IsValidCep();    // True
-    /// var cepInvalido = "123".IsValidCep();        // False
-    /// var cepInvalido2 = "abcde-fgh".IsValidCep(); // False
+    /// var valid = "01310-100".IsValidCep();    // True
+    /// var valid2 = "01310100".IsValidCep();    // True
+    /// var invalid = "123".IsValidCep();        // False
+    /// var invalid2 = "abcde-fgh".IsValidCep(); // False
     /// </code>
     /// </example>
     static public bool IsValidCep(this string value)
@@ -100,16 +100,16 @@ static public class CepExtension
     }
 
     /// <summary>
-    /// Retorna apenas os dígitos do CEP, removendo qualquer caractere não numérico.
-    /// Alias para RemoveMask() com nome mais descritivo.
+    /// Returns only the digits of the CEP, removing any non-numeric characters.
+    /// Alias for <see cref="RemoveMask"/> with a more descriptive name.
     /// </summary>
-    /// <param name="value">CEP com formatação (ex: "01310-100").</param>
-    /// <returns>Apenas os dígitos do CEP (ex: "01310100").</returns>
+    /// <param name="value">Formatted CEP (e.g. "01310-100").</param>
+    /// <returns>Only the CEP digits (e.g. "01310100").</returns>
     /// <example>
     /// <code>
     /// var cep = "01310-100";
-    /// var digitos = cep.GetDigitsOnly();
-    /// // Resultado: "01310100"
+    /// var digits = cep.GetDigitsOnly();
+    /// // Result: "01310100"
     /// </code>
     /// </example>
     static public string GetDigitsOnly(this string value)
@@ -118,23 +118,23 @@ static public class CepExtension
     }
 
     /// <summary>
-    /// Formata o CEP no padrão brasileiro (00000-000), validando antes de aplicar a máscara.
+    /// Formats the CEP using the Brazilian pattern (00000-000), validating before applying the mask.
     /// </summary>
-    /// <param name="value">CEP a ser formatado.</param>
-    /// <returns>CEP formatado se válido, ou string vazia se inválido.</returns>
+    /// <param name="value">CEP to be formatted.</param>
+    /// <returns>Formatted CEP when valid, or an empty string when invalid.</returns>
     /// <remarks>
-    /// Diferente de CepMask(), este método retorna string vazia para CEPs inválidos
-    /// em vez de retornar o valor original.
+    /// Unlike <see cref="CepMask"/>, this method returns an empty string for invalid CEPs
+    /// instead of returning the original value.
     /// </remarks>
     /// <example>
     /// <code>
     /// var cep = "01310100";
-    /// var formatado = cep.Format();
-    /// // Resultado: "01310-100"
+    /// var formatted = cep.Format();
+    /// // Result: "01310-100"
     ///
-    /// var cepInvalido = "123";
-    /// var resultado = cepInvalido.Format();
-    /// // Resultado: "" (string vazia)
+    /// var invalidCep = "123";
+    /// var result = invalidCep.Format();
+    /// // Result: "" (empty string)
     /// </code>
     /// </example>
     static public string Format(this string value)
@@ -147,19 +147,19 @@ static public class CepExtension
     }
 
     /// <summary>
-    /// Normaliza o CEP removendo a máscara e validando o formato.
+    /// Normalizes the CEP by removing the mask and validating the format.
     /// </summary>
-    /// <param name="value">CEP a ser normalizado.</param>
-    /// <returns>CEP sem máscara se válido, ou null se inválido.</returns>
+    /// <param name="value">CEP to be normalized.</param>
+    /// <returns>CEP without mask when valid, or null if invalid.</returns>
     /// <example>
     /// <code>
     /// var cep = "01310-100";
-    /// var normalizado = cep.Normalize();
-    /// // Resultado: "01310100"
+    /// var normalized = cep.Normalize();
+    /// // Result: "01310100"
     ///
-    /// var cepInvalido = "abc";
-    /// var resultado = cepInvalido.Normalize();
-    /// // Resultado: null
+    /// var invalidCep = "abc";
+    /// var result = invalidCep.Normalize();
+    /// // Result: null
     /// </code>
     /// </example>
     static public string Normalize(this string value)

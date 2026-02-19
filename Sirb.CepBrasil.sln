@@ -37,6 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CAECFD4D-7
 		docs\INDEX.md = docs\INDEX.md
 		docs\QUICK_START.md = docs\QUICK_START.md
 		docs\RESUMO_DOCUMENTACAO.md = docs\RESUMO_DOCUMENTACAO.md
+		docs\MELHORIAS-CEPSERVICE.md = docs\MELHORIAS-CEPSERVICE.md
 	EndProjectSection
 EndProject
 Global

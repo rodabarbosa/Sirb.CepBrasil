@@ -1,4 +1,4 @@
-﻿namespace Sirb.CepBrasil.Test.Exceptions;
+namespace Sirb.CepBrasil.Test.Exceptions;
 
 /// <summary>
 /// Testes unitários para a exceção NotFoundException

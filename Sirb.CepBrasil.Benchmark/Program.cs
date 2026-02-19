@@ -1,4 +1,4 @@
-﻿using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Running;
 using Sirb.CepBrasil.Benchmark.Benchmarks;
 
 namespace Sirb.CepBrasil.Benchmark;

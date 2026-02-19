@@ -1,34 +1,35 @@
-﻿using Sirb.CepBrasil.Exceptions;
+using Sirb.CepBrasil.Exceptions;
 using Sirb.CepBrasil.Extensions;
 using Sirb.CepBrasil.Messages;
 using System;
+using System.Linq;
 
 namespace Sirb.CepBrasil.Validations;
 
 /// <summary>
-/// Fornece métodos de validação para códigos de endereçamento postal brasileiro (CEP).
-/// Responsável por validar o formato e comprimento do CEP conforme padrão brasileiro.
+/// Provides validation methods for Brazilian postal codes (CEP).
+/// Responsible for validating CEP format and length according to the Brazilian standard.
 /// </summary>
 static internal class CepValidation
 {
     /// <summary>
-    /// Comprimento padrão esperado de um CEP brasileiro sem formatação (8 dígitos).
+    /// Expected length for an unformatted Brazilian CEP (8 digits).
     /// </summary>
     private const int ExpectedCepLength = 8;
 
     /// <summary>
-    /// Valida um código de endereçamento postal (CEP) brasileiro de acordo com o padrão nacional.
+    /// Validates a Brazilian postal code (CEP) according to the national standard.
     /// </summary>
     /// <remarks>
-    /// O CEP é validado após remover qualquer máscara de formatação (hífen ou espaços).
-    /// Um CEP válido deve conter exatamente 8 dígitos numéricos.
+    /// The CEP is validated after removing any formatting mask (hyphen or spaces).
+    /// A valid CEP must contain exactly 8 numeric digits.
     /// </remarks>
-    /// <param name="cep">CEP a ser validado. Pode estar formatado (00000-000) ou sem formatação (00000000).</param>
+    /// <param name="cep">CEP to validate. May be formatted (00000-000) or unformatted (00000000).</param>
     /// <exception cref="ArgumentNullException">
-    /// Quando <paramref name="cep"/> é nulo ou vazio após limpeza de espaços.
+    /// Thrown when <paramref name="cep"/> is null or whitespace after trimming.
     /// </exception>
     /// <exception cref="ServiceException">
-    /// Quando o CEP não possui exatamente 8 dígitos após remover a formatação.
+    /// Thrown when the CEP does not contain exactly 8 digits after removing formatting.
     /// </exception>
     /// <example>
     /// <code>
@@ -46,7 +47,30 @@ static internal class CepValidation
         if (string.IsNullOrWhiteSpace(cep))
             throw new ArgumentNullException(
                 nameof(cep),
-                "CEP não pode ser nulo, vazio ou conter apenas espaços em branco.");
+                "CEP cannot be null, empty, or contain only whitespace.");
+
+        // Trim input for format checks but preserve original for normalization
+        var trimmed = cep.Trim();
+
+        // Only digits and optional hyphens are allowed at this stage
+        foreach (var ch in trimmed)
+        {
+            if (!char.IsDigit(ch) && ch != '-')
+                throw new ServiceException(CepMessages.ZipCodeInvalidMessage);
+        }
+
+        // Reject leading or trailing hyphen
+        if (trimmed.StartsWith('-') || trimmed.EndsWith('-'))
+            throw new ServiceException(CepMessages.ZipCodeInvalidMessage);
+
+        // Reject consecutive hyphens
+        if (trimmed.Contains("--"))
+            throw new ServiceException(CepMessages.ZipCodeInvalidMessage);
+
+        // If there's exactly one hyphen, it must be in the standard position (after 5 digits)
+        var hyphenCount = trimmed.Count(c => c == '-');
+        if (hyphenCount == 1 && (trimmed.Length <= 5 || trimmed[5] != '-'))
+            throw new ServiceException(CepMessages.ZipCodeInvalidMessage);
 
         var normalizedCep = cep.RemoveMask();
 

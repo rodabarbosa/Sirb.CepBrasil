@@ -1,4 +1,4 @@
-﻿namespace Sirb.CepBrasil.Test.Extensions;
+namespace Sirb.CepBrasil.Test.Extensions;
 
 /// <summary>
 /// Testes unitários para a classe <see cref="CepExtension"/>.
@@ -524,7 +524,7 @@ public class CepExtensionTest
         var cepFormatado = "01310-100";
 
         // Act
-        var result = cepFormatado.Normalize();
+        var result = CepExtension.Normalize(cepFormatado);
 
         // Assert
         Assert.Equal("01310100", result);
@@ -540,7 +540,7 @@ public class CepExtensionTest
         var cepSemMascara = "01310100";
 
         // Act
-        var result = cepSemMascara.Normalize();
+        var result = CepExtension.Normalize(cepSemMascara);
 
         // Assert
         Assert.Equal("01310100", result);
@@ -556,7 +556,7 @@ public class CepExtensionTest
         var cepInvalido = "123";
 
         // Act
-        var result = cepInvalido.Normalize();
+        var result = CepExtension.Normalize(cepInvalido);
 
         // Assert
         Assert.Null(result);
@@ -572,7 +572,7 @@ public class CepExtensionTest
         string cepNulo = null;
 
         // Act
-        var result = cepNulo.Normalize();
+        var result = CepExtension.Normalize(cepNulo);
 
         // Assert
         Assert.Null(result);
@@ -588,7 +588,7 @@ public class CepExtensionTest
         var cepVazio = "";
 
         // Act
-        var result = cepVazio.Normalize();
+        var result = CepExtension.Normalize(cepVazio);
 
         // Assert
         // IsValidCep retorna false para strings vazias, então Normalize retorna null
@@ -605,7 +605,7 @@ public class CepExtensionTest
         var cepComEspacos = "   ";
 
         // Act
-        var result = cepComEspacos.Normalize();
+        var result = CepExtension.Normalize(cepComEspacos);
 
         // Assert
         Assert.Null(result);
@@ -621,7 +621,7 @@ public class CepExtensionTest
     public void Normalize_WhenCepIsValid_ShouldNormalize(string cepFormatado, string esperado)
     {
         // Arrange & Act
-        var result = cepFormatado.Normalize();
+        var result = CepExtension.Normalize(cepFormatado);
 
         // Assert
         Assert.Equal(esperado, result);

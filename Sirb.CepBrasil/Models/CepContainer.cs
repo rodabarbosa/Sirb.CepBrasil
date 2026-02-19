@@ -1,44 +1,44 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Sirb.CepBrasil.Models;
 
 /// <summary>
-/// Container para o resultado da busca de endereço por CEP.
-/// Representa um endereço completo brasileiro obtido através da consulta de CEP.
+/// Container for address lookup results by CEP.
+/// Represents a full Brazilian address obtained from a CEP lookup.
 /// </summary>
 /// <remarks>
-/// Esta classe é imutável e contém todas as informações de endereço retornadas pelos serviços de consulta de CEP.
-/// Os dados são normalizados de diferentes provedores (ViaCEP, BrasilAPI, AwesomeAPI, OpenCEP) para um formato unificado.
+/// This class is immutable and contains all address information returned by CEP lookup services.
+/// Data from different providers (ViaCEP, BrasilAPI, AwesomeAPI, OpenCEP) is normalized into a unified format.
 /// </remarks>
-/// <param name="uf">Sigla da Unidade Federativa (estado) no formato de 2 letras (ex: SP, RJ, MG)</param>
-/// <param name="cidade">Nome completo da cidade (ex: São Paulo, Rio de Janeiro)</param>
-/// <param name="bairro">Nome do bairro ou distrito (pode estar vazio para CEPs genéricos)</param>
-/// <param name="complemento">Informações complementares do endereço (pode estar vazio)</param>
-/// <param name="logradouro">Nome da rua, avenida ou logradouro público (pode estar vazio para CEPs genéricos)</param>
-/// <param name="cep">Código de Endereçamento Postal formatado (ex: 01310-100)</param>
-/// <param name="ibge">Código IBGE do município (7 dígitos)</param>
+/// <param name="uf">State abbreviation (2 letters), e.g. "SP", "RJ", "MG".</param>
+/// <param name="cidade">Full city name, e.g. "São Paulo".</param>
+/// <param name="bairro">Neighborhood or district name (may be empty for generic ZIPs).</param>
+/// <param name="complemento">Additional address information (may be empty).</param>
+/// <param name="logradouro">Street, avenue or public place name (may be empty for generic ZIPs).</param>
+/// <param name="cep">Formatted postal code (e.g. "01310-100").</param>
+/// <param name="ibge">IBGE municipality code (7 digits).</param>
 /// <example>
-/// Exemplo de uso:
+/// Example usage:
 /// <code>
 /// var container = new CepContainer(
 ///     uf: "SP",
 ///     cidade: "São Paulo",
 ///     bairro: "Consolação",
-///     complemento: "lado ímpar",
+///     complemento: "odd side",
 ///     logradouro: "Avenida Paulista",
 ///     cep: "01310-100",
 ///     ibge: "3550308"
 /// );
-/// Console.WriteLine($"Endereço: {container.Logradouro}, {container.Bairro} - {container.Cidade}/{container.Uf}");
+/// Console.WriteLine($"Address: {container.Logradouro}, {container.Bairro} - {container.Cidade}/{container.Uf}");
 /// </code>
 /// </example>
 public sealed class CepContainer(string uf, string cidade, string bairro, string complemento, string logradouro, string cep, string ibge)
 {
     /// <summary>
-    /// Obtém a sigla da Unidade Federativa (estado).
+    /// Gets the state abbreviation (UF).
     /// </summary>
     /// <value>
-    /// Sigla do estado no formato de 2 letras maiúsculas (ex: SP, RJ, MG, RS).
+    /// Two-letter uppercase state code (e.g. SP, RJ, MG, RS).
     /// </value>
     /// <example>
     /// "SP", "RJ", "MG"
@@ -47,10 +47,10 @@ public sealed class CepContainer(string uf, string cidade, string bairro, string
     public string Uf { get; } = uf;
 
     /// <summary>
-    /// Obtém o nome completo da cidade.
+    /// Gets the full city name.
     /// </summary>
     /// <value>
-    /// Nome da cidade onde o CEP está localizado.
+    /// City where the CEP is located.
     /// </value>
     /// <example>
     /// "São Paulo", "Rio de Janeiro", "Belo Horizonte"
@@ -59,13 +59,13 @@ public sealed class CepContainer(string uf, string cidade, string bairro, string
     public string Cidade { get; } = cidade;
 
     /// <summary>
-    /// Obtém o nome do bairro ou distrito.
+    /// Gets the neighborhood or district name.
     /// </summary>
     /// <value>
-    /// Nome do bairro. Pode estar vazio para CEPs genéricos que abrangem múltiplos bairros.
+    /// Neighborhood name; may be empty for generic CEPs that span multiple neighborhoods.
     /// </value>
     /// <remarks>
-    /// Para CEPs genéricos de grandes avenidas ou áreas comerciais, este campo pode estar vazio.
+    /// For generic CEPs (large avenues or commercial areas) this field can be empty.
     /// </remarks>
     /// <example>
     /// "Consolação", "Centro", "Copacabana"
@@ -74,26 +74,26 @@ public sealed class CepContainer(string uf, string cidade, string bairro, string
     public string Bairro { get; } = bairro;
 
     /// <summary>
-    /// Obtém informações complementares do endereço.
+    /// Gets additional address information.
     /// </summary>
     /// <value>
-    /// Informações adicionais como "lado par", "lado ímpar", "até X" ou outras observações.
-    /// Pode estar vazio quando não há complemento disponível.
+    /// Additional notes such as "odd side", "even side", "up to 500" or other observations.
+    /// Can be empty when no complement is available.
     /// </value>
     /// <example>
-    /// "lado ímpar", "até 500", ""
+    /// "odd side", "up to 500", ""
     /// </example>
     [JsonPropertyName("complemento")]
     public string Complemento { get; } = complemento;
 
     /// <summary>
-    /// Obtém o nome do logradouro (rua, avenida, etc.).
+    /// Gets the street (logradouro) name.
     /// </summary>
     /// <value>
-    /// Nome completo do logradouro público. Pode estar vazio para CEPs de abrangência especial.
+    /// Full name of the public place; may be empty for special CEPs.
     /// </value>
     /// <remarks>
-    /// Para alguns CEPs especiais (caixas postais, grandes empresas), este campo pode estar vazio.
+    /// For some special CEPs (PO boxes, large companies), this field may be empty.
     /// </remarks>
     /// <example>
     /// "Avenida Paulista", "Rua Augusta", "Praça da Sé"
@@ -102,10 +102,10 @@ public sealed class CepContainer(string uf, string cidade, string bairro, string
     public string Logradouro { get; } = logradouro;
 
     /// <summary>
-    /// Obtém o Código de Endereçamento Postal formatado.
+    /// Gets the formatted postal code (CEP).
     /// </summary>
     /// <value>
-    /// CEP no formato 00000-000 (com hífen).
+    /// CEP in the format 00000-000 (with hyphen).
     /// </value>
     /// <example>
     /// "01310-100", "20040-020", "30130-000"
@@ -114,14 +114,13 @@ public sealed class CepContainer(string uf, string cidade, string bairro, string
     public string Cep { get; } = cep;
 
     /// <summary>
-    /// Obtém o código IBGE do município.
+    /// Gets the IBGE code for the municipality.
     /// </summary>
     /// <value>
-    /// Código de 7 dígitos que identifica unicamente o município no sistema do IBGE.
+    /// Seven-digit code uniquely identifying the municipality in the IBGE system.
     /// </value>
     /// <remarks>
-    /// O código IBGE é utilizado para identificação oficial de municípios brasileiros.
-    /// Os dois primeiros dígitos representam o estado.
+    /// The IBGE code is used for official municipality identification in Brazil. The first two digits represent the state.
     /// </remarks>
     /// <example>
     /// "3550308" (São Paulo/SP), "3304557" (Rio de Janeiro/RJ)

@@ -1,18 +1,18 @@
-﻿using System;
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Sirb.CepBrasil.Extensions;
 
 /// <summary>
-/// Fornece métodos de extensão para serialização e desserialização de JSON.
-/// Utiliza System.Text.Json com configurações padronizadas para o projeto.
+/// Provides extension methods for JSON serialization and deserialization.
+/// Uses System.Text.Json with project-standard settings.
 /// </summary>
 static public class JsonExtension
 {
     /// <summary>
-    /// Configuração padrão de serialização JSON para todo o projeto.
-    /// Ignora propriedades nulas, é insensível a maiúsculas/minúsculas e usa nomenclatura camelCase.
+    /// Default JSON serialization settings for the project.
+    /// It ignores null properties, is case-insensitive for property names and uses camelCase naming.
     /// </summary>
     static private readonly JsonSerializerOptions _serializerOptions = new()
     {
@@ -23,20 +23,19 @@ static public class JsonExtension
     };
 
     /// <summary>
-    /// Converte um objeto para uma string JSON formatada utilizando as configurações padrão do projeto.
+    /// Serializes an object to a JSON string using the project's default settings.
     /// </summary>
-    /// <param name="value">Objeto a ser serializado para JSON.</param>
+    /// <param name="value">Object to serialize to JSON.</param>
     /// <returns>
-    /// String contendo a representação JSON do objeto.
-    /// Propriedades nulas são ignoradas e a nomenclatura utiliza camelCase.
+    /// JSON string representing the object. Null properties are ignored and property names are camelCased.
     /// </returns>
-    /// <exception cref="ArgumentNullException">Quando <paramref name="value"/> é nulo.</exception>
-    /// <exception cref="JsonException">Quando ocorre um erro durante a serialização.</exception>
+    /// <exception cref="ArgumentNullException">When <paramref name="value"/> is null.</exception>
+    /// <exception cref="JsonException">When a serialization error occurs.</exception>
     /// <example>
     /// <code>
     /// var cepResult = new CepResult { Logradouro = "Rua A", Cidade = "São Paulo" };
     /// var json = cepResult.ToJson();
-    /// // Resultado: {"logradouro":"Rua A","cidade":"São Paulo"}
+    /// // Result: {"logradouro":"Rua A","cidade":"São Paulo"}
     /// </code>
     /// </example>
     static public string ToJson(this object value)
@@ -56,21 +55,20 @@ static public class JsonExtension
     }
 
     /// <summary>
-    /// Converte uma string JSON para o tipo genérico especificado utilizando as configurações padrão do projeto.
+    /// Deserializes a JSON string into the specified generic type using the project's default settings.
     /// </summary>
-    /// <typeparam name="T">Tipo para o qual desserializar a string JSON.</typeparam>
-    /// <param name="value">String contendo o JSON a ser desserializado.</param>
+    /// <typeparam name="T">Type to deserialize the JSON string into.</typeparam>
+    /// <param name="value">JSON string to be deserialized.</param>
     /// <returns>
-    /// Objeto do tipo <typeparamref name="T"/> contendo os dados desserializados,
-    /// ou null se a string JSON representar um valor nulo válido.
+    /// An instance of <typeparamref name="T"/> containing deserialized data, or null if the JSON represents a null value.
     /// </returns>
-    /// <exception cref="ArgumentNullException">Quando <paramref name="value"/> é nulo.</exception>
-    /// <exception cref="JsonException">Quando o JSON é inválido ou não pode ser convertido para o tipo especificado.</exception>
+    /// <exception cref="ArgumentNullException">When <paramref name="value"/> is null.</exception>
+    /// <exception cref="JsonException">When the JSON is invalid or cannot be converted to the specified type.</exception>
     /// <example>
     /// <code>
     /// var json = "{\"logradouro\":\"Rua A\",\"cidade\":\"São Paulo\"}";
     /// var cepResult = json.FromJson&lt;CepResult&gt;();
-    /// // Resultado: CepResult { Logradouro = "Rua A", Cidade = "São Paulo" }
+    /// // Result: CepResult { Logradouro = "Rua A", Cidade = "São Paulo" }
     /// </code>
     /// </example>
     static public T FromJson<T>(this string value)

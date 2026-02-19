@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,26 +6,26 @@ using System.Text;
 namespace Sirb.CepBrasil.Extensions;
 
 /// <summary>
-/// Extensões para facilitar manipulação e formatação de exceções.
+/// Extensions to assist with exception handling and formatting.
 /// </summary>
 static public class ExceptionExtension
 {
     /// <summary>
-    /// Retorna todas as mensagens de erro da exceção e suas exceções internas concatenadas.
+    /// Returns all error messages from the exception and its inner exceptions concatenated.
     /// </summary>
-    /// <param name="exception">A exceção a ser processada.</param>
-    /// <returns>String contendo todas as mensagens de erro separadas por " → ", ou string vazia se exception é null.</returns>
-    /// <exception cref="ArgumentNullException">Quando exception é nulo.</exception>
+    /// <param name="exception">The exception to process.</param>
+    /// <returns>String with all error messages separated by " → ", or empty string if there are no messages.</returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="exception"/> is null.</exception>
     /// <example>
     /// <code>
     /// try
     /// {
-    ///     // algum código que lança exceção
+    ///     // some code that may throw
     /// }
     /// catch (Exception ex)
     /// {
     ///     var messages = ex.AllMessages();
-    ///     // Resultado: "Erro principal → Erro interno → Erro mais profundo"
+    ///     // Result: "Main error → Inner error → Deepest error"
     /// }
     /// </code>
     /// </example>
@@ -44,10 +44,10 @@ static public class ExceptionExtension
     }
 
     /// <summary>
-    /// Retorna a hierarquia completa de exceções (exceção principal + todas as exceções internas).
+    /// Returns the full exception hierarchy (the root exception plus all inner exceptions).
     /// </summary>
-    /// <param name="exception">A exceção a ser processada.</param>
-    /// <returns>Enumeração de todas as exceções da cadeia.</returns>
+    /// <param name="exception">The exception to process.</param>
+    /// <returns>An enumeration of all exceptions in the chain.</returns>
     /// <example>
     /// <code>
     /// var chain = ex.GetExceptionChain();
@@ -69,11 +69,11 @@ static public class ExceptionExtension
     }
 
     /// <summary>
-    /// Retorna todas as mensagens de erro com opção de incluir informações adicionais como tipo e stack trace.
+    /// Returns all error messages with the option to include additional information such as type and stack trace.
     /// </summary>
-    /// <param name="exception">A exceção a ser processada.</param>
-    /// <param name="includeStackTrace">Se true, inclui stack trace de cada exceção.</param>
-    /// <returns>String formatada com informações detalhadas da exceção.</returns>
+    /// <param name="exception">The exception to process.</param>
+    /// <param name="includeStackTrace">If true, includes the stack trace for each exception.</param>
+    /// <returns>Formatted string with detailed exception information.</returns>
     /// <example>
     /// <code>
     /// var detailedInfo = ex.GetDetailedMessage(includeStackTrace: true);

@@ -1,4 +1,4 @@
-﻿using Sirb.CepBrasil.Exceptions;
+using Sirb.CepBrasil.Exceptions;
 using Sirb.CepBrasil.Extensions;
 using Sirb.CepBrasil.Interfaces;
 using Sirb.CepBrasil.Messages;
@@ -12,94 +12,98 @@ using System.Threading.Tasks;
 namespace Sirb.CepBrasil.Services;
 
 /// <summary>
-/// Serviço de consulta de CEP utilizando a API ViaCEP (https://viacep.com.br/).
+/// CEP lookup service using the ViaCEP API (https://viacep.com.br/).
 /// </summary>
 /// <remarks>
-/// Este serviço implementa a interface <see cref="ICepServiceControl"/> e fornece
-/// acesso à base de dados de CEPs brasileiros através do serviço público ViaCEP.
-/// Inclui timeout padrão de 30 segundos e validação automática de formato do CEP.
+/// This service implements <see cref="ICepServiceControl"/> and provides access to Brazilian postal data via the public ViaCEP service.
+/// It uses a default timeout of 30 seconds and automatically validates CEP format.
 /// </remarks>
 /// <remarks>
-/// Inicializa uma nova instância do serviço ViaCEP.
+/// Initializes a new instance of the ViaCepService.
 /// </remarks>
-/// <param name="httpClient">Cliente HTTP para realizar as requisições ao serviço ViaCEP.</param>
-/// <exception cref="ArgumentNullException">Quando <paramref name="httpClient"/> é nulo.</exception>
+/// <param name="httpClient">HttpClient used to perform requests to ViaCEP.</param>
+/// <exception cref="ArgumentNullException">When <paramref name="httpClient"/> is null.</exception>
 internal sealed class ViaCepService(HttpClient httpClient) : ICepServiceControl
 {
     private const int DefaultTimeoutMilliseconds = 30000;
     private const string ViaCepBaseUrl = "https://viacep.com.br/ws";
+    private const string JsonFormat = "json";
 
     private readonly HttpClient _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 
     /// <summary>
-    /// Busca assincronamente informações de endereço através do CEP fornecido.
+    /// Asynchronously fetches address information for the provided CEP.
     /// </summary>
-    /// <param name="cep">CEP a ser consultado (formato: 00000000 ou 00000-000).</param>
-    /// <param name="cancellationToken">Token para cancelamento da operação. Se não informado, utiliza timeout padrão de 30 segundos.</param>
+    /// <param name="cep">CEP to lookup (format: 00000000 or 00000-000).</param>
+    /// <param name="cancellationToken">Cancellation token for the operation. If not provided, a default 30-second timeout is applied.</param>
     /// <returns>
-    /// Uma tarefa que representa a operação assíncrona, contendo um objeto <see cref="CepContainer"/>
-    /// com os dados do endereço encontrado (logradouro, bairro, cidade, estado, etc.).
+    /// A task that yields a <see cref="CepContainer"/> containing address data (street, neighborhood, city, state, etc.).
     /// </returns>
-    /// <exception cref="ArgumentException">Quando o CEP está em formato inválido ou contém caracteres não numéricos.</exception>
+    /// <exception cref="ArgumentException">When the CEP has an invalid format or contains non-numeric characters.</exception>
     /// <exception cref="ServiceException">
-    /// Quando ocorre erro na comunicação com o serviço ViaCEP:
-    /// - Serviço indisponível (erro HTTP)
-    /// - Resposta vazia do servidor
-    /// - Timeout da requisição
+    /// When a communication error with ViaCEP occurs:
+    /// - Service unavailable (HTTP error)
+    /// - Empty response from server
+    /// - Request timeout
     /// </exception>
-    /// <exception cref="NotFoundException">Quando o CEP não é encontrado na base de dados do ViaCEP.</exception>
+    /// <exception cref="NotFoundException">When the CEP is not found by ViaCEP.</exception>
     /// <example>
-    /// Exemplo de uso:
+    /// Example usage:
     /// <code>
     /// var service = new ViaCepService(httpClient);
-    /// var resultado = await service.FindAsync("83040-040", CancellationToken.None);
-    /// Console.WriteLine($"Logradouro: {resultado.Logradouro}");
-    /// Console.WriteLine($"Cidade: {resultado.Localidade}/{resultado.Uf}");
+    /// var result = await service.FindAsync("83040-040", CancellationToken.None);
+    /// Console.WriteLine($"Street: {result.Logradouro}");
+    /// Console.WriteLine($"City: {result.Localidade}/{result.Uf}");
     /// </code>
     /// </example>
     async public Task<CepContainer> FindAsync(string cep, CancellationToken cancellationToken)
     {
         CepValidation.Validate(cep);
 
-        if (cancellationToken == CancellationToken.None)
-            cancellationToken = GetDefaultCancellationToken();
+        using var cts = GetCancellationTokenSource(cancellationToken);
+        var effectiveToken = cts?.Token ?? cancellationToken;
 
-        var response = await GetFromServiceAsync(cep.RemoveMask(), cancellationToken);
+        var response = await GetFromServiceAsync(cep.RemoveMask(), effectiveToken).ConfigureAwait(false);
 
         return ConvertCepResult(response);
     }
 
     /// <summary>
-    /// Cria um token de cancelamento com timeout padrão de 30 segundos.
+    /// Creates a <see cref="CancellationTokenSource"/> with a default timeout if the provided token has no timeout.
     /// </summary>
-    /// <returns>Token de cancelamento configurado com timeout padrão.</returns>
-    static private CancellationToken GetDefaultCancellationToken()
+    /// <param name="cancellationToken">The original cancellation token.</param>
+    /// <returns>
+    /// A <see cref="CancellationTokenSource"/> with a default 30-second timeout if the token is <see cref="CancellationToken.None"/>,
+    /// otherwise returns <c>null</c> to use the original token.
+    /// </returns>
+    static private CancellationTokenSource GetCancellationTokenSource(CancellationToken cancellationToken)
     {
-        var cancellationTokenSource = new CancellationTokenSource(DefaultTimeoutMilliseconds);
-        return cancellationTokenSource.Token;
+        return cancellationToken == CancellationToken.None
+            ? new CancellationTokenSource(DefaultTimeoutMilliseconds)
+            : null;
     }
 
     /// <summary>
-    /// Executa a requisição completa ao serviço ViaCEP e retorna a resposta em formato JSON.
+    /// Executes the full request against ViaCEP and returns the response as JSON.
     /// </summary>
-    /// <param name="cep">CEP sem formatação (apenas números).</param>
-    /// <param name="cancellationToken">Token de cancelamento da operação.</param>
-    /// <returns>String JSON contendo os dados do endereço retornados pelo ViaCEP.</returns>
-    /// <exception cref="ServiceException">Quando ocorre erro na requisição ou resposta inválida.</exception>
+    /// <param name="cep">CEP without formatting (digits only).</param>
+    /// <param name="cancellationToken">Cancellation token for the operation.</param>
+    /// <returns>JSON string containing the address data returned by ViaCEP.</returns>
+    /// <exception cref="ServiceException">When an error occurs during the request or the response is invalid.</exception>
     async private Task<string> GetFromServiceAsync(string cep, CancellationToken cancellationToken)
     {
         var request = CreateRequestMessage(cep);
 
-        var response = await ExecuteRequestAsync(request, cancellationToken);
+        var response = await ExecuteRequestAsync(request, cancellationToken).ConfigureAwait(false);
 
-        return await GetResponseStringAsync(response, cancellationToken);
+        return await GetResponseStringAsync(response, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Cria a mensagem de requisição HTTP para consulta ao ViaCEP.
+    /// Creates the HTTP request message to query ViaCEP.
     /// </summary>
-    /// <param name="cep">CEP sem formatação (apenas números).</param>
-    /// <returns>Mensagem HTTP configurada para consulta ao ViaCEP.</returns>
+    /// <param name="cep">CEP without formatting (digits only).</param>
+    /// <returns>Configured HTTP request message for querying ViaCEP.</returns>
     static private HttpRequestMessage CreateRequestMessage(string cep)
     {
         var url = BuildRequestUrl(cep);
@@ -109,28 +113,28 @@ internal sealed class ViaCepService(HttpClient httpClient) : ICepServiceControl
     }
 
     /// <summary>
-    /// Constrói a URL completa para consulta ao serviço ViaCEP.
+    /// Builds the full URL to query the ViaCEP service.
     /// </summary>
-    /// <param name="cep">CEP sem formatação (apenas números).</param>
-    /// <returns>URL completa do endpoint ViaCEP para o CEP informado.</returns>
+    /// <param name="cep">CEP without formatting (digits only).</param>
+    /// <returns>Full endpoint URL for the provided CEP.</returns>
     /// <example>
-    /// Para CEP "83040040", retorna: "https://viacep.com.br/ws/83040040/json"
+    /// For CEP "83040040", returns: "https://viacep.com.br/ws/83040040/json"
     /// </example>
     static private string BuildRequestUrl(string cep)
     {
-        return $"{ViaCepBaseUrl}/{cep}/json";
+        return $"{ViaCepBaseUrl}/{cep}/{JsonFormat}";
     }
 
     /// <summary>
-    /// Executa a requisição HTTP ao serviço ViaCEP e valida o código de status da resposta.
+    /// Executes the HTTP request to ViaCEP and validates the response status code.
     /// </summary>
-    /// <param name="request">Mensagem de requisição HTTP configurada.</param>
-    /// <param name="cancellationToken">Token de cancelamento da operação.</param>
-    /// <returns>Resposta HTTP do serviço ViaCEP.</returns>
-    /// <exception cref="ServiceException">Quando a requisição retorna código de status de erro.</exception>
+    /// <param name="request">Configured HTTP request message.</param>
+    /// <param name="cancellationToken">Cancellation token for the operation.</param>
+    /// <returns>HTTP response from the ViaCEP service.</returns>
+    /// <exception cref="ServiceException">When the request returns an error status code.</exception>
     async private Task<HttpResponseMessage> ExecuteRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        var response = await _httpClient.SendAsync(request, cancellationToken);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
         ServiceException.ThrowIf(!response.IsSuccessStatusCode, CepMessages.ExceptionServiceError);
 
@@ -138,15 +142,15 @@ internal sealed class ViaCepService(HttpClient httpClient) : ICepServiceControl
     }
 
     /// <summary>
-    /// Extrai o conteúdo JSON da resposta HTTP do ViaCEP.
+    /// Extracts the JSON content from the ViaCEP HTTP response.
     /// </summary>
-    /// <param name="response">Resposta HTTP do serviço ViaCEP.</param>
-    /// <param name="cancellationToken">Token de cancelamento da operação.</param>
-    /// <returns>String JSON contendo os dados do endereço.</returns>
-    /// <exception cref="ServiceException">Quando a resposta está vazia ou é nula.</exception>
+    /// <param name="response">HTTP response from the ViaCEP service.</param>
+    /// <param name="cancellationToken">Cancellation token for the operation.</param>
+    /// <returns>JSON string with the address data.</returns>
+    /// <exception cref="ServiceException">When the response is empty or null.</exception>
     static async private Task<string> GetResponseStringAsync(HttpResponseMessage response, CancellationToken cancellationToken)
     {
-        var responseString = await response.Content.ReadAsStringAsync(cancellationToken);
+        var responseString = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
         ServiceException.ThrowIf(string.IsNullOrEmpty(responseString), CepMessages.ExceptionEmptyResponse);
 
@@ -154,11 +158,14 @@ internal sealed class ViaCepService(HttpClient httpClient) : ICepServiceControl
     }
 
     /// <summary>
-    /// Converte a resposta JSON do ViaCEP em um objeto <see cref="CepContainer"/>.
+    /// Converts the ViaCEP JSON response into a <see cref="CepContainer"/> object.
     /// </summary>
-    /// <param name="response">String JSON contendo os dados do endereço.</param>
-    /// <returns>Objeto <see cref="CepContainer"/> com os dados deserializados.</returns>
-    /// <exception cref="NotFoundException">Quando o JSON indica que o CEP não foi encontrado.</exception>
+    /// <param name="response">JSON string containing the address data.</param>
+    /// <returns>A <see cref="CepContainer"/> instance with deserialized data.</returns>
+    /// <remarks>
+    /// ViaCEP returns a JSON with the property "erro": true when the CEP is not found.
+    /// In that case deserialization results in a <see cref="CepContainer"/> with null properties.
+    /// </remarks>
     static private CepContainer ConvertCepResult(string response)
     {
         return response.FromJson<CepContainer>();

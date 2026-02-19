@@ -1,4 +1,4 @@
-﻿namespace Sirb.CepBrasil.Messages;
+namespace Sirb.CepBrasil.Messages;
 
 static internal class CepMessages
 {
