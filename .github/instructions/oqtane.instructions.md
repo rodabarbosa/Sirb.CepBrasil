@@ -63,7 +63,7 @@ applyTo: '**/*.razor, **/*.razor.cs, **/*.razor.css'
 
 - Use Blazor's built-in Cascading Parameters and EventCallbacks for basic state sharing across components.
 - use built-in Oqtane state management in the base classes like PageState and SiteState when appropriate.
-- Avoid adding extra depenencies like Fluxor or BlazorState when the application grows in complexity.
+- Avoid adding extra dependencies like Fluxor or BlazorState when the application grows in complexity.
 - For client-side state persistence in Blazor WebAssembly, consider using Blazored.LocalStorage or Blazored.SessionStorage to maintain state between page reloads.
 - For server-side Blazor, use Scoped Services and the StateContainer pattern to manage state within user sessions while minimizing re-renders.
 
