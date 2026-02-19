@@ -43,7 +43,7 @@ public sealed class CepService : ICepService, IDisposable
     /// <inheritdoc cref="ICepService"/>
     async public Task<CepResult> FindAsync(string cep, CancellationToken cancellationToken)
     {
-        if (cancellationToken == default)
+        if (cancellationToken == CancellationToken.None)
             cancellationToken = GetDefaultCancellationToken();
 
         var message = string.Empty;
@@ -55,7 +55,7 @@ public sealed class CepService : ICepService, IDisposable
 
                 NotFoundException.ThrowIf(response is null, $"Nenhum resultado para o {cep}");
 
-                return new CepResult(true, response, default);
+                return new CepResult(true, response, null);
             }
             catch (Exception e)
             {
@@ -63,7 +63,7 @@ public sealed class CepService : ICepService, IDisposable
             }
         }
 
-        return new CepResult(false, default, message);
+        return new CepResult(false, null, message);
     }
 
     /// <inheritdoc />
@@ -83,7 +83,9 @@ public sealed class CepService : ICepService, IDisposable
 
     private void StartServices()
     {
-        //_services.Add(new CorreiosService(_httpClient));
+        // BrasilApi
         _services.Add(new ViaCepService(_httpClient));
+        // AwesomeApi
+        // Opencep
     }
 }

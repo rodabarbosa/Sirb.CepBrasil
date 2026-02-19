@@ -6,7 +6,13 @@ namespace Sirb.CepBrasil.Models;
 /// <summary>
 /// Container com resultado da busca de logradouro por CEP
 /// </summary>
-public sealed class CepResult
+/// <remarks>
+/// Construtor
+/// </remarks>
+/// <param name="success"></param>
+/// <param name="cepContainer"></param>
+/// <param name="message"></param>
+public sealed class CepResult(bool success, CepContainer cepContainer, string message)
 {
     /// <summary>
     /// Construtor
@@ -36,19 +42,6 @@ public sealed class CepResult
     }
 
     /// <summary>
-    /// Construtor
-    /// </summary>
-    /// <param name="success"></param>
-    /// <param name="cepContainer"></param>
-    /// <param name="message"></param>
-    public CepResult(bool success, CepContainer cepContainer, string message)
-    {
-        Success = success;
-        CepContainer = cepContainer;
-        Message = message;
-    }
-
-    /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="success"></param>
@@ -65,17 +58,17 @@ public sealed class CepResult
     /// <summary>
     /// Houve sucesso na pesquisa
     /// </summary>
-    public bool Success { get; }
+    public bool Success { get; } = success;
 
     /// <summary>
     /// Cotainer com o resultado da pesquisa
     /// </summary>
-    public CepContainer CepContainer { get; }
+    public CepContainer CepContainer { get; } = cepContainer;
 
     /// <summary>
     /// Mensagem de erro
     /// </summary>
-    public string Message { get; }
+    public string Message { get; } = message;
 
     /// <summary>
     /// Lista de exceções geradas

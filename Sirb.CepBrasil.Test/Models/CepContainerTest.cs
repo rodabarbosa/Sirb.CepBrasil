@@ -5,7 +5,7 @@ public class CepContainerTest
     [Fact]
     public void Constructor_Test()
     {
-        CepContainer result = new(default, default, default, default, default, default);
+        CepContainer result = new(null, null, null, null, null, null, null);
 
         Assert.Null(result.Bairro);
         Assert.Null(result.Cep);
@@ -19,7 +19,7 @@ public class CepContainerTest
     [InlineData("TEST", "00000-000")]
     public void Inline_Test(string text, string cep)
     {
-        CepContainer result = new(text, text, text, text, text, cep);
+        CepContainer result = new(text, text, text, text, text, cep, text);
 
         Assert.Equal(text, result.Bairro);
         Assert.Equal(cep, result.Cep);

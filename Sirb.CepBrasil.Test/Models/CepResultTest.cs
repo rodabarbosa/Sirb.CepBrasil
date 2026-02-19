@@ -18,7 +18,7 @@ public class CepResultTest
     [Fact]
     public void Construct_With_Result()
     {
-        CepContainer container = new(default, default, default, default, default, default);
+        CepContainer container = new(null, null, null, null, null, null, null);
         CepResult result = new(container);
 
         Assert.NotNull(result);
@@ -59,7 +59,7 @@ public class CepResultTest
     public void Inline_Test()
     {
         Exception test = new("Test");
-        CepResult result = new(true, default, "TEST");
+        CepResult result = new(true, null, "TEST");
         result.Exceptions.Add(test);
 
         Assert.NotNull(result);
@@ -74,7 +74,7 @@ public class CepResultTest
     public void InnerException_Test()
     {
         Exception ex = new("Test");
-        CepResult result = new(true, default, "TEST", ex);
+        CepResult result = new(true, null, "TEST", ex);
 
         Assert.NotNull(result);
         Assert.NotEmpty(result.Exceptions);

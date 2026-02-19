@@ -19,22 +19,17 @@ namespace Sirb.CepBrasil.Services;
 /// acesso à base de dados de CEPs brasileiros através do serviço público ViaCEP.
 /// Inclui timeout padrão de 30 segundos e validação automática de formato do CEP.
 /// </remarks>
-internal sealed class ViaCepService : ICepServiceControl
+/// <remarks>
+/// Inicializa uma nova instância do serviço ViaCEP.
+/// </remarks>
+/// <param name="httpClient">Cliente HTTP para realizar as requisições ao serviço ViaCEP.</param>
+/// <exception cref="ArgumentNullException">Quando <paramref name="httpClient"/> é nulo.</exception>
+internal sealed class ViaCepService(HttpClient httpClient) : ICepServiceControl
 {
     private const int DefaultTimeoutMilliseconds = 30000;
     private const string ViaCepBaseUrl = "https://viacep.com.br/ws";
 
-    private readonly HttpClient _httpClient;
-
-    /// <summary>
-    /// Inicializa uma nova instância do serviço ViaCEP.
-    /// </summary>
-    /// <param name="httpClient">Cliente HTTP para realizar as requisições ao serviço ViaCEP.</param>
-    /// <exception cref="ArgumentNullException">Quando <paramref name="httpClient"/> é nulo.</exception>
-    public ViaCepService(HttpClient httpClient)
-    {
-        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-    }
+    private readonly HttpClient _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 
     /// <summary>
     /// Busca assincronamente informações de endereço através do CEP fornecido.
