@@ -2,9 +2,10 @@
 
 ## 🎯 Contexto do Projeto
 
-**Sirb.CepBrasil** é uma biblioteca .NET para consulta de endereços brasileiros através do CEP (Código de Endereçamento Postal), utilizando o serviço público ViaCEP.
+**Sirb.CepBrasil** é uma biblioteca .NET para consulta de endereços brasileiros através do CEP (Código de Endereçamento Postal) com estratégia inteligente de fallback entre múltiplos serviços públicos.
 
 ### Informações Técnicas
+
 - **Linguagem:** C# (latest)
 - **Frameworks:** .NET 8.0, 9.0, 10.0 (multi-target)
 - **Tipo:** Class Library / NuGet Package
@@ -13,17 +14,212 @@
 - **Idioma:** Português Brasileiro (pt-BR)
 - **Versão Atual:** 1.4.0
 
+### 🔄 Novo Fluxo de Fallback (v1.4.0)
+
+A versão 1.4.0 implementa uma estratégia robusta de busca com fallback automático entre múltiplos provedores:
+
+#### Ordem de Tentativas
+
+1. **BrasilAPI** (https://brasilapi.com.br/) - Primeira tentativa
+2. **ViaCEP** (https://viacep.com.br/) - Se BrasilAPI falhar ou não encontrar
+3. **AwesomeAPI** (https://awesomeapi.com.br/) - Se ViaCEP falhar ou não encontrar
+4. **OpenCEP** (https://github.com/filipedeschamps/cep-promise) - Última tentativa
+
+#### Comportamento por Resultado
+
+| Cenário                         | Ação                                                |
+|---------------------------------|-----------------------------------------------------|
+| **Sucesso em qualquer serviço** | Retorna resultado imediatamente (não tenta próximo) |
+| **CEP não encontrado**          | Tenta o próximo serviço na fila                     |
+| **Falha/Erro HTTP**             | Tenta o próximo serviço na fila                     |
+| **Erro em todos os 4 serviços** | Lança `ServiceException` com detalhes               |
+| **Não encontrado em nenhum**    | Retorna `null`                                      |
+
+#### Exemplo de Fluxo
+
+```
+Usuário busca CEP: "01310100"
+  ↓
+Tenta BrasilAPI → Encontra → ✅ Retorna resultado
+  
+Usuário busca CEP: "00000000" (inválido)
+  ↓
+Tenta BrasilAPI → Não encontra
+  ↓
+Tenta ViaCEP → Não encontra
+  ↓
+Tenta AwesomeAPI → Não encontra
+  ↓
+Tenta OpenCEP → Não encontra
+  ↓
+Retorna null
+
+Usuário busca CEP "01310100", BrasilAPI está down
+  ↓
+Tenta BrasilAPI → Falha (timeout/erro)
+  ↓
+Tenta ViaCEP → Encontra → ✅ Retorna resultado
+
+Todos os serviços estão down
+  ↓
+Lança ServiceException com mensagem clara
+```
+
 ---
 
-## 🚨 REGRAS OBRIGATÓRIAS E NÃO NEGOCIÁVEIS
+## 📋 Implementação do Novo Fluxo de Fallback
+
+### Classes Envolvidas
+
+#### Serviços a Implementar/Modificar
+
+1. **BrasilApiService** (novo)
+    - Implementa busca via BrasilAPI
+    - Herda de `ICepServiceControl`
+    - Retorna `CepContainer` ou null
+
+2. **ViaCepService** (existente - manter/refatorar)
+    - Serviço original já existente
+    - Pode ser refatorado para reutilizar código comum
+
+3. **AwesomeApiService** (novo)
+    - Implementa busca via AwesomeAPI
+    - Herda de `ICepServiceControl`
+    - Retorna `CepContainer` ou null
+
+4. **OpenCepService** (novo)
+    - Implementa busca via OpenCEP
+    - Herda de `ICepServiceControl`
+    - Retorna `CepContainer` ou null
+
+5. **CepServiceOrchestrator** ou **CepServiceFacade** (novo)
+    - Orquestra o fallback entre serviços
+    - Implementa `ICepService`
+    - Responsável pela estratégia de tentativas
+
+#### Interface Base
+
+```csharp
+// Existente - manter compatibilidade
+public interface ICepServiceControl
+{
+    Task<CepContainer> FindAsync(string cep, CancellationToken cancellationToken);
+}
+
+// Público - manter compatibilidade
+public interface ICepService
+{
+    Task<CepResult> FindAsync(string cep, CancellationToken cancellationToken);
+}
+```
+
+### Estrutura de Diretórios
+
+```
+Sirb.CepBrasil/
+├── Services/
+│   ├── BrasilApiService.cs          (novo)
+│   ├── ViaCepService.cs             (existente)
+│   ├── AwesomeApiService.cs         (novo)
+│   ├── OpenCepService.cs            (novo)
+│   └── CepServiceOrchestrator.cs    (novo - orquestra fallback)
+├── Interfaces/
+│   ├── ICepService.cs               (existente)
+│   └── ICepServiceControl.cs        (existente)
+├── Models/
+│   ├── CepResult.cs                 (existente)
+│   └── CepContainer.cs              (existente)
+└── Exceptions/
+    └── ServiceException.cs          (existente - pode precisar atualizar)
+```
+
+### Fluxo de Execução
+
+```csharp
+// Cliente chama
+await cepService.FindAsync("01310100", cancellationToken);
+
+// Orquestrador tenta em ordem
+try
+{
+    var result = await brasilApiService.FindAsync(cep, cancellationToken);
+    if (result != null) return new CepResult(result);  // Sucesso
+}
+catch { /* continua */ }
+
+try
+{
+    var result = await viaCepService.FindAsync(cep, cancellationToken);
+    if (result != null) return new CepResult(result);  // Sucesso
+}
+catch { /* continua */ }
+
+try
+{
+    var result = await awesomeApiService.FindAsync(cep, cancellationToken);
+    if (result != null) return new CepResult(result);  // Sucesso
+}
+catch { /* continua */ }
+
+try
+{
+    var result = await openCepService.FindAsync(cep, cancellationToken);
+    if (result != null) return new CepResult(result);  // Sucesso
+}
+catch { /* continua */ }
+
+// Se chegou aqui, todos falharam
+if (todasAsTentativasResultaramEmErro)
+    throw new ServiceException("Todos os serviços falharam");  // Erro em todos
+
+return null;  // Não encontrado em nenhum
+```
+
+### Testes Esperados
+
+```
+BrasilApiServiceTest.cs
+- Deve retornar CepContainer quando encontrado
+- Deve retornar null quando não encontrado
+- Deve lançar exceção quando serviço falha
+- Deve respeitar CancellationToken
+- Deve fazer chamada HTTPS
+
+ViaCepServiceTest.cs
+- (testes existentes + novos para refatoração)
+
+AwesomeApiServiceTest.cs
+- Deve retornar CepContainer quando encontrado
+- Deve retornar null quando não encontrado
+- Deve lançar exceção quando serviço falha
+
+OpenCepServiceTest.cs
+- Deve retornar CepContainer quando encontrado
+- Deve retornar null quando não encontrado
+- Deve lançar exceção quando serviço falha
+
+CepServiceOrchestratorTest.cs
+- Deve tentar BrasilAPI primeiro
+- Deve tentar ViaCEP se BrasilAPI falhar
+- Deve tentar AwesomeAPI se ViaCEP falhar
+- Deve tentar OpenCEP se AwesomeAPI falhar
+- Deve retornar primeira resposta bem-sucedida
+- Deve lançar exceção se todos falharem
+- Deve retornar null se nenhum encontrar
+- Deve respeitar timeout
+- Deve cancelar todas as tentativas se CancellationToken sinalizar
+```
+
+---
 
 ### 1. **Testes Unitários - 100% de Cobertura**
 
 **OBRIGATÓRIO:** Todo código deve ter 100% de cobertura de testes.
 
 #### Requisitos:
+
 - ✅ Usar **xUnit** como framework de testes
-- ✅ Usar **FluentAssertions** para assertions
+- ✅ Usar **Assert nativo do xUnit** para assertions (sem FluentAssertions)
 - ✅ **Nomenclatura clara e descritiva** dos métodos de teste
 - ✅ **Atributo `[Fact(DisplayName = "...")]` obrigatório** em todos os testes
 - ✅ Testar **todos** os métodos públicos
@@ -33,11 +229,13 @@
 - ✅ Usar `CancellationToken` nos testes async
 
 #### Estrutura de Nomenclatura:
+
 ```
 MetodoTestado_Condicao_ResultadoEsperado
 ```
 
 #### Estrutura de Testes:
+
 ```csharp
 public class NomeDaClasseTest
 {
@@ -55,9 +253,9 @@ public class NomeDaClasseTest
         var resultado = await servico.FindAsync(cep, CancellationToken.None);
 
         // Assert
-        resultado.Success.Should().BeTrue();
-        resultado.CepContainer.Should().NotBeNull();
-        resultado.CepContainer.Cep.Should().Be("01310-100");
+        Assert.True(resultado.Success);
+        Assert.NotNull(resultado.CepContainer);
+        Assert.Equal("01310-100", resultado.CepContainer.Cep);
     }
 
     /// <summary>
@@ -70,12 +268,13 @@ public class NomeDaClasseTest
     [InlineData("abcdefgh")]
     public async Task FindAsync_QuandoCepInvalido_DeveRetornarErro(string cepInvalido)
     {
-        // Arrange & Act & Assert
+        // Arrange & Act
         var servico = new CepService();
         var resultado = await servico.FindAsync(cepInvalido, CancellationToken.None);
         
-        resultado.Success.Should().BeFalse();
-        resultado.Message.Should().NotBeNullOrEmpty();
+        // Assert
+        Assert.False(resultado.Success);
+        Assert.NotNullOrEmpty(resultado.Message);
     }
 }
 ```
@@ -83,6 +282,7 @@ public class NomeDaClasseTest
 #### Exemplos de Nomenclatura:
 
 **✅ CORRETO:**
+
 ```csharp
 [Fact(DisplayName = "Deve retornar sucesso quando CEP é válido")]
 public async Task FindAsync_QuandoCepValido_DeveRetornarSucesso()
@@ -97,6 +297,7 @@ public async Task FindAsync_QuandoCepComOuSemFormatacao_DeveRetornarSucesso(stri
 ```
 
 **❌ INCORRETO:**
+
 ```csharp
 // ❌ Nome genérico, sem DisplayName
 [Fact]
@@ -116,11 +317,13 @@ public async Task FindAsync_QuandoCepValido_DeveRetornarSucesso()
 ```
 
 #### Verificação de Cobertura:
+
 ```bash
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
 ```
 
 #### Ação Automática:
+
 - **SE** um novo método/classe for criado **SEM** testes
 - **ENTÃO** criar automaticamente os testes necessários com nomenclatura adequada e DisplayName
 - **AÇÃO:** Não perguntar, apenas criar
@@ -132,6 +335,7 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutp
 **OBRIGATÓRIO:** Toda classe, método, propriedade e parâmetro público deve ter documentação XML completa e clara.
 
 #### Requisitos:
+
 - ✅ Documentação em **português brasileiro**
 - ✅ Descrição clara e concisa
 - ✅ Documentar **todos** os parâmetros
@@ -141,6 +345,7 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutp
 - ✅ Usar `<summary>`, `<param>`, `<returns>`, `<exception>`, `<example>`
 
 #### Template Padrão:
+
 ```csharp
 /// <summary>
 /// Busca informações de endereço através do CEP fornecido.
@@ -173,6 +378,7 @@ public async Task<CepResult> FindAsync(string cep, CancellationToken cancellatio
 ```
 
 #### Ação Automática:
+
 - **SE** documentação XML está faltando ou incompleta
 - **ENTÃO** criar ou atualizar automaticamente
 - **AÇÃO:** Não perguntar aprovação, apenas criar/atualizar
@@ -182,6 +388,7 @@ public async Task<CepResult> FindAsync(string cep, CancellationToken cancellatio
 ### 3. **Best Practices - Sempre Aplicar**
 
 #### SOLID Principles
+
 - **S**ingle Responsibility: Uma classe, uma responsabilidade
 - **O**pen/Closed: Aberto para extensão, fechado para modificação
 - **L**iskov Substitution: Subtipos devem ser substituíveis
@@ -189,6 +396,7 @@ public async Task<CepResult> FindAsync(string cep, CancellationToken cancellatio
 - **D**ependency Inversion: Dependa de abstrações, não implementações
 
 #### Clean Code
+
 - ✅ Nomes descritivos e significativos
 - ✅ Métodos pequenos (máx 20-30 linhas)
 - ✅ Sem comentários óbvios (código auto-explicativo)
@@ -197,6 +405,7 @@ public async Task<CepResult> FindAsync(string cep, CancellationToken cancellatio
 - ✅ YAGNI (You Aren't Gonna Need It)
 
 #### Async/Await
+
 - ✅ Sempre suportar `CancellationToken`
 - ✅ Usar `ConfigureAwait(false)` em bibliotecas
 - ✅ Nunca bloquear com `.Result` ou `.Wait()`
@@ -204,6 +413,7 @@ public async Task<CepResult> FindAsync(string cep, CancellationToken cancellatio
 - ✅ Retornar `Task` ou `Task<T>`
 
 #### Tratamento de Erros
+
 - ✅ Criar exceções customizadas quando necessário
 - ✅ Documentar exceções com `<exception>`
 - ✅ Não suprimir exceções sem motivo
@@ -215,6 +425,7 @@ public async Task<CepResult> FindAsync(string cep, CancellationToken cancellatio
 ## 🏗️ Arquitetura do Projeto
 
 ### Estrutura de Pastas
+
 ```
 Sirb.CepBrasil/
 ├── Exceptions/          # Exceções customizadas
@@ -233,6 +444,7 @@ Sirb.CepBrasil.Test/
 ```
 
 ### Namespaces
+
 - Use `Sirb.CepBrasil` como namespace base
 - Sub-namespaces devem seguir estrutura de pastas
 - Exemplo: `Sirb.CepBrasil.Services`, `Sirb.CepBrasil.Models`
@@ -244,6 +456,7 @@ Sirb.CepBrasil.Test/
 ### Nomenclatura
 
 #### Classes e Interfaces
+
 ```csharp
 // Classes: PascalCase
 public class CepService { }
@@ -256,6 +469,7 @@ public class NotFoundException : Exception { }
 ```
 
 #### Métodos e Propriedades
+
 ```csharp
 // Métodos: PascalCase
 public async Task<CepResult> FindAsync(string cep) { }
@@ -271,6 +485,7 @@ private const int DEFAULT_TIMEOUT_SECONDS = 30;
 ```
 
 #### Parâmetros e Variáveis
+
 ```csharp
 // camelCase
 public void ProcessarCep(string cepFormatado)
@@ -280,6 +495,7 @@ public void ProcessarCep(string cepFormatado)
 ```
 
 ### Modificadores de Acesso
+
 ```csharp
 // Ordem recomendada:
 public class ExemploClasse
@@ -306,6 +522,7 @@ public class ExemploClasse
 ```
 
 ### Uso de `sealed`
+
 ```csharp
 // Classes que não devem ser herdadas
 public sealed class CepResult { }
@@ -319,14 +536,17 @@ public sealed class CepContainer { }
 ### Nomenclatura de Testes
 
 #### Estrutura Obrigatória:
+
 ```
 MetodoTestado_Condicao_ResultadoEsperado
 ```
 
 #### Atributo DisplayName Obrigatório:
+
 **TODOS** os testes devem ter o atributo `[Fact(DisplayName = "...")]` ou `[Theory(DisplayName = "...")]` com descrição clara em português.
 
 #### Exemplos Corretos:
+
 ```csharp
 /// <summary>
 /// Verifica se FindAsync retorna sucesso quando CEP é válido
@@ -348,6 +568,7 @@ public async Task FindAsync_QuandoServicoIndisponivel_DeveLancarServiceException
 ```
 
 ### Estrutura AAA (Arrange-Act-Assert)
+
 ```csharp
 /// <summary>
 /// Testa se FindAsync retorna sucesso quando CEP é válido
@@ -363,32 +584,59 @@ public async Task FindAsync_QuandoCepValido_DeveRetornarSucesso()
     var result = await service.FindAsync(cep, CancellationToken.None);
 
     // Assert - Verificar
-    result.Should().NotBeNull();
-    result.Success.Should().BeTrue();
-    result.CepContainer.Should().NotBeNull();
-    result.CepContainer.Cep.Should().Be("01310-100");
+    Assert.NotNull(result);
+    Assert.True(result.Success);
+    Assert.NotNull(result.CepContainer);
+    Assert.Equal("01310-100", result.CepContainer.Cep);
 }
 ```
 
-### FluentAssertions
+### Assert Nativo do xUnit
+
 ```csharp
-// Usar FluentAssertions ao invés de Assert do xUnit
-result.Success.Should().BeTrue();
-result.Message.Should().NotBeNullOrEmpty();
-result.CepContainer.Should().NotBeNull();
-result.Exceptions.Should().BeEmpty();
+// Verdade/Falsidade
+Assert.True(condicao);
+Assert.False(condicao);
+
+// Nulidade
+Assert.Null(objeto);
+Assert.NotNull(objeto);
+
+// Igualdade
+Assert.Equal(esperado, atual);
+Assert.NotEqual(naoEsperado, atual);
+
+// Strings
+Assert.Empty(string.Empty);
+Assert.NotEmpty("conteudo");
+Assert.Contains("substring", "string com substring");
+Assert.StartsWith("início", "início do texto");
+Assert.EndsWith("fim", "texto com fim");
 
 // Coleções
-lista.Should().HaveCount(3);
-lista.Should().Contain(x => x.Cep == "01310100");
-lista.Should().NotContainNulls();
+Assert.Empty(colecaoVazia);
+Assert.NotEmpty(colecaoComItens);
+Assert.Single(colecaoComUmItem);
+Assert.Contains(item, colecao);
 
 // Exceções
-var act = () => servico.Metodo(null);
-await act.Should().ThrowAsync<ArgumentNullException>();
+Assert.Throws<ArgumentNullException>(() => metodo(null));
+await Assert.ThrowsAsync<ServiceException>(() => metodoAsync());
+
+// Tipo
+Assert.IsType<TipoEsperado>(objeto);
+Assert.IsNotType<TipoNaoEsperado>(objeto);
+
+// Verificação de múltiplas condições
+Assert.Multiple(
+    () => Assert.True(resultado1),
+    () => Assert.False(resultado2),
+    () => Assert.Equal(esperado, atual)
+);
 ```
 
 ### Testes Parametrizados
+
 ```csharp
 /// <summary>
 /// Testa se FindAsync valida corretamente diferentes formatos de CEP
@@ -411,7 +659,7 @@ public async Task FindAsync_ComDiferentesCeps_DeveValidarCorretamente(
     var result = await service.FindAsync(cep, CancellationToken.None);
     
     // Assert
-    result.Success.Should().Be(esperaSucesso);
+    Assert.Equal(esperaSucesso, result.Success);
 }
 ```
 
@@ -420,6 +668,7 @@ public async Task FindAsync_ComDiferentesCeps_DeveValidarCorretamente(
 ## 🔒 Segurança
 
 ### Validação de Entrada
+
 ```csharp
 public async Task<CepResult> FindAsync(string cep, CancellationToken cancellationToken)
 {
@@ -440,6 +689,7 @@ public async Task<CepResult> FindAsync(string cep, CancellationToken cancellatio
 ```
 
 ### HttpClient
+
 ```csharp
 // NUNCA criar HttpClient em métodos
 // ❌ ERRADO
@@ -458,6 +708,7 @@ public CepService(HttpClient httpClient)
 ```
 
 ### Timeout
+
 ```csharp
 // Sempre suportar CancellationToken com timeout padrão
 private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(30);
@@ -476,6 +727,7 @@ public async Task<CepResult> FindAsync(string cep, CancellationToken cancellatio
 ## 📦 Compatibilidade Multi-Target
 
 ### Diretivas de Compilação
+
 ```csharp
 #if NET5_0_OR_GREATER
     // Código específico para .NET 5+
@@ -485,6 +737,7 @@ public async Task<CepResult> FindAsync(string cep, CancellationToken cancellatio
 ```
 
 ### APIs Condicionais
+
 ```csharp
 // Usar APIs disponíveis em todas as versões target
 // Evitar APIs específicas de versão a menos que necessário
@@ -495,9 +748,11 @@ public async Task<CepResult> FindAsync(string cep, CancellationToken cancellatio
 ## 🎨 Formatação de Código
 
 ### EditorConfig
+
 O projeto usa `.editorconfig` para garantir consistência.
 
 ### Convenções:
+
 - **Indentação:** 4 espaços
 - **Line endings:** LF (Unix)
 - **Encoding:** UTF-8
@@ -531,44 +786,54 @@ public async Task<CepResult> FindAsync(string cep){
 ### 1. Nova Funcionalidade
 
 #### Passo 1: Planejar
+
 ```bash
 @plan Planejar implementação de [feature]
 ```
 
 #### Passo 2: Criar Testes (RED)
+
 ```bash
 @tdd-red Criar testes para [feature]
 ```
+
 - Criar testes que falham
 - Documentar comportamento esperado
 - Cobrir edge cases
 
 #### Passo 3: Implementar (GREEN)
+
 ```bash
 @tdd-green Implementar [feature]
 ```
+
 - Código mínimo para passar testes
 - Não over-engineer
 - Focar em funcionalidade
 
 #### Passo 4: Refatorar (REFACTOR)
+
 ```bash
 @tdd-refactor Refatorar [código]
 ```
+
 - Melhorar qualidade
 - Aplicar SOLID
 - Otimizar se necessário
 - Manter testes verdes
 
 #### Passo 5: Documentar
+
 ```bash
 @se-technical-writer Documentar [classe/método]
 ```
+
 - Criar/atualizar XML documentation
 - Atualizar README se necessário
 - Adicionar exemplos
 
 #### Passo 6: Revisar
+
 ```bash
 @se-security-reviewer Revisar segurança
 @CSharpExpert Revisar implementação
@@ -581,6 +846,7 @@ public async Task<CepResult> FindAsync(string cep){
 Antes de criar PR, verificar:
 
 ### Código
+
 - [ ] Todo código está coberto por testes (100%)
 - [ ] Todos os testes passam
 - [ ] Cobertura verificada com `dotnet test /p:CollectCoverage=true`
@@ -590,12 +856,14 @@ Antes de criar PR, verificar:
 - [ ] Nomes são claros e descritivos
 
 ### Documentação
+
 - [ ] Toda classe/método público tem XML documentation
 - [ ] Documentação está completa (`<summary>`, `<param>`, `<returns>`, `<exception>`)
 - [ ] README.md atualizado (se necessário)
 - [ ] Exemplos de uso incluídos quando apropriado
 
 ### Testes
+
 - [ ] Testes unitários criados para novo código
 - [ ] Testes existentes atualizados (se necessário)
 - [ ] **Nomenclatura de testes clara** (Metodo_Quando_Deve)
@@ -605,12 +873,14 @@ Antes de criar PR, verificar:
 - [ ] FluentAssertions usado para assertions
 
 ### Build
+
 - [ ] `dotnet build` executa sem warnings
 - [ ] `dotnet test` passa 100%
 - [ ] `dotnet pack` cria pacote NuGet sem erros
 - [ ] Compatível com .NET 8, 9 e 10
 
 ### Qualidade
+
 - [ ] Sem vulnerabilidades de segurança
 - [ ] Sem code smells
 - [ ] Performance considerada
@@ -621,6 +891,7 @@ Antes de criar PR, verificar:
 ## 🚫 O Que NÃO Fazer
 
 ### ❌ NUNCA:
+
 1. Criar código sem testes
 2. Criar métodos/classes públicos sem XML documentation
 3. **Criar testes sem o atributo `[Fact(DisplayName = "...")]` ou `[Theory(DisplayName = "...")]`**
@@ -635,6 +906,7 @@ Antes de criar PR, verificar:
 12. Ter testes que passam "por sorte"
 
 ### ⚠️ EVITAR:
+
 1. Métodos com mais de 30 linhas
 2. Classes com mais de 300 linhas
 3. Aninhamento maior que 3 níveis
@@ -647,6 +919,7 @@ Antes de criar PR, verificar:
 ## 🛠️ Ferramentas e Comandos
 
 ### Build e Testes
+
 ```bash
 # Build completo
 dotnet build
@@ -665,6 +938,7 @@ dotnet restore
 ```
 
 ### Análise de Código
+
 ```bash
 # Formatar código
 dotnet format
@@ -681,16 +955,19 @@ dotnet build /p:TreatWarningsAsErrors=true
 ## 📚 Referências
 
 ### Documentação Oficial
+
 - [C# Coding Conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
 - [.NET API Guidelines](https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md)
 - [xUnit Documentation](https://xunit.net/)
 - [FluentAssertions Documentation](https://fluentassertions.com/)
 
 ### SOLID e Clean Code
+
 - [Clean Code by Robert C. Martin](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
 - [SOLID Principles](https://en.wikipedia.org/wiki/SOLID)
 
 ### Async/Await
+
 - [Async/Await Best Practices](https://learn.microsoft.com/en-us/archive/msdn-magazine/2013/march/async-await-best-practices-in-asynchronous-programming)
 
 ---
@@ -709,6 +986,7 @@ dotnet build /p:TreatWarningsAsErrors=true
 ## 💡 Dicas para GitHub Copilot
 
 ### Quando Criar Código
+
 - Sempre incluir XML documentation
 - Sempre criar testes correspondentes
 - Aplicar SOLID principles
@@ -716,13 +994,16 @@ dotnet build /p:TreatWarningsAsErrors=true
 - Suportar CancellationToken
 
 ### Quando Criar Testes
+
 - Usar nomenclatura: `Metodo_Quando_Deve`
 - Estruturar com AAA (Arrange-Act-Assert)
-- Usar FluentAssertions
+- Usar Assert nativo do xUnit
+- Adicionar `[Fact(DisplayName = "...")]` ou `[Theory(DisplayName = "...")]`
 - Cobrir casos de sucesso e erro
 - Cobrir edge cases
 
 ### Quando Documentar
+
 - Ser claro e conciso
 - Incluir exemplos quando útil
 - Documentar exceções que podem ser lançadas
@@ -734,6 +1015,7 @@ dotnet build /p:TreatWarningsAsErrors=true
 ## 📞 Suporte
 
 Para questões ou dúvidas:
+
 1. Consulte `AGENTS.md` para ver agentes disponíveis
 2. Revise `README.md` para contexto do projeto
 3. Analise código existente como referência

@@ -7,19 +7,21 @@ Biblioteca .NET para consulta de endereços brasileiros através do CEP (Código
 
 ## 📋 Sobre
 
-O **Sirb.CepBrasil** é uma biblioteca simples e eficiente para buscar informações de logradouro através do CEP, utilizando o serviço público **ViaCEP**.
+O **Sirb.CepBrasil** é uma biblioteca simples e eficiente para buscar informações de logradouro através do CEP (Código de Endereçamento Postal) utiliza uma estratégia inteligente de fallback entre múltiplos serviços públicos para garantir máxima disponibilidade.
 
 ### ⚠️ Aviso Importante
 
-O serviço externo **ViaCEP** utilizado por esta biblioteca **não é** de responsabilidade ou mantido por este projeto. A disponibilidade depende do provedor de serviço.
+Esta biblioteca utiliza serviços externos de APIs públicas brasileiras. A disponibilidade e precisão dos dados dependem destes provedores, não sendo responsabilidade deste projeto.
 
 ## ✨ Características
 
-- ✅ Busca de endereço por CEP via ViaCEP
+- ✅ Busca inteligente com fallback entre múltiplos serviços (BrasilAPI → ViaCEP → AwesomeAPI → OpenCEP)
 - ✅ Suporte a `async/await` com `CancellationToken`
 - ✅ Validação automática de formato do CEP
 - ✅ Gerenciamento flexível de `HttpClient`
-- ✅ Tratamento robusto de erros
+- ✅ Tratamento robusto de erros com exceções personalizadas
+- ✅ 100% de cobertura de testes unitários
+- ✅ Documentação XML completa
 - ✅ Multi-target: .NET 8, 9 e 10
 
 ## 📦 Instalação
@@ -131,10 +133,37 @@ public class MeuService
 graph TD
     A[Usuário solicita CEP] --> B{Validação}
     B -->|Inválido| C[Retorna erro]
-    B -->|Válido| D[Busca no ViaCEP]
+    B -->|Válido| D[Tenta BrasilAPI]
     D -->|Sucesso| E[Retorna resultado]
-    D -->|Falha| F[Retorna erro]
+    D -->|Falha/Não encontrado| F[Tenta ViaCEP]
+    F -->|Sucesso| E
+    F -->|Falha/Não encontrado| G[Tenta AwesomeAPI]
+    G -->|Sucesso| E
+    G -->|Falha/Não encontrado| H[Tenta OpenCEP]
+    H -->|Sucesso| E
+    H -->|Falha| I{Erro em todas?}
+    I -->|Sim| J[Lança ServiceException]
+    I -->|Não encontrado| K[Retorna null]
 ```
+
+### Estratégia de Fallback
+
+A biblioteca implementa um fluxo robusto de tentativas múltiplas para garantir máxima confiabilidade:
+
+1. **BrasilAPI** - Primeira tentativa
+2. **ViaCEP** - Segunda tentativa (se BrasilAPI falhar ou não encontrar)
+3. **AwesomeAPI** - Terceira tentativa (se ViaCEP falhar ou não encontrar)
+4. **OpenCEP** - Quarta e última tentativa (se AwesomeAPI falhar ou não encontrar)
+
+#### Comportamento por Resultado
+
+| Cenário                       | Comportamento                                                            |
+|-------------------------------|--------------------------------------------------------------------------|
+| **Sucesso**                   | Retorna o resultado encontrado imediatamente (não tenta próximo serviço) |
+| **CEP não encontrado**        | Tenta o próximo serviço na fila                                          |
+| **Falha/Erro**                | Tenta o próximo serviço na fila                                          |
+| **Erro em todos os serviços** | Lança `ServiceException` com detalhes dos erros                          |
+| **Não encontrado em nenhum**  | Retorna `null`                                                           |
 
 ### Validação
 
@@ -146,7 +175,8 @@ O CEP deve conter **8 caracteres numéricos**. A biblioteca aceita CEPs com ou s
 ### Tratamento de Erros
 
 - Erros de validação retornam `Success = false` com mensagem descritiva
-- Falhas de rede são capturadas e registradas em `Exceptions`
+- Falhas em todas as tentativas lançam `ServiceException`
+- CEP não encontrado em nenhum serviço retorna `null`
 - Timeout padrão de 30 segundos (personalizável via `CancellationToken`)
 
 ## 🔧 Compatibilidade
@@ -161,16 +191,24 @@ Este projeto está licenciado sob a [Licença MIT](https://opensource.org/licens
 
 ## 🔗 Links Úteis
 
+- [BrasilAPI - Documentação](https://brasilapi.com.br/)
 - [ViaCEP - Documentação](https://viacep.com.br/)
+- [AwesomeAPI - Documentação](https://awesomeapi.com.br/)
+- [OpenCEP - Documentação](https://github.com/filipedeschamps/cep-promise)
 - [Repositório GitHub](https://github.com/rodabarbosa/CepBrasil)
+- [NuGet Package](https://www.nuget.org/packages/Sirb.CepBrasil/)
 
 ## 📋 Changelog
 
 ### Versão 1.4.0 (Atual)
 
+- 🚀 Nova estratégia de fallback entre múltiplos serviços (BrasilAPI → ViaCEP → AwesomeAPI → OpenCEP)
+- 🎯 Melhorada confiabilidade e disponibilidade do serviço
 - 🚀 Atualização para .NET 8, 9 e 10
 - ⚠️ Remoção de suporte para .NET 5, 6 e 7
-- 🔧 Remoção do serviço dos Correios (utiliza apenas ViaCEP)
+- ⚠️ Remoção do serviço dos Correios
+- ✨ 100% de cobertura de testes unitários
+- ✨ Documentação XML completa em português
 - ✨ Modernização da biblioteca
 
 ### Versão 1.3.1
