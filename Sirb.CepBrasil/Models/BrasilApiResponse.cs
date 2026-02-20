@@ -24,7 +24,7 @@ internal sealed class BrasilApiResponse
     /// Obtém ou define a sigla da Unidade Federativa.
     /// </summary>
     /// <value>Sigla do estado (ex: SP, RJ).</value>
-    [JsonPropertyName("uf")]
+    [JsonPropertyName("state")]
     public string Uf { get; set; }
 
     /// <summary>

@@ -201,7 +201,7 @@ public class CepValidationTest
         // Act & Assert
         var exception = Assert.Throws<ArgumentNullException>(() => CepValidation.Validate(nullCep));
         Assert.NotNull(exception.Message);
-        Assert.Contains("CEP não pode ser nulo", exception.Message);
+        Assert.Contains("CEP cannot be null, empty, or contain only whitespace. (Parameter 'cep')", exception.Message);
     }
 
     #endregion

@@ -341,5 +341,5 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-
+*.DotSettings
 */.sonarqube

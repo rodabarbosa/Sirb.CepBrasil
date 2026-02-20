@@ -179,15 +179,15 @@ public sealed class BrasilApiResponseTest
     {
         // Arrange
         const string json = """
-            {
-                "cep": "01310-100",
-                "uf": "SP",
-                "city": "Sao Paulo",
-                "neighborhood": "Consolacao",
-                "street": "Avenida Paulista",
-                "service": "brasilapi"
-            }
-            """;
+                            {
+                                "cep": "01310-100",
+                                "state": "SP",
+                                "city": "Sao Paulo",
+                                "neighborhood": "Consolacao",
+                                "street": "Avenida Paulista",
+                                "service": "brasilapi"
+                            }
+                            """;
 
         // Act
         var response = JsonSerializer.Deserialize<BrasilApiResponse>(json);
@@ -221,7 +221,7 @@ public sealed class BrasilApiResponseTest
 
         // Assert
         Assert.Contains("\"cep\":\"20040-020\"", json);
-        Assert.Contains("\"uf\":\"RJ\"", json);
+        Assert.Contains("\"state\":\"RJ\"", json);
         Assert.Contains("\"city\":\"Rio de Janeiro\"", json);
         Assert.Contains("\"neighborhood\":\"Centro\"", json);
         Assert.Contains("\"street\":\"Praca XV\"", json);
@@ -233,11 +233,11 @@ public sealed class BrasilApiResponseTest
     {
         // Arrange
         const string json = """
-            {
-                "cep": "01310-100",
-                "uf": "SP"
-            }
-            """;
+                            {
+                                "cep": "01310-100",
+                                "state": "SP"
+                            }
+                            """;
 
         // Act
         var response = JsonSerializer.Deserialize<BrasilApiResponse>(json);
@@ -271,7 +271,7 @@ public sealed class BrasilApiResponseTest
 
         // Assert
         Assert.Contains("\"cep\":\"01310-100\"", json);
-        Assert.Contains("\"uf\":\"SP\"", json);
+        Assert.Contains("\"state\":\"SP\"", json);
         Assert.Contains("\"city\":null", json);
         Assert.Contains("\"neighborhood\":null", json);
         Assert.Contains("\"street\":null", json);
@@ -297,7 +297,7 @@ public sealed class BrasilApiResponseTest
 
         // Assert
         Assert.Contains("\"cep\":", json);
-        Assert.Contains("\"uf\":", json);
+        Assert.Contains("\"state\":", json);
         Assert.Contains("\"city\":", json);
         Assert.Contains("\"neighborhood\":", json);
         Assert.Contains("\"street\":", json);
@@ -341,15 +341,15 @@ public sealed class BrasilApiResponseTest
     {
         // Arrange
         const string json = """
-            {
-                "cep": "01310-100",
-                "uf": "SP",
-                "city": "Sao Paulo",
-                "neighborhood": "Bela Vista",
-                "street": "Avenida Paulista",
-                "service": "viacep"
-            }
-            """;
+                            {
+                                "cep": "01310-100",
+                                "state": "SP",
+                                "city": "Sao Paulo",
+                                "neighborhood": "Bela Vista",
+                                "street": "Avenida Paulista",
+                                "service": "viacep"
+                            }
+                            """;
 
         // Act
         var response = JsonSerializer.Deserialize<BrasilApiResponse>(json);
@@ -369,15 +369,15 @@ public sealed class BrasilApiResponseTest
     {
         // Arrange
         const string json = """
-            {
-                "cep": "",
-                "uf": "",
-                "city": "",
-                "neighborhood": "",
-                "street": "",
-                "service": ""
-            }
-            """;
+                            {
+                                "cep": "",
+                                "state": "",
+                                "city": "",
+                                "neighborhood": "",
+                                "street": "",
+                                "service": ""
+                            }
+                            """;
 
         // Act
         var response = JsonSerializer.Deserialize<BrasilApiResponse>(json);
@@ -397,12 +397,12 @@ public sealed class BrasilApiResponseTest
     {
         // Arrange
         const string json = """
-            {
-                "cep": "80000-000",
-                "uf": "PR",
-                "city": "Curitiba"
-            }
-            """;
+                            {
+                                "cep": "80000-000",
+                                "state": "PR",
+                                "city": "Curitiba"
+                            }
+                            """;
 
         // Act
         var response = JsonSerializer.Deserialize<BrasilApiResponse>(json);
@@ -477,11 +477,11 @@ public sealed class BrasilApiResponseTest
 
     #region Mapeamento de Propriedades
 
-    [Fact(DisplayName = "Deve mapear corretamente propriedade 'uf' para 'Uf'")]
+    [Fact(DisplayName = "Deve mapear corretamente propriedade 'state' para 'Uf'")]
     public void BrasilApiResponse_MapeamentoUf_DeveMapeParaUf()
     {
         // Arrange
-        const string json = """{"uf": "SP"}""";
+        const string json = """{"state": "SP"}""";
 
         // Act
         var response = JsonSerializer.Deserialize<BrasilApiResponse>(json);
