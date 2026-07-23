@@ -344,3 +344,9 @@ healthchecksdb
 
 *.DotSettings
 */.sonarqube
+.opencode/
+.vscode/
+.github/agents
+.github/instructions
+.github/skills
+.dccache
